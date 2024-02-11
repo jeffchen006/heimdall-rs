@@ -21,7 +21,6 @@ mod benchmark {
             };
             let _ = heimdall_core::snapshot::snapshot(args).await.unwrap();
         }
-
         async_bench("benchmark_snapshot_complex", 100, bench).await;
     }
 

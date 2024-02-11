@@ -27,3 +27,15 @@ A successful example:
 
 
 ./target/debug/heimdall snapshot 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663 -r https://eth.llamarpc.com
+
+
+./target/debug/heimdall cfg 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663 -v -r https://eth.llamarpc.com -c -o ./temp/ -t 60000000
+
+
+
+manual inspection 
+
+10 functions 
+
+investigation => automation
+
