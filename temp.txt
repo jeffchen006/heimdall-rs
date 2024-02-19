@@ -4,7 +4,7 @@ A failed example:
 // found 53 possible function selectors.
 ./target/debug/heimdall cfg 0x9c211BFa6DC329C5E757A223Fb72F5481D676DC1 -v -r https://eth.llamarpc.com -c -o ./temp/ -t 60000000 
 
-
+cd temp/ && ./render.sh && cd ..
 
 
 A failed example:

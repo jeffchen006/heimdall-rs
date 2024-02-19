@@ -37,7 +37,8 @@ mod benchmark {
                 name: String::from(""),
                 timeout: 10000,
             };
-            let _ = heimdall_core::cfg::cfg(args).await;
+            let cfg = heimdall_core::cfg::cfg(args).await;
+            println!("{:?}", cfg)
         }
 
         async_bench("benchmark_generate_cfg_complex", 100, bench).await;

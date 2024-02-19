@@ -39,7 +39,13 @@ pub fn build_cfg(
             }
         );
 
-        cfg_node.push_str(&format!("{}\n", &assembly));
+        if assembly.contains("REVERT") {
+            cfg_node.clear();
+            cfg_node.push_str(&format!("{}\n", &assembly));
+        } else {
+            cfg_node.push_str(&format!("{}\n", &assembly));
+        }
+
     }
 
     // check if the map already contains the current node
