@@ -6,3 +6,4 @@ pub mod dump;
 pub mod error;
 pub mod inspect;
 pub mod snapshot;
+pub mod spec;

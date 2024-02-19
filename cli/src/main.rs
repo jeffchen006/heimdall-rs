@@ -31,6 +31,7 @@ use heimdall_core::{
     dump::{dump, DumpArgs},
     inspect::{inspect, InspectArgs},
     snapshot::{snapshot, util::csv::generate_csv, SnapshotArgs},
+    spec::{spec, SpecArgs},
 };
 use tui::{backend::CrosstermBackend, Terminal};
 
@@ -77,10 +78,17 @@ pub enum Subcommands {
 
     #[clap(
         name = "snapshot",
+        about = "Infer function information from bytecode"
+    )]
+    Snapshot(SnapshotArgs),
+
+    #[clap(
+        name = "spec",
         about = "Infer function information from bytecode, including access control, gas
     consumption, storage accesses, event emissions, and more"
     )]
-    Snapshot(SnapshotArgs),
+    Spec(SpecArgs),
+
 }
 
 #[tokio::main]
@@ -352,7 +360,6 @@ async fn main() -> Result<(), Error> {
             if cmd.rpc_url.as_str() == "" {
                 cmd.rpc_url = configuration.rpc_url;
             }
-
             // if the user has passed an output filename, override the default filename
             let mut filename = "snapshot.csv".to_string();
             let given_name = cmd.name.as_str();
@@ -360,7 +367,6 @@ async fn main() -> Result<(), Error> {
             if !given_name.is_empty() {
                 filename = format!("{}-{}", given_name, filename);
             }
-
             let snapshot_result = snapshot(cmd.clone())
                 .await
                 .map_err(|e| Error::Generic(format!("failed to snapshot contract: {}", e)))?;
@@ -369,7 +375,6 @@ async fn main() -> Result<(), Error> {
                 &snapshot_result.resolved_errors,
                 &snapshot_result.resolved_events,
             );
-
             if cmd.output == "print" {
                 print_with_less(&csv_lines.join("\n"))
                     .await
@@ -385,6 +390,44 @@ async fn main() -> Result<(), Error> {
                 write_lines_to_file(&output_path, csv_lines);
             }
         }
+
+        Subcommands::Spec(mut cmd) => {
+            // if the user has not specified a rpc url, use the default
+            if cmd.rpc_url.as_str() == "" {
+                cmd.rpc_url = configuration.rpc_url;
+            }
+            // if the user has passed an output filename, override the default filename
+            let mut filename = "snapshot.csv".to_string();
+            let given_name = cmd.name.as_str();
+
+            if !given_name.is_empty() {
+                filename = format!("{}-{}", given_name, filename);
+            }
+            let snapshot_result = spec(cmd.clone())
+                .await
+                .map_err(|e| Error::Generic(format!("failed to spec contract: {}", e)))?;
+            let csv_lines = generate_csv(
+                &snapshot_result.snapshots,
+                &snapshot_result.resolved_errors,
+                &snapshot_result.resolved_events,
+            );
+            if cmd.output == "print" {
+                print_with_less(&csv_lines.join("\n"))
+                    .await
+                    .map_err(|e| Error::Generic(format!("failed to print spec: {}", e)))?;
+            } else {
+                let output_path =
+                    build_output_path(&cmd.output, &cmd.target, &cmd.rpc_url, &filename)
+                        .await
+                        .map_err(|e| {
+                            Error::Generic(format!("failed to build output path: {}", e))
+                        })?;
+
+                write_lines_to_file(&output_path, csv_lines);
+            }
+        }
+
+
 
         Subcommands::Inspect(mut cmd) => {
             // if the user has not specified a rpc url, use the default

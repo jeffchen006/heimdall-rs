@@ -32,6 +32,9 @@ A successful example:
 ./target/debug/heimdall cfg 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663 -v -r https://eth.llamarpc.com -c -o ./temp/ -t 60000000
 
 
+./target/debug/heimdall spec 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663 -r https://eth.llamarpc.com
+
+
 
 manual inspection 
 
@@ -39,3 +42,6 @@ manual inspection
 
 investigation => automation
 
+
+
+cfg edge: weight means jump_taken

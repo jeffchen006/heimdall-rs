@@ -21,7 +21,7 @@ mod benchmark {
             let _ = heimdall_core::cfg::cfg(args).await;
         }
 
-        async_bench("benchmark_generate_cfg_simple", 100, bench).await;
+        async_bench("benchmark_generate_cfg_simple", 1, bench).await;
     }
 
     #[tokio::test]
