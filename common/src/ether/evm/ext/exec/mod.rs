@@ -41,15 +41,12 @@ impl VM {
         while self.bytecode.len() >= self.instruction as usize && (self.instruction <= entry_point)
         {
             self.step();
-
             // this shouldn't be necessary, but it's safer to have it
             if self.exitcode != 255 || !self.returndata.is_empty() {
                 break
             }
         }
-
         debug_max!("beginning symbolic execution for selector 0x{}", selector);
-
         // the VM is at the function entry point, begin tracing
         let mut branch_count = 0;
         (self.recursive_map(&mut branch_count, &mut HashMap::new()), branch_count)

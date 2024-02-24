@@ -1,11 +1,12 @@
+use std::process::exit;
+
 use crate::decompile::constants::AND_BITMASK_REGEX;
 
 use crate::snapshot::{
-    constants::VARIABLE_SIZE_CHECK_REGEX,
-    structures::snapshot::{CalldataFrame, Snapshot, StorageFrame},
+    constants::VARIABLE_SIZE_CHECK_REGEX
 };
 
-use crate::spec::structures::spec;
+use crate::spec::structures::spec::{Spec, BranchSpec, CalldataFrame, StorageFrame};
 
 use ethers::{
     abi::{decode, ParamType},
@@ -25,31 +26,26 @@ use heimdall_common::{
     utils::{io::logging::TraceFactory, strings::encode_hex_reduced},
 };
 
-/// Generates a snapshot of a VMTrace's underlying function
+/// Generates a spec of a VMTrace's underlying function
 ///
 /// ## Parameters
 /// - `vm_trace` - The VMTrace to be analyzed
-/// - `snapshot` - The snapshot to be updated with the analysis results
+/// - `spec` - The spec to be updated with the analysis results
 /// - `trace` - The TraceFactory to be updated with the analysis results
 /// - `trace_parent` - The parent of the current VMTrace
 ///
 /// ## Returns
-/// - `snapshot` - The updated snapshot
+/// - `spec` - The updated spec
 pub fn spec_trace(
     vm_trace: &VMTrace,
-    snapshot: Snapshot,
-) -> Snapshot {
+    spec: Spec,
+    branchSpec: BranchSpec,
+) -> (Spec, BranchSpec) {
     // make a clone of the recursed analysis function
-    let mut snapshot = snapshot;
+    let mut spec = spec;
+    let mut branchSpec = branchSpec;
 
-    // update snapshot.gas (min, max, avg) with the value from vm_trace.gas_used
-    snapshot.gas_used.min = snapshot.gas_used.min.min(vm_trace.gas_used);
-    snapshot.gas_used.max = snapshot.gas_used.max.max(vm_trace.gas_used);
-    snapshot.gas_used.avg = if snapshot.gas_used.avg != 0 {
-        (snapshot.gas_used.avg.saturating_add(vm_trace.gas_used)) / 2
-    } else {
-        vm_trace.gas_used
-    };
+    let mut JUMPI_locs = (0, 0);
 
     // perform analysis on the operations of the current VMTrace branch
     for operation in &vm_trace.operations {
@@ -61,7 +57,7 @@ pub fn spec_trace(
         let opcode_number = instruction.opcode;
 
         // if the instruction is a state-accessing instruction, the function is no longer pure
-        if snapshot.pure &&
+        if spec.pure &&
             vec![
                 "BALANCE",
                 "ORIGIN",
@@ -90,11 +86,11 @@ pub fn spec_trace(
             ]
             .contains(&opcode_name)
         {
-            snapshot.pure = false;
+            spec.pure = false;
         }
 
         // if the instruction is a state-setting instruction, the function is no longer a view
-        if snapshot.view &&
+        if spec.view &&
             [
                 "SSTORE",
                 "CREATE",
@@ -107,7 +103,7 @@ pub fn spec_trace(
             ]
             .contains(&opcode_name)
         {
-            snapshot.view = false;
+            spec.view = false;
         }
 
         if (0xA0..=0xA4).contains(&opcode_number) {
@@ -118,24 +114,33 @@ pub fn spec_trace(
             };
 
             // check to see if the event is a duplicate
-            if !snapshot
+            if !branchSpec
                 .events
                 .iter()
                 .any(|(selector, _)| selector == logged_event.topics.first().unwrap())
             {
                 // add the event to the function
-                snapshot
+                branchSpec
                     .events
                     .insert(*logged_event.topics.first().unwrap(), (None, logged_event.clone()));
             }
+            
         } else if opcode_name == "JUMPI" {
             // this is an if conditional for the children branches
             let conditional = instruction.input_operations[1].solidify().cleanup();
+            let jump_taken = instruction.inputs.get(1).map(|op| !op.is_zero()).unwrap_or(true);
+            let jump_dest = instruction.inputs[0];
+
+            println!("JUMPI conditional: {:?}", conditional);
+            println!("JUMPI jump_taken: {:?}", jump_taken);
+            println!("JUMPI jump_dest: {:?}", jump_dest);
+
 
             // remove non-payable check and mark function as non-payable
             if conditional == "!msg.value" {
                 // this is marking the start of a non-payable function
-                snapshot.payable = false;
+                spec.payable = false;
+                branchSpec.control_statement = Some(format!("if ({}) {{ .. }}", conditional));
                 continue
             }
 
@@ -148,10 +153,19 @@ pub fn spec_trace(
                     !conditional.contains("arg") &&
                     !conditional.contains("storage"))
             {
+
+                branchSpec.control_statement = Some(format!("if ({}) {{ .. }}", conditional));
                 continue
             }
 
-            snapshot.control_statements.insert(format!("if ({}) {{ .. }}", conditional));
+            if branchSpec.control_statement != None {
+                // report an error
+                println!("Error: multiple control statements in a single function");
+                exit(1);
+            }
+            branchSpec.control_statement = Some(format!("if ({}) {{ .. }}", conditional));
+
+
         } else if opcode_name == "REVERT" {
             // Safely convert U256 to usize
             let offset: usize = instruction.inputs[0].try_into().unwrap_or(0);
@@ -163,10 +177,11 @@ pub fn spec_trace(
                     if !reverts_with[0].to_string().is_empty() &&
                         reverts_with[0].to_string().chars().all(|c| c != '\0')
                     {
-                        snapshot.strings.insert(reverts_with[0].to_string().to_owned());
+                        branchSpec.strings.insert(reverts_with[0].to_string().to_owned());
                     }
                 }
             }
+
         } else if opcode_name == "RETURN" {
             // Safely convert U256 to usize
             let offset: usize = instruction.inputs[0].try_into().unwrap_or(0);
@@ -178,13 +193,13 @@ pub fn spec_trace(
                     if !returns[0].to_string().is_empty() &&
                         returns[0].to_string().chars().all(|c| c != '\0')
                     {
-                        snapshot.strings.insert(returns[0].to_string());
+                        branchSpec.strings.insert(returns[0].to_string());
                     }
                 }
             }
 
             let return_memory_operations =
-                snapshot.get_memory_range(instruction.inputs[0], instruction.inputs[1]);
+                branchSpec.get_memory_range(instruction.inputs[0], instruction.inputs[1]);
             let return_memory_operations_solidified = return_memory_operations
                 .iter()
                 .map(|x| x.operations.solidify().cleanup())
@@ -192,14 +207,14 @@ pub fn spec_trace(
                 .join(", ");
 
             // we don't want to overwrite the return value if it's already been set
-            if snapshot.returns == Some(String::from("uint256")) || snapshot.returns.is_none() {
+            if spec.returns == Some(String::from("uint256")) || spec.returns.is_none() {
                 // if the return operation == ISZERO, this is a boolean return
                 if return_memory_operations.len() == 1 &&
                     return_memory_operations[0].operations.opcode.name == "ISZERO"
                 {
-                    snapshot.returns = Some(String::from("bool"));
+                    spec.returns = Some(String::from("bool"));
                 } else {
-                    snapshot.returns = match size > 32 {
+                    spec.returns = match size > 32 {
                         // if the return data is > 32 bytes, we append "memory" to the return
                         // type
                         true => Some(format!("{} memory", "bytes")),
@@ -225,14 +240,14 @@ pub fn spec_trace(
                 }
             }
         } else if opcode_name == "SSTORE" || opcode_name == "SLOAD" {
-            snapshot.storage.insert(instruction.input_operations[0].solidify().cleanup());
+            branchSpec.storage.insert(instruction.input_operations[0].solidify().cleanup());
         } else if opcode_name == "CALLDATALOAD" {
             let slot_as_usize: usize = instruction.inputs[0].try_into().unwrap_or(usize::MAX);
             let calldata_slot = (slot_as_usize.saturating_sub(4)) / 32;
-            match snapshot.arguments.get(&calldata_slot) {
+            match spec.arguments.get(&calldata_slot) {
                 Some(_) => {}
                 None => {
-                    snapshot.arguments.insert(
+                    spec.arguments.insert(
                         calldata_slot,
                         (
                             CalldataFrame {
@@ -261,7 +276,7 @@ pub fn spec_trace(
                 .find(|operation| operation.opcode.name == "CALLDATALOAD")
             {
                 if let Some((calldata_slot, arg)) =
-                    snapshot.arguments.clone().iter().find(|(_, (frame, _))| {
+                    spec.arguments.clone().iter().find(|(_, (frame, _))| {
                         frame.operation == calldata_slot_operation.inputs[0].to_string()
                     })
                 {
@@ -277,7 +292,7 @@ pub fn spec_trace(
                     potential_types.dedup();
 
                     // replace mask size and potential types
-                    snapshot.arguments.insert(*calldata_slot, (arg.0.clone(), potential_types));
+                    spec.arguments.insert(*calldata_slot, (arg.0.clone(), potential_types));
                 }
             };
         } else if ["AND", "OR"].contains(&opcode_name) {
@@ -298,7 +313,7 @@ pub fn spec_trace(
                         continue
                     }
 
-                    snapshot.addresses.insert(address);
+                    branchSpec.addresses.insert(address);
                 }
             }
 
@@ -309,7 +324,7 @@ pub fn spec_trace(
                 })
             {
                 if let Some((calldata_slot, arg)) =
-                    snapshot.arguments.clone().iter().find(|(_, (frame, _))| {
+                    spec.arguments.clone().iter().find(|(_, (frame, _))| {
                         frame.operation == calldata_slot_operation.inputs[0].to_string()
                     })
                 {
@@ -320,7 +335,7 @@ pub fn spec_trace(
                     potential_types.dedup();
 
                     // replace mask size and potential types
-                    snapshot.arguments.insert(
+                    spec.arguments.insert(
                         *calldata_slot,
                         (
                             CalldataFrame {
@@ -340,21 +355,21 @@ pub fn spec_trace(
             let operation = instruction.input_operations[1].clone();
 
             // add the mstore to the function's memory map
-            snapshot.memory.insert(key, StorageFrame { value, operations: operation });
+            branchSpec.memory.insert(key, StorageFrame { value, operations: operation });
         } else if opcode_name == "CODECOPY" {
             let memory_offset = &instruction.inputs[0];
             let source_offset = instruction.inputs[1].try_into().unwrap_or(usize::MAX);
             let size_bytes = instruction.inputs[2].try_into().unwrap_or(usize::MAX);
 
             // get the code from the source offset and size
-            let code = snapshot.bytecode[source_offset..(source_offset + size_bytes)].to_vec();
+            let code = spec.bytecode[source_offset..(source_offset + size_bytes)].to_vec();
 
             // add the code to the function's memory map in chunks of 32 bytes
             for (index, chunk) in code.chunks(32).enumerate() {
                 let key = memory_offset + (index * 32);
                 let value = U256::from_big_endian(chunk);
 
-                snapshot.memory.insert(
+                branchSpec.memory.insert(
                     key,
                     StorageFrame { value, operations: WrappedOpcode::new(0x39, vec![]) },
                 );
@@ -372,9 +387,9 @@ pub fn spec_trace(
 
             let address = &instruction.input_operations[1];
             let extcalldata_memory =
-                snapshot.get_memory_range(instruction.inputs[2], instruction.inputs[3]);
+                branchSpec.get_memory_range(instruction.inputs[2], instruction.inputs[3]);
 
-            snapshot.external_calls.push(format!(
+            branchSpec.external_calls.push(format!(
                 "address({}).staticcall{}({});",
                 address.solidify().cleanup(),
                 modifier,
@@ -397,9 +412,9 @@ pub fn spec_trace(
 
             let address = &instruction.input_operations[1];
             let extcalldata_memory =
-                snapshot.get_memory_range(instruction.inputs[2], instruction.inputs[3]);
+                branchSpec.get_memory_range(instruction.inputs[2], instruction.inputs[3]);
 
-            snapshot.external_calls.push(format!(
+            branchSpec.external_calls.push(format!(
                 "address({}).delegatecall{}({});",
                 address.solidify().cleanup(),
                 modifier,
@@ -427,9 +442,9 @@ pub fn spec_trace(
 
             let address = &instruction.input_operations[1];
             let extcalldata_memory =
-                snapshot.get_memory_range(instruction.inputs[3], instruction.inputs[4]);
+                branchSpec.get_memory_range(instruction.inputs[3], instruction.inputs[4]);
 
-            snapshot.external_calls.push(format!(
+            branchSpec.external_calls.push(format!(
                 "address({}).call{}({});",
                 address.solidify().cleanup(),
                 modifier,
@@ -461,14 +476,14 @@ pub fn spec_trace(
         {
             // get the calldata slot operation
             if let Some((key, (frame, potential_types))) =
-                snapshot.arguments.clone().iter().find(|(_, (frame, _))| {
+                spec.arguments.clone().iter().find(|(_, (frame, _))| {
                     instruction.output_operations.iter().any(|operation| {
                         operation.to_string().contains(frame.operation.as_str()) &&
                             !frame.heuristics.contains(&"integer".to_string())
                     })
                 })
             {
-                snapshot.arguments.insert(
+                spec.arguments.insert(
                     *key,
                     (
                         CalldataFrame {
@@ -484,14 +499,14 @@ pub fn spec_trace(
         } else if ["SHR", "SHL", "SAR", "XOR", "BYTE"].contains(&opcode_name) {
             // get the calldata slot operation
             if let Some((key, (frame, potential_types))) =
-                snapshot.arguments.clone().iter().find(|(_, (frame, _))| {
+                spec.arguments.clone().iter().find(|(_, (frame, _))| {
                     instruction.output_operations.iter().any(|operation| {
                         operation.to_string().contains(frame.operation.as_str()) &&
                             !frame.heuristics.contains(&"bytes".to_string())
                     })
                 })
             {
-                snapshot.arguments.insert(
+                spec.arguments.insert(
                     *key,
                     (
                         CalldataFrame {
@@ -507,10 +522,55 @@ pub fn spec_trace(
         }
     }
 
+
+    // print last operation of vm_trace.operations
+    let last_operation = vm_trace.operations.last().unwrap();
+    let first_operation = vm_trace.operations.first().unwrap();
+    let key = (first_operation.last_instruction.instruction, last_operation.last_instruction.instruction);
+
+    // if !spec.cfg_map.contains_key(&key) {
+    //     // check 
+    //     if vm_trace.children.len() == 2 {
+    //         if branchSpec.control_statement == None {
+    //             println!("impossible, reach a branch with two children and no control statement");
+    //             exit(1);
+    //         }
+    //     } else if vm_trace.children.len() == 0 {
+    //         if branchSpec.control_statement != None {
+    //             println!("impossible, reach a branch with no children and a control statement");
+    //             exit(1);
+    //         }
+    //     } else {
+    //         println!("not two children");
+    //         exit(1);
+    //     }
+        
+
+    //     spec.cfg_map.insert(
+    //         key,
+    //         Vec::new(),
+    //     );
+
+    // } else {
+
+    // }
+
+
+    // println!("last instruction: {:?}", last_operation);
+
+
+
+    
+
     // recurse into the children of the VMTrace map
     for child in vm_trace.children.iter() {
-        snapshot = spec_trace(child, snapshot);
+        // println!("child start instruction index: {:?}", child.instruction);
+        let mut child_branchSpec = BranchSpec::new();
+        (spec, child_branchSpec) = spec_trace(child, spec, child_branchSpec);
+        branchSpec.children.push(child_branchSpec);
     }
 
-    snapshot
+
+
+    (spec, branchSpec)
 }

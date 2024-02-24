@@ -10,6 +10,8 @@ use heimdall_common::ether::{
 /// symbolic-execution analysis.
 #[derive(Clone, Debug)]
 pub struct Spec {
+    // META DATA:
+
     // the function's 4byte selector
     pub selector: String,
 
@@ -25,6 +27,27 @@ pub struct Spec {
     //   - value : tuple of ({slot: U256, mask: usize}, potential_types)
     pub arguments: HashMap<usize, (CalldataFrame, Vec<String>)>,
 
+    // returns the return type for the function.
+    pub returns: Option<String>,
+
+    // modifiers
+    pub pure: bool,
+    pub view: bool,
+    pub payable: bool,
+
+    // stores the number of unique branches found by symbolic execution
+    pub branch_count: u32,
+
+    // 
+    pub cfg_map: HashMap< (u128, u128), Vec< (u128, u128) >>,
+    pub branch_spec: Option<BranchSpec>,
+}
+
+
+
+#[derive(Clone, Debug)]
+pub struct BranchSpec {
+
     // storage structure
     pub storage: HashSet<String>,
 
@@ -32,9 +55,6 @@ pub struct Spec {
     //   - key : slot of the argument. I.E: slot 0 is CALLDATALOAD(4).
     //   - value : tuple of ({value: U256, operation: WrappedOpcode})
     pub memory: HashMap<U256, StorageFrame>,
-
-    // returns the return type for the function.
-    pub returns: Option<String>,
 
     // holds all found events used to generate solidity error definitions
     // as well as ABI specifications.
@@ -47,11 +67,6 @@ pub struct Spec {
     // stores the matched resolved function for this Functon
     pub resolved_function: Option<ResolvedFunction>,
 
-    // modifiers
-    pub pure: bool,
-    pub view: bool,
-    pub payable: bool,
-
     // stores strings found within the function
     pub strings: HashSet<String>,
 
@@ -60,15 +75,31 @@ pub struct Spec {
 
     // stores addresses found in bytecode
     pub addresses: HashSet<String>,
-
-    // stores the number of unique branches found by symbolic execution
-    pub branch_count: u32,
-
-    // control statements, such as access control
-    pub control_statements: HashSet<String>,
-
     
 
+    // control statements, such as access control
+    pub control_statement: Option<String>,
+
+    // length of children branches must be Two because of JUMPI
+    pub children: Vec<BranchSpec>,
+}
+
+// create a new() method for BranchSpec
+impl BranchSpec {
+    pub fn new() -> Self {
+        BranchSpec {
+            storage: HashSet::new(),
+            memory: HashMap::new(),
+            events: HashMap::new(),
+            errors: HashMap::new(),
+            resolved_function: None,
+            strings: HashSet::new(),
+            external_calls: Vec::new(),
+            addresses: HashSet::new(),
+            control_statement: None,
+            children: Vec::new(),
+        }
+    }
 }
 
 
@@ -86,7 +117,7 @@ pub struct CalldataFrame {
     pub heuristics: Vec<String>,
 }
 
-impl Spec {
+impl BranchSpec {
     // get a specific memory slot
     pub fn get_memory_range(&self, _offset: U256, _size: U256) -> Vec<StorageFrame> {
         let mut memory_slice: Vec<StorageFrame> = Vec::new();

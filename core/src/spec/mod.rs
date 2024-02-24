@@ -1,4 +1,5 @@
 pub mod analyze;
+pub mod structures;
 
 use heimdall_common::{debug_max, utils::threading::run_with_timeout};
 
@@ -31,6 +32,7 @@ use crate::{
         structures::snapshot::{GasUsed, Snapshot},
         util::tui,
     },
+    spec::structures::spec::{BranchSpec, Spec},
 };
 
 
@@ -48,6 +50,7 @@ pub struct SpecArgs {
     /// The target to analyze. This may be a file, bytecode, or contract address.
     #[clap(required = true)]
     pub target: String,
+    
 
     /// Set the output verbosity level, 1 - 5.
     #[clap(flatten)]
@@ -100,7 +103,7 @@ impl SpecArgsBuilder {
 
 #[derive(Debug, Clone)]
 pub struct SpecResult {
-    pub snapshots: Vec<Snapshot>,
+    pub snapshots: Vec<Spec>,
     pub resolved_errors: HashMap<String, ResolvedError>,
     pub resolved_events: HashMap<String, ResolvedLog>,
 }
@@ -115,7 +118,6 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
 
     // step 2: perform versioning and compiler heuristics
     let (compiler, version) = detect_compiler(&contract_bytecode);
-
 
     // step 3: set up evm
     let evm = VM::new(
@@ -151,37 +153,29 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
     )
     .await?;
 
-
-
     for snapshot in &snapshots {
         println!("================");
         println!("selector {:?}", snapshot.selector);
         println!("entry_point {:?}", snapshot.entry_point);
         println!("arguments {:?}", snapshot.arguments);
-        println!("storage {:?}", snapshot.storage);
+        // println!("storage {:?}", snapshot.storage);
         println!("returns {:?}", snapshot.returns);
 
-        println!("resolved_function {:?}", snapshot.resolved_function);
+        // println!("resolved_function {:?}", snapshot.resolved_function);
         println!("pure {:?}", snapshot.pure);
         println!("view {:?}", snapshot.view);
         println!("payable {:?}", snapshot.payable);
-
-        println!("external calls {:?}", snapshot.external_calls);
-        println!("control_statements {:?}", snapshot.control_statements);
+        // println!("external calls {:?}", snapshot.external_calls);
+        // println!("control_statements {:?}", snapshot.control_statements);
         
     }
-
     Ok(SpecResult {
         snapshots,
         resolved_errors: all_resolved_errors,
         resolved_events: all_resolved_events,
     })
 
-
 }
-
-
-
 
 
 
@@ -194,12 +188,12 @@ async fn get_spec(
     evm: &VM,
     args: &SpecArgs,
 ) -> Result<
-    (Vec<Snapshot>, HashMap<String, ResolvedError>, HashMap<String, ResolvedLog>),
+    (Vec<Spec>, HashMap<String, ResolvedError>, HashMap<String, ResolvedLog>),
     Box<dyn std::error::Error>,
 > {
     let mut all_resolved_errors: HashMap<String, ResolvedError> = HashMap::new();
     let mut all_resolved_events: HashMap<String, ResolvedLog> = HashMap::new();
-    let mut snapshots: Vec<Snapshot> = Vec::new();
+    let mut specs: Vec<Spec> = Vec::new();
 
     for (selector, function_entry_point) in selectors {
         // analyze the function
@@ -216,29 +210,27 @@ async fn get_spec(
             }
         };
         debug_max!("building snapshot for selector {} from symbolic execution trace", selector);
-        let mut snapshot = spec_trace(
-            &map,
-            Snapshot {
-                selector: selector.clone(),
-                bytecode: decode_hex(&contract_bytecode.replacen("0x", "", 1))?,
-                entry_point: function_entry_point,
-                arguments: HashMap::new(),
-                storage: HashSet::new(),
-                memory: HashMap::new(),
-                events: HashMap::new(),
-                errors: HashMap::new(),
-                resolved_function: None,
-                pure: true,
-                view: true,
-                payable: true,
-                strings: HashSet::new(),
-                external_calls: Vec::new(),
-                gas_used: GasUsed { min: u128::MAX, max: 0, avg: 0 },
-                addresses: HashSet::new(),
-                branch_count: jumpdest_count,
-                control_statements: HashSet::new(),
-            },
-        );
+
+
+        let mut spec = Spec {
+            selector: selector.clone(),
+            bytecode: decode_hex(&contract_bytecode.replacen("0x", "", 1))?,
+            entry_point: function_entry_point,
+            arguments: HashMap::new(),
+            returns: None,
+            pure: true,
+            view: true,
+            payable: true,
+            branch_count: jumpdest_count,              
+            cfg_map: HashMap::new(),
+            branch_spec: None,  
+        };
+
+        let mut branchSpec = BranchSpec::new();
+
+        (spec, branchSpec) = spec_trace(&map, spec, branchSpec);
+
+        spec.branch_spec = Some(branchSpec);
 
         // if !args.skip_resolving {
         //     resolve_signatures(
@@ -255,11 +247,12 @@ async fn get_spec(
         //     .await?;
         // }
 
-        snapshots.push(snapshot);
+
+        specs.push(spec);
     }
 
 
-    Ok((snapshots, all_resolved_errors, all_resolved_events))
+    Ok((specs, all_resolved_errors, all_resolved_events))
 }
 
 
