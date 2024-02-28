@@ -6,6 +6,16 @@ use heimdall_common::{
 };
 
 use crate::snapshot::structures::snapshot::Snapshot;
+use crate::spec::structures::spec::Spec;
+
+pub fn generate_csv_spec(
+    specs: &Vec<Spec>,
+) -> Vec<String> {
+
+    let mut lines: Vec<String> = Vec::new();
+    lines
+
+}
 
 /// Write the snapshot data to a CSV file
 pub fn generate_csv(

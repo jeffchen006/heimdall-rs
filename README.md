@@ -66,3 +66,55 @@ If you've found an issue or have a question, please open an issue [here](https:/
 - Jonathan Becker \<<jonathan@jbecker.dev>>
 
 A list of all [contributors](https://jbecker.dev/r/heimdall-rs/wiki/contributors) can be found in the wiki.
+
+
+
+
+
+
+
+A failed example:
+// found 53 possible function selectors.
+./target/debug/heimdall cfg 0x9c211BFa6DC329C5E757A223Fb72F5481D676DC1 -v -r https://eth.llamarpc.com -c -o ./temp/ -t 60000000 
+
+cd temp/ && ./render.sh && cd ..
+
+
+A failed example:
+// found 65 possible function selectors.
+
+./target/debug/heimdall cfg 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663 -v -r https://eth.llamarpc.com -c -o ./temp/ -t 60000000
+
+
+A successful example:
+// found 2 possible function selectors.
+0x9f00c43700bc0000Ff91bE00841F8e04c0495000
+
+
+A successful example:
+// found 2 possible function selectors.
+./target/debug/heimdall cfg 0x6554FF0f2B6613Bb2baa9A45788AD8574a805f6d -v -r https://eth.llamarpc.com -c -o ./temp/ -t 60000000
+
+
+
+
+
+./target/debug/heimdall snapshot 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663 -r https://eth.llamarpc.com
+
+
+./target/debug/heimdall cfg 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663 -v -r https://eth.llamarpc.com -c -o ./temp/ -t 60000000
+
+
+./target/debug/heimdall spec 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663 -r https://eth.llamarpc.com
+
+
+
+manual inspection 
+
+10 functions 
+
+investigation => automation
+
+
+
+cfg edge: weight means jump_taken

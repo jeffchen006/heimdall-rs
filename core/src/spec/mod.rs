@@ -1,5 +1,6 @@
 pub mod analyze;
 pub mod structures;
+pub mod resolve;
 
 use heimdall_common::{debug_max, utils::threading::run_with_timeout};
 
@@ -28,11 +29,13 @@ use indicatif::ProgressBar;
 use crate::{
     disassemble::{disassemble, DisassemblerArgs},
     snapshot::{
-        resolve::resolve_signatures,
         structures::snapshot::{GasUsed, Snapshot},
         util::tui,
     },
-    spec::structures::spec::{BranchSpec, Spec},
+    spec::{
+        resolve::resolve_signatures,
+        structures::spec::{BranchSpec, Spec}
+    },
 };
 
 
@@ -143,6 +146,11 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
 
     let (selectors, resolved_selectors) =
         get_resolved_selectors(&disassembled_bytecode, &args.skip_resolving, &evm).await?;
+    
+    println!("selectors: ");
+    println!("{:?}", selectors);
+    println!("resolved selectors: ");
+    println!("{:?}", resolved_selectors);
 
     let (snapshots, all_resolved_errors, all_resolved_events) = get_spec(
         selectors,
@@ -154,19 +162,45 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
     .await?;
 
     for snapshot in &snapshots {
-        println!("================");
-        println!("selector {:?}", snapshot.selector);
-        println!("entry_point {:?}", snapshot.entry_point);
-        println!("arguments {:?}", snapshot.arguments);
-        // println!("storage {:?}", snapshot.storage);
-        println!("returns {:?}", snapshot.returns);
+        if !snapshot.pure && !snapshot.view {
+            println!("================");
+            println!("selector {:?}", snapshot.selector);
+            print!("resolved: ");
+            for (ii, resolved_function) in snapshot.resolved_function.iter().enumerate() {
+                if ii != 0 {
+                    print!("      ");
+                }
+                let mut signature = resolved_function.signature.clone();
+                // append pure if snapshot.pure is true
+                // append view if snapshot.view is true
+                // append payable if snapshot.payable is true
+                if snapshot.pure {
+                    signature.push_str(" pure");
+                }
+                if snapshot.view {
+                    signature.push_str(" view");
+                }
+                if snapshot.payable {
+                    signature.push_str(" payable");
+                }
+                println!("[{}]{}", ii, resolved_function.signature);
+            }
+            println!("returns {:?}", snapshot.returns);
+            
 
-        // println!("resolved_function {:?}", snapshot.resolved_function);
-        println!("pure {:?}", snapshot.pure);
-        println!("view {:?}", snapshot.view);
-        println!("payable {:?}", snapshot.payable);
-        // println!("external calls {:?}", snapshot.external_calls);
-        // println!("control_statements {:?}", snapshot.control_statements);
+            // println!("arguments {:?}", snapshot.arguments);
+            // println!("storage {:?}", snapshot.storage);
+
+            // println!("pure {:?}", snapshot.pure);
+            // println!("view {:?}", snapshot.view);
+            // println!("payable {:?}", snapshot.payable);
+
+            // println!("external calls {:?}", snapshot.external_calls);
+            // println!("control_statements {:?}", snapshot.control_statements);
+            println!("entry_point {:?}", snapshot.entry_point);
+
+
+        }
         
     }
     Ok(SpecResult {
@@ -224,6 +258,7 @@ async fn get_spec(
             branch_count: jumpdest_count,              
             cfg_map: HashMap::new(),
             branch_spec: None,  
+            resolved_function: Vec::new(),
         };
 
         let mut branchSpec = BranchSpec::new();
@@ -232,21 +267,14 @@ async fn get_spec(
 
         spec.branch_spec = Some(branchSpec);
 
-        // if !args.skip_resolving {
-        //     resolve_signatures(
-        //         &mut snapshot,
-        //         &mut all_resolved_errors,
-        //         &mut all_resolved_events,
-        //         &mut snapshot_progress,
-        //         trace,
-        //         &selector,
-        //         &resolved_selectors,
-        //         func_analysis_trace,
-        //         args.default,
-        //     )
-        //     .await?;
-        // }
-
+        if !args.skip_resolving {
+            resolve_signatures(
+                &mut spec,
+                &selector,
+                &resolved_selectors,
+            )
+            .await?;
+        }
 
         specs.push(spec);
     }

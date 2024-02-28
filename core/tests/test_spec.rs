@@ -6,46 +6,38 @@ mod benchmark {
     use heimdall_core::spec::SpecArgs;
 
     #[tokio::test]
-    async fn benchmark_snapshot_complex() {
-        async fn bench() {
-            let args = SpecArgs {
-                // target: String::from("0xE90d8Fb7B79C8930B5C8891e61c298b412a6e81a"),
-                target: String::from("0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663"),
-                verbose: Verbosity::new(0, 0),
-                rpc_url: String::from("https://eth.llamarpc.com"),
-                default: true,
-                skip_resolving: true,
-                no_tui: true,
-                name: String::from(""),
-                output: String::from(""),
-                timeout: 10000,
-            };
-            let _ = heimdall_core::spec::spec(args).await.unwrap();
-        }
-        async_bench("benchmark_spec_complex", 2, bench).await;
+    async fn benchmark_spec_complex() {
+        let args = SpecArgs {
+            // target: String::from("0xE90d8Fb7B79C8930B5C8891e61c298b412a6e81a"),
+            target: String::from("0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663"),
+            verbose: Verbosity::new(0, 0),
+            rpc_url: String::from("https://eth.llamarpc.com"),
+            default: true,
+            skip_resolving: false,
+            no_tui: true,
+            name: String::from(""),
+            output: String::from(""),
+            timeout: 10000,
+        };
+        let _ = heimdall_core::spec::spec(args).await.unwrap();
+
     }
 
     #[tokio::test]
-    async fn benchmark_snapshot_simple() {
-        async fn bench() {
-            let args = SpecArgs {
-                target: String::from("0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663"),
-                verbose: Verbosity::new(0, 0),
-                rpc_url: String::from("https://eth.llamarpc.com"),
-                default: true,
-                skip_resolving: true,
-                no_tui: true,
-                name: String::from(""),
-                output: String::from(""),
-                timeout: 10000,
-            };
-            let spec = heimdall_core::spec::spec(args).await.unwrap();
+    async fn benchmark_spec_simple() {
+        let args = SpecArgs {
+            target: String::from("0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663"),
+            verbose: Verbosity::new(0, 0),
+            rpc_url: String::from("https://eth.llamarpc.com"),
+            default: true,
+            skip_resolving: false,
+            no_tui: true,
+            name: String::from(""),
+            output: String::from(""),
+            timeout: 10000,
+        };
+        let spec = heimdall_core::spec::spec(args).await.unwrap();
 
-            // // print the spec
-            // println!("{:?}", spec);
-        }
-
-        async_bench("benchmark_spec_complex", 2, bench).await;
     }
 }
 
@@ -56,7 +48,7 @@ mod integration_tests {
     use heimdall_core::spec::SpecArgs;
 
     #[tokio::test]
-    async fn test_snapshot_weth() {
+    async fn test_spec_weth() {
         let args = SpecArgs {
             target: String::from("0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"),
             verbose: Verbosity::new(0, 0),
@@ -73,7 +65,7 @@ mod integration_tests {
     }
 
     #[tokio::test]
-    async fn test_snapshot_ctf() {
+    async fn test_spec_ctf() {
         let args = SpecArgs {
             target: String::from("0x9f00c43700bc0000Ff91bE00841F8e04c0495000"),
             verbose: Verbosity::new(0, 0),
@@ -108,7 +100,7 @@ mod integration_tests {
     ///  - There are no empty branches (TODO)
     #[tokio::test]
     #[ignore]
-    async fn heavy_test_snapshot_thorough() {
+    async fn heavy_test_spec_thorough() {
         let contracts = [
             "0xdAC17F958D2ee523a2206206994597C13D831ec7",
             "0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD",

@@ -30,7 +30,7 @@ use heimdall_core::{
     disassemble::{disassemble, DisassemblerArgs},
     dump::{dump, DumpArgs},
     inspect::{inspect, InspectArgs},
-    snapshot::{snapshot, util::csv::generate_csv, SnapshotArgs},
+    snapshot::{snapshot, util::csv::{generate_csv, generate_csv_spec}, SnapshotArgs},
     spec::{spec, SpecArgs},
 };
 use tui::{backend::CrosstermBackend, Terminal};
@@ -406,11 +406,10 @@ async fn main() -> Result<(), Error> {
             let snapshot_result = spec(cmd.clone())
                 .await
                 .map_err(|e| Error::Generic(format!("failed to spec contract: {}", e)))?;
-            let csv_lines = generate_csv(
+            let csv_lines = generate_csv_spec(
                 &snapshot_result.snapshots,
-                &snapshot_result.resolved_errors,
-                &snapshot_result.resolved_events,
             );
+
             if cmd.output == "print" {
                 print_with_less(&csv_lines.join("\n"))
                     .await

@@ -558,10 +558,6 @@ pub fn spec_trace(
 
     // println!("last instruction: {:?}", last_operation);
 
-
-
-    
-
     // recurse into the children of the VMTrace map
     for child in vm_trace.children.iter() {
         // println!("child start instruction index: {:?}", child.instruction);

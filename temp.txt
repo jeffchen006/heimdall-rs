@@ -1,47 +1,3186 @@
 
+running 1 test
+28-02-2024 15:20:00.799126000  debug: found cached chain id for rpc url: "https://eth.llamarpc.com"
+28-02-2024 15:20:00.803905000  debug: found cached bytecode for '0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663' .
+selectors: 
+{"6c540baf": 1810, "396a98cf": 1456, "b4ab15e7": 2496, "b2e6faaf": 2423, "d9af3db8": 2873, "4dd18bf5": 1660, "70a08231": 1864, "1c446983": 1241, "06fdde03": 1008, "7715632e": 2027, "5293ff31": 1714, "f851a440": 3122, "4751b79c": 1574, "bd6d894d": 2613, "a0712d68": 2281, "095ea7b3": 1083, "f3fdb15a": 3058, "4f9c751e": 1692, "8de46362": 2174, "182df0f5": 1220, "92eefe9b": 2228, "0c28d13e": 1131, "18160ddd": 1184, "7b94aaac": 2059, "6f307dc3": 1832, "313ce567": 1393, "b507f9f9": 2528, "dd62ed3e": 2937, "47bd3718": 1606, "8bcd4016": 2142, "8f840ddd": 2206, "689f036b": 1778, "852a12e3": 2110, "4322b714": 1552, "c8e9f47d": 2716, "c0627004": 2656, "d6079cc6": 2841, "ce603aad": 2788, "4dbd05d5": 1628, "f77c4791": 3090, "de32abd1": 3007, "aa5af0fd": 2401, "b54f4d87": 2560, "74944da3": 1918, "81565600": 2091, "d2089f73": 2820, "bee12d53": 2634, "ba9316b7": 1714, "db006a75": 2905, "37cd3f07": 1437, "4147da13": 1520, "3af9e669": 1488, "a4f38292": 2300, "6208fc41": 1746, "0e18b681": 1163, "26782247": 1305, "07e27959": 1051, "a9059cbb": 2369, "c2ee3a08": 2688, "2985fa31": 1361, "a6afed95": 2348, "bc928173": 2581, "23b872dd": 1273, "95d89b41": 2260, "ef11abe2": 3039}
+resolved selectors: 
+{}
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1822
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1468
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15151
+JUMPI conditional: "!((arg1 > arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((arg0 < arg1))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2508
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15151
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((arg0) & ((arg1 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((arg0 * arg1) / arg0) == arg1"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13853
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13853
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2435
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14840
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2885
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14840
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3174
+JUMPI conditional: "storage[keccak256(memory[0])]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11513
+JUMPI conditional: "storage[0x0d]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((storage[0x0d]) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x0d])))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "storage[0x0d]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((storage[0x0d] * 0x0de0b6b3a7640000) / storage[0x0d]) == 0x0de0b6b3a7640000"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3286
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3306
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length > 0x048c27395000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 3391
+JUMPI conditional: "!((storage[0x0e] > block.number))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((block.number < storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1672
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14617
+JUMPI conditional: "arg0 == (address(arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "msg.sender == (address(storage[0x06]))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5928
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1876
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14617
+JUMPI conditional: "arg0 == (address(arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1253
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14840
+JUMPI conditional: "msg.sender == (address(storage[0x06]))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5413
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3174
+JUMPI conditional: "storage[0x0e] == block.number"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5454
+JUMPI conditional: "arg0 < 0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5541
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3286
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3306
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length > 0x048c27395000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 3391
+JUMPI conditional: "!((storage[0x0e] > block.number))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((block.number < storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((0) & ((storage[0x0b] > 0))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((0 * storage[0x0b]) / 0) == storage[0x0b]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1020
+JUMPI conditional: "bytes1(storage[0])"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15775
+JUMPI conditional: "!(((bytes1(storage[0])) == ((storage[0] / 0x02) < 0x20)))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15808
+JUMPI conditional: "bytes1(storage[0])"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15775
+JUMPI conditional: "!(((bytes1(storage[0])) == ((storage[0] / 0x02) < 0x20)))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15808
+JUMPI conditional: "!((storage[0] / 0x02))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4612
+JUMPI conditional: "0x1f < (storage[0] / 0x02)"
+JUMPI jump_taken: false
+JUMPI jump_dest: 4569
+JUMPI conditional: "((0x20 + memory[0x40]) + (storage[0] / 0x02)) > (0x20 + (0x20 + memory[0x40]))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 4583
+JUMPI conditional: "((0x20 + memory[0x40]) + (storage[0] / 0x02)) > (0x20 + (0x20 + (0x20 + memory[0x40])))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 4583
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!(((bytes1(storage[0])) == ((bytes1((storage[0] / 0x02))) < 0x20)))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15808
+JUMPI conditional: "!(((bytes1(storage[0])) == ((bytes1((storage[0] / 0x02))) < 0x20)))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15808
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2039
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0xe0))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14971
+JUMPI conditional: "arg1 == (address(arg1))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "arg2 == (address(arg2))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1726
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15151
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((arg0) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((arg0 * 0x0de0b6b3a7640000) / arg0) == 0x0de0b6b3a7640000"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3134
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1586
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15151
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2625
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3174
+JUMPI conditional: "storage[0x03]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 8716
+JUMPI conditional: "!((storage[0x0f] > ~(storage[0x0b])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15620
+JUMPI conditional: "!(((storage[0x0f] + storage[0x0b]) < storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "!((storage[0x0c] > (storage[0x0f] + storage[0x0b])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!(((storage[0x0f] + storage[0x0b]) < storage[0x0c]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3286
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3306
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length > 0x048c27395000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 3391
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14840
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3174
+JUMPI conditional: "bytes1((storage[0x07] / 0x010000000000000000000000000000000000000000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 3770
+JUMPI conditional: "!((!((address((address(storage[0x10]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3867
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3887
+JUMPI conditional: "storage[0x0e] == block.number"
+JUMPI jump_taken: false
+JUMPI jump_dest: 3972
+JUMPI conditional: "storage[0x03]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 8716
+JUMPI conditional: "!((storage[0x0f] > ~(storage[0x0b])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15620
+JUMPI conditional: "!(((storage[0x0f] + storage[0x0b]) < storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "!((storage[0x0c] > (storage[0x0f] + storage[0x0b])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!(((storage[0x0f] + storage[0x0b]) < storage[0x0c]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!((0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee == (address(storage[0x13]))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9088
+JUMPI conditional: "!((msg.value < arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 8897
+JUMPI conditional: "!((msg.value > arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9083
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9166
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9234
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9254
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "address((address((address(storage[0x13]))))).code.length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 14165
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "ret0.length == 0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14254
+JUMPI conditional: "!success"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14279
+JUMPI conditional: "!memory[0x60]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 14295
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!memory[0x60]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((((0x80 + memory[0x60]) - 0x80) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14808
+JUMPI conditional: "memory[0x80] == memory[0x80]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "memory[0x80]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9385
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9405
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9385
+JUMPI conditional: "!success"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14279
+JUMPI conditional: "!memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14295
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9385
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9405
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!(((((0x20 + memory[0x40]) + memory[0x40].length) - (0x20 + memory[0x40])) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14808
+JUMPI conditional: "ret0.length == 0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14254
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3286
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3306
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1095
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14766
+JUMPI conditional: "arg0 == (address(arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3070
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1704
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2186
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x60))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15186
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((arg0) & ((arg1 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((arg0 * arg1) / arg0) == arg1"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1232
+JUMPI conditional: "storage[0x03]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 8716
+JUMPI conditional: "!((storage[0x0f] > ~(storage[0x0b])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15620
+JUMPI conditional: "!(((storage[0x0f] + storage[0x0b]) < storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "!((storage[0x0c] > (storage[0x0f] + storage[0x0b])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!(((storage[0x0f] + storage[0x0b]) < storage[0x0c]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2240
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14617
+JUMPI conditional: "arg0 == (address(arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "msg.sender == (address(storage[0x06]))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 7207
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1143
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x60))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14927
+JUMPI conditional: "arg1 == (address(arg1))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "(address(arg1)) == msg.sender"
+JUMPI jump_taken: false
+JUMPI jump_dest: 4995
+JUMPI conditional: "(address(arg1)) == msg.sender"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5059
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3174
+JUMPI conditional: "bytes1((storage[0x07] / 0x010000000000000000000000000000000000000000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 9843
+JUMPI conditional: "!((!((address((address(storage[0x10]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9947
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9967
+JUMPI conditional: "storage[0x0e] == block.number"
+JUMPI jump_taken: false
+JUMPI jump_dest: 10010
+JUMPI conditional: "!((storage[0x0f] < arg2))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 10050
+JUMPI conditional: "storage[keccak256(memory[0])]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11513
+JUMPI conditional: "storage[0x0d]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((storage[0x0d]) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x0d])))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "storage[0x0d]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((storage[0x0d] * 0x0de0b6b3a7640000) / storage[0x0d]) == 0x0de0b6b3a7640000"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "!((0 > ~(arg2)))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15620
+JUMPI conditional: "!(((0 + arg2) < 0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3286
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3306
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length > 0x048c27395000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 3391
+JUMPI conditional: "!((storage[0x0e] > block.number))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((block.number < storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "(address(arg1)) == tx.origin"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5059
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1196
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2071
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14840
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13853
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1844
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1405
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2540
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15151
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((arg0) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((arg0 * 0x0de0b6b3a7640000) / arg0) == 0x0de0b6b3a7640000"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2949
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14646
+JUMPI conditional: "arg0 == (address(arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "arg1 == (address(arg1))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1618
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2154
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14617
+JUMPI conditional: "arg0 == (address(arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "msg.sender == (address(storage[0x06]))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6878
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3174
+JUMPI conditional: "storage[0x0e] == block.number"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6919
+JUMPI conditional: "!((!((address((address(arg0))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6978
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6998
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14808
+JUMPI conditional: "memory[0x40].length == memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7110
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3286
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3306
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length > 0x048c27395000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 3391
+JUMPI conditional: "!((storage[0x0e] > block.number))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((block.number < storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((0) & ((storage[0x0b] > 0))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((0 * storage[0x0b]) / 0) == storage[0x0b]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2218
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1790
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14840
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7314
+JUMPI conditional: "storage[keccak256(memory[0])]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6142
+JUMPI conditional: "storage[0x0d]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((storage[0x0d]) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x0d])))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "storage[0x0d]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((storage[0x0d] * 0x0de0b6b3a7640000) / storage[0x0d]) == 0x0de0b6b3a7640000"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7426
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7446
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length > 0x048c27395000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 7522
+JUMPI conditional: "!((storage[0x0e] > block.number))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((block.number < storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "!(((memory[0x40].length) & (((block.number - storage[0x0e]) > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / memory[0x40].length)))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "((memory[0x40].length * (block.number - storage[0x0e])) / memory[0x40].length) == (block.number - storage[0x0e])"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "memory[0x40].length * (block.number - storage[0x0e])"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((((!((!((memory[0x40].length * (block.number - storage[0x0e]))))))) & ((storage[0x0b] > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / (memory[0x40].length * (block.number - storage[0x0e])))))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "memory[0x40].length * (block.number - storage[0x0e])"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "(((memory[0x40].length * (block.number - storage[0x0e])) * storage[0x0b]) / (memory[0x40].length * (block.number - storage[0x0e]))) == storage[0x0b]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2122
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14840
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3174
+JUMPI conditional: "bytes1((storage[0x07] / 0x010000000000000000000000000000000000000000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 12288
+JUMPI conditional: "!0"
+JUMPI jump_taken: true
+JUMPI jump_dest: 12312
+JUMPI conditional: "!arg0"
+JUMPI jump_taken: true
+JUMPI jump_dest: 12416
+JUMPI conditional: "storage[0x03]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 8716
+JUMPI conditional: "!((storage[0x0f] > ~(storage[0x0b])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15620
+JUMPI conditional: "!(((storage[0x0f] + storage[0x0b]) < storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "!((storage[0x0c] > (storage[0x0f] + storage[0x0b])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!(((storage[0x0f] + storage[0x0b]) < storage[0x0c]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!0"
+JUMPI jump_taken: true
+JUMPI jump_dest: 12511
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((memory[0x40].length) & ((0 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / memory[0x40].length)))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((memory[0x40].length * 0) / memory[0x40].length) == 0"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13853
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((0) & ((0x0de0b6b3a7640000 > 0))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "0 == 0x0de0b6b3a7640000"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "memory[(0 + memory[0x40])]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "memory[(0 + memory[0x40])]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "memory[(0 + memory[0x40])]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "!0"
+JUMPI jump_taken: true
+JUMPI jump_dest: 12416
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3286
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3306
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length > 0x048c27395000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 3391
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1564
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2728
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14840
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2668
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14840
+JUMPI conditional: "msg.sender == (address(storage[0x06]))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 8154
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2853
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15151
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((0) & ((0x0de0b6b3a7640000 > 0))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "0 == 0x0de0b6b3a7640000"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2800
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15151
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((0) & ((0x0de0b6b3a7640000 > 0))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "0 == 0x0de0b6b3a7640000"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1640
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14840
+JUMPI conditional: "storage[keccak256(memory[0])]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11513
+JUMPI conditional: "storage[0x0d]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((storage[0x0d]) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x0d])))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "storage[0x0d]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((storage[0x0d] * 0x0de0b6b3a7640000) / storage[0x0d]) == 0x0de0b6b3a7640000"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3102
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3019
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15151
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((arg0) & ((arg1 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((arg0 * arg1) / arg0) == arg1"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2413
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2572
+JUMPI conditional: "!((!((address((address((address((storage[0x08])))))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7778
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7798
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7935
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7955
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((memory[0x40].length) & ((memory[0x40].length > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / memory[0x40].length)))))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15683
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "((memory[0x40].length * memory[0x40].length) / memory[0x40].length) == memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1930
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14840
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x60))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14927
+JUMPI conditional: "arg1 == (address(arg1))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3174
+JUMPI conditional: "!((!((address((address(storage[0x10]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11620
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11640
+JUMPI conditional: "storage[0x0e] == block.number"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11683
+JUMPI conditional: "storage[keccak256(memory[0])]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11513
+JUMPI conditional: "storage[0x0d]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((storage[0x0d]) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x0d])))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "storage[0x0d]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((storage[0x0d] * 0x0de0b6b3a7640000) / storage[0x0d]) == 0x0de0b6b3a7640000"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "!((arg2 == 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11801
+JUMPI conditional: "!((0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee == (address(storage[0x13]))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9088
+JUMPI conditional: "!((msg.value < (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 8897
+JUMPI conditional: "!((msg.value > (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9083
+JUMPI conditional: "!(((memory[(0 + memory[0x40])]) > msg.value))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((msg.value < (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!((storage[0x0f] > (~((memory[(0 + memory[0x40])])))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15620
+JUMPI conditional: "!(((storage[0x0f] + (memory[(0 + memory[0x40])])) < storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "!(((memory[(memory[0x40] + 0x40)]) < (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11900
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9166
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9234
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9254
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "address((address((address(storage[0x13]))))).code.length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 14165
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "ret0.length == 0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14254
+JUMPI conditional: "!success"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14279
+JUMPI conditional: "!memory[0x60]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 14295
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!memory[0x60]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((((0x80 + memory[0x60]) - 0x80) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14808
+JUMPI conditional: "memory[0x80] == memory[0x80]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "memory[0x80]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9385
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9405
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9385
+JUMPI conditional: "!success"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14279
+JUMPI conditional: "!memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14295
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9385
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9405
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!(((((0x20 + memory[0x40]) + memory[0x40].length) - (0x20 + memory[0x40])) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14808
+JUMPI conditional: "ret0.length == 0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14254
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee == (address(storage[0x13]))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9088
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3286
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3306
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2832
+JUMPI conditional: "!((!((address((address((address((storage[0x08])))))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 8275
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 8295
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7935
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7955
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((memory[0x40].length) & ((memory[0x40].length > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / memory[0x40].length)))))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15683
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "((memory[0x40].length * memory[0x40].length) / memory[0x40].length) == memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2646
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1726
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15151
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((arg0) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((arg0 * 0x0de0b6b3a7640000) / arg0) == 0x0de0b6b3a7640000"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "arg1"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2917
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14840
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3174
+JUMPI conditional: "bytes1((storage[0x07] / 0x010000000000000000000000000000000000000000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 12288
+JUMPI conditional: "!arg0"
+JUMPI jump_taken: true
+JUMPI jump_dest: 12312
+JUMPI conditional: "!0"
+JUMPI jump_taken: true
+JUMPI jump_dest: 12416
+JUMPI conditional: "storage[0x03]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 8716
+JUMPI conditional: "!((storage[0x0f] > ~(storage[0x0b])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15620
+JUMPI conditional: "!(((storage[0x0f] + storage[0x0b]) < storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "!((storage[0x0c] > (storage[0x0f] + storage[0x0b])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!(((storage[0x0f] + storage[0x0b]) < storage[0x0c]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!arg0"
+JUMPI jump_taken: true
+JUMPI jump_dest: 12511
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((memory[0x40].length) & ((arg0 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / memory[0x40].length)))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((memory[0x40].length * arg0) / memory[0x40].length) == arg0"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13853
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((0) & ((0x0de0b6b3a7640000 > 0))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "0 == 0x0de0b6b3a7640000"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "memory[(0 + memory[0x40])]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "memory[(0 + memory[0x40])]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "memory[(0 + memory[0x40])]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "!arg0"
+JUMPI jump_taken: true
+JUMPI jump_dest: 12416
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3286
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3306
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length > 0x048c27395000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 3391
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14889
+JUMPI conditional: "arg1 == (address(arg1))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "bytes1((storage[0x07] / 0x010000000000000000000000000000000000000000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5628
+JUMPI conditional: "(address(arg1)) == msg.sender"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5672
+JUMPI conditional: "(address(arg1)) == msg.sender"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5736
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3174
+JUMPI conditional: "!((!((address((address(storage[0x10]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11620
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11640
+JUMPI conditional: "storage[0x0e] == block.number"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11683
+JUMPI conditional: "storage[keccak256(memory[0])]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11513
+JUMPI conditional: "storage[0x0d]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((storage[0x0d]) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x0d])))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "storage[0x0d]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((storage[0x0d] * 0x0de0b6b3a7640000) / storage[0x0d]) == 0x0de0b6b3a7640000"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "!((0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff == 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11801
+JUMPI conditional: "!((0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee == (address(storage[0x13]))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9088
+JUMPI conditional: "!((msg.value < (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 8897
+JUMPI conditional: "!((msg.value > (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9083
+JUMPI conditional: "!(((memory[(0 + memory[0x40])]) > msg.value))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((msg.value < (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15706
+JUMPI conditional: "!((storage[0x0f] > (~((memory[(0 + memory[0x40])])))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15620
+JUMPI conditional: "!(((storage[0x0f] + (memory[(0 + memory[0x40])])) < storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "!(((memory[(memory[0x40] + 0x40)]) < (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11900
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9166
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9234
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9254
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "address((address((address(storage[0x13]))))).code.length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 14165
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "ret0.length == 0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14254
+JUMPI conditional: "!success"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14279
+JUMPI conditional: "!memory[0x60]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 14295
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!memory[0x60]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((((0x80 + memory[0x60]) - 0x80) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14808
+JUMPI conditional: "memory[0x80] == memory[0x80]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "memory[0x80]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9385
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9405
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9385
+JUMPI conditional: "!success"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14279
+JUMPI conditional: "!memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14295
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9385
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9405
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!(((((0x20 + memory[0x40]) + memory[0x40].length) - (0x20 + memory[0x40])) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14808
+JUMPI conditional: "ret0.length == 0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14254
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee == (address(storage[0x13]))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9088
+JUMPI conditional: "!((msg.value < (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 8897
+JUMPI conditional: "!((msg.value > (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9083
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9166
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9234
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9254
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3286
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3306
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "(address(arg1)) == tx.origin"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5736
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1532
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15151
+JUMPI conditional: "!((arg0 > ~(arg1)))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15620
+JUMPI conditional: "!(((arg0 + arg1) < arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1500
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14617
+JUMPI conditional: "arg0 == (address(arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3174
+JUMPI conditional: "storage[0x03]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 8716
+JUMPI conditional: "!((storage[0x0f] > ~(storage[0x0b])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15620
+JUMPI conditional: "!(((storage[0x0f] + storage[0x0b]) < storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "!((storage[0x0c] > (storage[0x0f] + storage[0x0b])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!(((storage[0x0f] + storage[0x0b]) < storage[0x0c]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3286
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3306
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length > 0x048c27395000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 3391
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2312
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7314
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7426
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7446
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length > 0x048c27395000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 7522
+JUMPI conditional: "!((storage[0x0e] > block.number))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((block.number < storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((0) & ((storage[0x0b] > 0))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1758
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x60))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15186
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((arg0) & ((arg1 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((arg0 * arg1) / arg0) == arg1"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13853
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((((arg0 * arg1) / 0x0de0b6b3a7640000) > ~(arg2)))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15620
+JUMPI conditional: "!(((((arg0 * arg1) / 0x0de0b6b3a7640000) + arg2) < ((arg0 * arg1) / 0x0de0b6b3a7640000)))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13853
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1175
+JUMPI conditional: "msg.sender == (address(storage[0x07]))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5173
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1317
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1063
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14840
+JUMPI conditional: "msg.sender == (address(storage[0x06]))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 4662
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3174
+JUMPI conditional: "storage[0x0e] == block.number"
+JUMPI jump_taken: false
+JUMPI jump_dest: 4703
+JUMPI conditional: "!((arg0 > storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4737
+JUMPI conditional: "!((arg0 > storage[0x0c]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4811
+JUMPI conditional: "!((arg0 > storage[0x0c]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((storage[0x0c] < arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!((0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee == (address(storage[0x13]))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9759
+JUMPI conditional: "ret0.length == 0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 9674
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9753
+JUMPI conditional: "!((arg0 > storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((storage[0x0f] < arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9753
+JUMPI conditional: "address((address((address(storage[0x13]))))).code.length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 14165
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "ret0.length == 0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14254
+JUMPI conditional: "!success"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14279
+JUMPI conditional: "!memory[0x60]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 14295
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!memory[0x60]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((((0x80 + memory[0x60]) - 0x80) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14808
+JUMPI conditional: "memory[0x80] == memory[0x80]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "memory[0x80]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((arg0 > storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((storage[0x0f] < arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!((arg0 > storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!success"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14279
+JUMPI conditional: "!memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14295
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((arg0 > storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((storage[0x0f] < arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!(((((0x20 + memory[0x40]) + memory[0x40].length) - (0x20 + memory[0x40])) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14808
+JUMPI conditional: "ret0.length == 0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14254
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3286
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3306
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length > 0x048c27395000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 3391
+JUMPI conditional: "!((storage[0x0e] > block.number))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((block.number < storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((0) & ((storage[0x0b] > 0))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((0 * storage[0x0b]) / 0) == storage[0x0b]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2381
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14766
+JUMPI conditional: "arg0 == (address(arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "!((!((address((address(storage[0x10]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 10505
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 10525
+JUMPI conditional: "!(((address(msg.sender)) == (address(arg0))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 10627
+JUMPI conditional: "!(((address(msg.sender)) == (address(msg.sender))))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 10664
+JUMPI conditional: "!((arg1 > storage[keccak256(memory[0])]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((storage[keccak256(memory[0])] < arg1))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!((arg1 > storage[keccak256(memory[0])]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((storage[keccak256(memory[0])] < arg1))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!((storage[keccak256(memory[0])] > ~(arg1)))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15620
+JUMPI conditional: "!(((storage[keccak256(memory[0])] + arg1) < storage[keccak256(memory[0])]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "storage[keccak256(memory[0])] == 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+JUMPI jump_taken: false
+JUMPI jump_dest: 10876
+JUMPI conditional: "!((!((address((address(storage[0x10]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 10961
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 10981
+JUMPI conditional: "!((!((address((address(storage[0x10]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 10961
+JUMPI conditional: "!((arg1 > 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2700
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1373
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15151
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((arg0) & ((arg1 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "arg0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((arg0 * arg1) / arg0) == arg1"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2360
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3174
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3286
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3306
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length > 0x048c27395000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 3391
+JUMPI conditional: "!((storage[0x0e] > block.number))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((block.number < storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((0) & ((storage[0x0b] > 0))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((0 * storage[0x0b]) / 0) == storage[0x0b]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2593
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14840
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7314
+JUMPI conditional: "!((0 == storage[0x03]))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 8037
+JUMPI conditional: "!((storage[0x0f] > ~(storage[0x0b])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15620
+JUMPI conditional: "!(((storage[0x0f] + storage[0x0b]) < storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "!((storage[0x0c] > (storage[0x0f] + storage[0x0b])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!(((storage[0x0f] + storage[0x0b]) < storage[0x0c]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "storage[0x09]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((storage[0x09]) & ((arg0 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x09])))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "storage[0x09]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((storage[0x09] * arg0) / storage[0x09]) == arg0"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13853
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "0x0de0b6b3a7640000"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13853
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7426
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 7446
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length > 0x048c27395000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 7522
+JUMPI conditional: "!((storage[0x0e] > block.number))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((block.number < storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((memory[0x40].length) & (((block.number - storage[0x0e]) > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / memory[0x40].length)))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "memory[0x40].length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "((memory[0x40].length * (block.number - storage[0x0e])) / memory[0x40].length) == (block.number - storage[0x0e])"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "memory[0x40].length * (block.number - storage[0x0e])"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11090
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((((!((!((memory[0x40].length * (block.number - storage[0x0e]))))))) & ((storage[0x0b] > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / (memory[0x40].length * (block.number - storage[0x0e])))))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "memory[0x40].length * (block.number - storage[0x0e])"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "(((memory[0x40].length * (block.number - storage[0x0e])) * storage[0x0b]) / (memory[0x40].length * (block.number - storage[0x0e]))) == storage[0x0b]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "0x02"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15652
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 1285
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x60))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14704
+JUMPI conditional: "arg0 == (address(arg0))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "arg1 == (address(arg1))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 2272
+JUMPI conditional: "bytes1(storage[0x01])"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15775
+JUMPI conditional: "!(((bytes1(storage[0x01])) == ((storage[0x01] / 0x02) < 0x20)))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15808
+JUMPI conditional: "bytes1(storage[0x01])"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15775
+JUMPI conditional: "!(((bytes1(storage[0x01])) == ((storage[0x01] / 0x02) < 0x20)))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15808
+JUMPI conditional: "!((storage[0x01] / 0x02))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4612
+JUMPI conditional: "0x1f < (storage[0x01] / 0x02)"
+JUMPI jump_taken: false
+JUMPI jump_dest: 4569
+JUMPI conditional: "((0x20 + memory[0x40]) + (storage[0x01] / 0x02)) > (0x20 + (0x20 + memory[0x40]))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 4583
+JUMPI conditional: "((0x20 + memory[0x40]) + (storage[0x01] / 0x02)) > (0x20 + (0x20 + (0x20 + memory[0x40])))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 4583
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!(((bytes1(storage[0x01])) == ((bytes1((storage[0x01] / 0x02))) < 0x20)))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15808
+JUMPI conditional: "!(((bytes1(storage[0x01])) == ((bytes1((storage[0x01] / 0x02))) < 0x20)))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15808
+JUMPI conditional: "!(((msg.data.length - 0x04) < 0x40))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14889
+JUMPI conditional: "arg1 == (address(arg1))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 4849
+JUMPI conditional: "bytes1((storage[0x07] / 0x010000000000000000000000000000000000000000))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 8573
+JUMPI conditional: "!((block.number == storage[0x0e]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3174
+JUMPI conditional: "!((!((address((address(storage[0x10]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13295
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 13315
+JUMPI conditional: "storage[0x0e] == block.number"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13358
+JUMPI conditional: "!((!((address((address(storage[0x10]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11620
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 11640
+JUMPI conditional: "storage[0x0e] == block.number"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11683
+JUMPI conditional: "storage[keccak256(memory[0])]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11513
+JUMPI conditional: "storage[0x0d]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11090
+JUMPI conditional: "!(((storage[0x0d]) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x0d])))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15683
+JUMPI conditional: "storage[0x0d]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "((storage[0x0d] * 0x0de0b6b3a7640000) / storage[0x0d]) == 0x0de0b6b3a7640000"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15652
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x40 < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0x20 > memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 6810
+JUMPI conditional: "storage[(0x01 + keccak256(memory[0]))]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13853
+JUMPI conditional: "!((0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff == 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11801
+JUMPI conditional: "!((0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee == (address(storage[0x13]))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9088
+JUMPI conditional: "!((msg.value < (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 8897
+JUMPI conditional: "!((msg.value > (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9083
+JUMPI conditional: "!(((memory[(0 + memory[0x40])]) > msg.value))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 13652
+JUMPI conditional: "!((msg.value < (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15706
+JUMPI conditional: "!((storage[0x0f] > (~((memory[(0 + memory[0x40])])))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15620
+JUMPI conditional: "!(((storage[0x0f] + (memory[(0 + memory[0x40])])) < storage[0x0f]))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5580
+JUMPI conditional: "!(((memory[(memory[0x40] + 0x40)]) < (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 11900
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9166
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9234
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9254
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "address((address((address(storage[0x13]))))).code.length"
+JUMPI jump_taken: true
+JUMPI jump_dest: 14165
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0 > memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 6810
+JUMPI conditional: "ret0.length == 0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14254
+JUMPI conditional: "!success"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14279
+JUMPI conditional: "!memory[0x60]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 14295
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!memory[0x60]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((((0x80 + memory[0x60]) - 0x80) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14808
+JUMPI conditional: "memory[0x80] == memory[0x80]"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5580
+JUMPI conditional: "memory[0x80]"
+JUMPI jump_taken: true
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9385
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9405
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((memory[0x40].length < memory[0x40].length))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 15706
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9385
+JUMPI conditional: "!success"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14279
+JUMPI conditional: "!memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14295
+JUMPI conditional: "!((0 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!memory[0x40].length"
+JUMPI jump_taken: false
+JUMPI jump_dest: 5078
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9385
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9405
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!(((((0x20 + memory[0x40]) + memory[0x40].length) - (0x20 + memory[0x40])) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14808
+JUMPI conditional: "ret0.length == 0"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14254
+JUMPI conditional: "!((0x20 < memory[0x40].length))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 15738
+JUMPI conditional: "!((0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee == (address(storage[0x13]))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9088
+JUMPI conditional: "!((msg.value < (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 8897
+JUMPI conditional: "!((msg.value > (memory[(0 + memory[0x40])])))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9083
+JUMPI conditional: "!msg.value"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9166
+JUMPI conditional: "!((!((address((address(storage[0x13]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9234
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 9254
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+JUMPI conditional: "!((!((address((address(storage[0x08]))).code.length))))"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3286
+JUMPI conditional: "success"
+JUMPI jump_taken: true
+JUMPI jump_dest: 3306
+JUMPI conditional: "!((((memory[0x40] + ret0.length) - memory[0x40]) < 0x20))"
+JUMPI jump_taken: false
+JUMPI jump_dest: 14864
+================
+selector "d9af3db8"
+resolved function None
+entry_point 2873
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 32, heuristics: [] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"])}
+returns Some("uint256")
+pure false
+view false
+payable false
+================
+selector "4dd18bf5"
+resolved function None
+entry_point 1660
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 20, heuristics: [] }, ["address", "bytes", "bytes20", "bytes32", "int", "int160", "int256", "string", "uint", "uint160", "uint256"])}
+returns None
+pure false
+view false
+payable false
+================
+selector "1c446983"
+resolved function None
+entry_point 1241
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 32, heuristics: ["integer"] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"])}
+returns None
+pure false
+view false
+payable false
+================
+selector "bd6d894d"
+resolved function None
+entry_point 2613
+arguments {}
+returns None
+pure false
+view false
+payable false
+================
+selector "a0712d68"
+resolved function None
+entry_point 2281
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 32, heuristics: ["integer"] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"])}
+returns None
+pure false
+view false
+payable false
+================
+selector "095ea7b3"
+resolved function None
+entry_point 1083
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 20, heuristics: [] }, ["address", "bytes", "bytes20", "bytes32", "int", "int160", "int256", "string", "uint", "uint160", "uint256"]), 1: (CalldataFrame { slot: 1, operation: "PUSH32(36)", mask_size: 32, heuristics: [] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"])}
+returns Some("bool")
+pure false
+view false
+payable false
+================
+selector "92eefe9b"
+resolved function None
+entry_point 2228
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 20, heuristics: [] }, ["address", "bytes", "bytes20", "bytes32", "int", "int160", "int256", "string", "uint", "uint160", "uint256"])}
+returns None
+pure false
+view false
+payable false
+================
+selector "0c28d13e"
+resolved function None
+entry_point 1131
+arguments {1: (CalldataFrame { slot: 1, operation: "PUSH32(36)", mask_size: 20, heuristics: [] }, ["address", "bytes", "bytes20", "bytes32", "int", "int160", "int256", "string", "uint", "uint160", "uint256"]), 2: (CalldataFrame { slot: 2, operation: "PUSH32(68)", mask_size: 32, heuristics: ["integer"] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"]), 0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 32, heuristics: [] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"])}
+returns None
+pure false
+view false
+payable false
+================
+selector "8bcd4016"
+resolved function None
+entry_point 2142
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 20, heuristics: [] }, ["address", "bytes", "bytes20", "bytes32", "int", "int160", "int256", "string", "uint", "uint160", "uint256"])}
+returns None
+pure false
+view false
+payable false
+================
+selector "689f036b"
+resolved function None
+entry_point 1778
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 32, heuristics: [] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"])}
+returns Some("uint256")
+pure false
+view false
+payable false
+================
+selector "852a12e3"
+resolved function None
+entry_point 2110
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 32, heuristics: [] }, ["bool", "bytes", "bytes1", "bytes32", "int", "int256", "int8", "string", "uint", "uint256", "uint8"])}
+returns None
+pure false
+view false
+payable false
+================
+selector "c0627004"
+resolved function None
+entry_point 2656
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 32, heuristics: [] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"])}
+returns None
+pure false
+view false
+payable false
+================
+selector "b54f4d87"
+resolved function None
+entry_point 2560
+arguments {}
+returns Some("uint256")
+pure false
+view false
+payable false
+================
+selector "81565600"
+resolved function None
+entry_point 2091
+arguments {1: (CalldataFrame { slot: 1, operation: "PUSH32(36)", mask_size: 20, heuristics: [] }, ["address", "bytes", "bytes20", "bytes32", "int", "int160", "int256", "string", "uint", "uint160", "uint256"]), 2: (CalldataFrame { slot: 2, operation: "PUSH32(68)", mask_size: 32, heuristics: [] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"]), 0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 32, heuristics: [] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"])}
+returns None
+pure false
+view false
+payable false
+================
+selector "d2089f73"
+resolved function None
+entry_point 2820
+arguments {}
+returns Some("uint256")
+pure false
+view false
+payable false
+================
+selector "db006a75"
+resolved function None
+entry_point 2905
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 32, heuristics: ["integer"] }, ["bool", "bytes", "bytes1", "bytes32", "int", "int256", "int8", "string", "uint", "uint256", "uint8"])}
+returns None
+pure false
+view false
+payable false
+================
+selector "37cd3f07"
+resolved function None
+entry_point 1437
+arguments {1: (CalldataFrame { slot: 1, operation: "PUSH32(36)", mask_size: 20, heuristics: [] }, ["address", "bytes", "bytes20", "bytes32", "int", "int160", "int256", "string", "uint", "uint160", "uint256"]), 0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 32, heuristics: [] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"])}
+returns None
+pure false
+view false
+payable false
+================
+selector "3af9e669"
+resolved function None
+entry_point 1488
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 20, heuristics: [] }, ["address", "bytes", "bytes20", "bytes32", "int", "int160", "int256", "string", "uint", "uint160", "uint256"])}
+returns None
+pure false
+view false
+payable false
+================
+selector "a4f38292"
+resolved function None
+entry_point 2300
+arguments {}
+returns Some("bytes memory")
+pure false
+view false
+payable false
+================
+selector "0e18b681"
+resolved function None
+entry_point 1163
+arguments {}
+returns None
+pure false
+view false
+payable false
+================
+selector "07e27959"
+resolved function None
+entry_point 1051
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 32, heuristics: ["integer"] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"])}
+returns None
+pure false
+view false
+payable false
+================
+selector "a9059cbb"
+resolved function None
+entry_point 2369
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 20, heuristics: [] }, ["address", "bytes", "bytes20", "bytes32", "int", "int160", "int256", "string", "uint", "uint160", "uint256"]), 1: (CalldataFrame { slot: 1, operation: "PUSH32(36)", mask_size: 32, heuristics: ["integer"] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"])}
+returns Some("bool")
+pure false
+view false
+payable false
+================
+selector "a6afed95"
+resolved function None
+entry_point 2348
+arguments {}
+returns None
+pure false
+view false
+payable false
+================
+selector "bc928173"
+resolved function None
+entry_point 2581
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 32, heuristics: ["integer"] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"])}
+returns Some("uint256")
+pure false
+view false
+payable false
+================
+selector "ef11abe2"
+resolved function None
+entry_point 3039
+arguments {0: (CalldataFrame { slot: 0, operation: "PUSH1(4)", mask_size: 32, heuristics: [] }, ["bytes", "uint256", "int256", "string", "bytes32", "uint", "int"]), 1: (CalldataFrame { slot: 1, operation: "PUSH32(36)", mask_size: 20, heuristics: [] }, ["address", "bytes", "bytes20", "bytes32", "int", "int160", "int256", "string", "uint", "uint160", "uint256"])}
+returns None
+pure false
+view false
+payable false
+test benchmark::benchmark_spec_simple ... ok
 
-A failed example:
-// found 53 possible function selectors.
-./target/debug/heimdall cfg 0x9c211BFa6DC329C5E757A223Fb72F5481D676DC1 -v -r https://eth.llamarpc.com -c -o ./temp/ -t 60000000 
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 13.48s
 
-cd temp/ && ./render.sh && cd ..
-
-
-A failed example:
-// found 65 possible function selectors.
-
-./target/debug/heimdall cfg 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663 -v -r https://eth.llamarpc.com -c -o ./temp/ -t 60000000
-
-
-A successful example:
-// found 2 possible function selectors.
-0x9f00c43700bc0000Ff91bE00841F8e04c0495000
-
-
-A successful example:
-// found 2 possible function selectors.
-./target/debug/heimdall cfg 0x6554FF0f2B6613Bb2baa9A45788AD8574a805f6d -v -r https://eth.llamarpc.com -c -o ./temp/ -t 60000000
-
-
-
-
-
-./target/debug/heimdall snapshot 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663 -r https://eth.llamarpc.com
-
-
-./target/debug/heimdall cfg 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663 -v -r https://eth.llamarpc.com -c -o ./temp/ -t 60000000
-
-
-./target/debug/heimdall spec 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663 -r https://eth.llamarpc.com
-
-
-
-manual inspection 
-
-10 functions 
-
-investigation => automation
-
-
-
-cfg edge: weight means jump_taken

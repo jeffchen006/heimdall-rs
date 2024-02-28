@@ -41,6 +41,7 @@ pub struct Spec {
     // 
     pub cfg_map: HashMap< (u128, u128), Vec< (u128, u128) >>,
     pub branch_spec: Option<BranchSpec>,
+    pub resolved_function: Vec<ResolvedFunction>,
 }
 
 
@@ -76,7 +77,6 @@ pub struct BranchSpec {
     // stores addresses found in bytecode
     pub addresses: HashSet<String>,
     
-
     // control statements, such as access control
     pub control_statement: Option<String>,
 

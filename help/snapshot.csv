@@ -1,0 +1,607 @@
+Function Selector,Resolved Function Signature,Payable,View,Pure,Returns,Entry Point,Branch Count,Emitted Events,Custom Errors,Storage Slots,Strings,Hardcoded Addresses,Minimum Gas Used,Maximum Gas Used,Average Gas Used,External Calls Made,Control Statements
+ef11abe2,"liquidateBorrow(arg0 uint256, arg1 address)",false,false,false,,3039,59,"","","0x0c
+0x07
+0x01 + keccak256(memory[0])
+0x0d
+0x0f
+0x10
+0x13
+keccak256(memory[0])
+0x08
+0x0e
+0 + keccak256(memory[0])
+0x0b","SafeMath: division by zero
+SafeMath: addition overflow
+invalid repay amount
+ETH value not enough
+SafeMath: multiplication overflow
+Address: call to non-contract
+re-entered
+block number check fails
+SafeERC20: ERC20 operation did not succeed
+ERC20 don't accecpt ETH","",21244,69625,27701,"address(address(storage[0x10])).call{ value: 0 }(0x7aac801700000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x10])).call{ value: 0 }(0x778c610a00000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x13])).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000, 0x536166654d6174683a207375627472616374696f6e206f766572666c6f770000);
+address(address((address((address(storage[0x13])))))).call{ value: 0 }(0x08c379a000000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x13])).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x13])).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address((address((address(storage[0x13])))))).call{ value: 0 }(ret0.length, 0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x13])).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000, ((0x84 + memory[0x40]) - memory[0x40]) + 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0);
+address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, storage[(0x01 + keccak256(memory[0]))], 0, 0);","if (!(((storage[0x0f] + (memory[(0 + memory[0x40])])) < storage[0x0f]))) { .. }
+if (!((!((address((address(storage[0x10]))).code.length))))) { .. }
+if (storage[(0x01 + keccak256(memory[0]))]) { .. }
+if (!((0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee == (address(storage[0x13]))))) { .. }
+if (storage[keccak256(memory[0])]) { .. }
+if (bytes1((storage[0x07] / 0x010000000000000000000000000000000000000000))) { .. }
+if (arg1 == (address(arg1))) { .. }
+if (storage[0x0e] == block.number) { .. }
+if (storage[0x0d]) { .. }
+if (!((!((address((address(storage[0x13]))).code.length))))) { .. }
+if (!(((storage[0x0d]) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x0d])))))) { .. }
+if (((storage[0x0d] * 0x0de0b6b3a7640000) / storage[0x0d]) == 0x0de0b6b3a7640000) { .. }
+if (!((storage[0x0f] > (~((memory[(0 + memory[0x40])])))))) { .. }
+if (!((block.number == storage[0x0e]))) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (address((address((address(storage[0x13]))))).code.length) { .. }"
+b2e6faaf,"orderBorrows(arg0 uint256)",false,true,false,bytes memory,2423,2,"","","keccak256(memory[0])
+keccak256(memory[0]) + 0x01","","",21251,25711,22406,"",""
+37cd3f07,"repayBorrowAndClaim(arg0 uint256, arg1 address)",false,false,false,,1437,58,"","","0x13
+0x08
+keccak256(memory[0])
+0x0e
+0 + keccak256(memory[0])
+0x0b
+0x0d
+0x07
+0x10
+0x01 + keccak256(memory[0])
+0x0f
+0x0c","Address: call to non-contract
+SafeERC20: ERC20 operation did not succeed
+ERC20 don't accecpt ETH
+invalid repay amount
+block number check fails
+SafeMath: multiplication overflow
+SafeMath: addition overflow
+SafeMath: division by zero
+ETH value not enough
+borrower is wrong
+re-entered","",21224,66297,24334,"address(address(storage[0x10])).call{ value: 0 }(0x778c610a00000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x13])).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000, 0x536166654d6174683a207375627472616374696f6e206f766572666c6f770000);
+address(address((address((address(storage[0x13])))))).call{ value: 0 }(0x08c379a000000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x13])).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x13])).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address((address((address(storage[0x13])))))).call{ value: 0 }(ret0.length, 0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x13])).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000, ((0x84 + memory[0x40]) - memory[0x40]) + 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0);
+address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, storage[(0x01 + keccak256(memory[0]))], 0, 0);","if ((address(arg1)) == msg.sender) { .. }
+if (storage[0x0d]) { .. }
+if (!(((storage[0x0d]) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x0d])))))) { .. }
+if (!((storage[0x0f] > (~((memory[(0 + memory[0x40])])))))) { .. }
+if (storage[0x0e] == block.number) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (!(((storage[0x0f] + (memory[(0 + memory[0x40])])) < storage[0x0f]))) { .. }
+if (bytes1((storage[0x07] / 0x010000000000000000000000000000000000000000))) { .. }
+if ((address(arg1)) == tx.origin) { .. }
+if (storage[keccak256(memory[0])]) { .. }
+if (!((block.number == storage[0x0e]))) { .. }
+if (!((!((address((address(storage[0x10]))).code.length))))) { .. }
+if (!((0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee == (address(storage[0x13]))))) { .. }
+if (((storage[0x0d] * 0x0de0b6b3a7640000) / storage[0x0d]) == 0x0de0b6b3a7640000) { .. }
+if (!((!((address((address(storage[0x13]))).code.length))))) { .. }
+if (address((address((address(storage[0x13]))))).code.length) { .. }
+if (arg1 == (address(arg1))) { .. }
+if (storage[(0x01 + keccak256(memory[0]))]) { .. }"
+47bd3718,"totalBorrows()",false,true,false,uint256,1606,1,"","","0x0b","","",21230,23408,22320,"",""
+852a12e3,"redeemUnderlying(arg0 uint256)",false,false,false,,2110,37,"","","0x0f
+0x0b
+0x09
+0x0d
+0x07
+0x03
+0x0e
+0x0c
+0x08","re-entered
+SafeMath: subtraction overflow
+one of redeemTokensIn or redeemAmountIn should be 0
+borrow rate is absurdly high
+SafeMath: multiplication overflow
+SafeMath: addition overflow
+SafeMath: division by zero","",21186,39889,30495,"address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, 0, 0, 0);","if (!arg0) { .. }
+if (bytes1((storage[0x07] / 0x010000000000000000000000000000000000000000))) { .. }
+if (!(((storage[0x0f] + storage[0x0b]) < storage[0x0f]))) { .. }
+if (storage[0x03]) { .. }
+if (!((storage[0x0c] > (storage[0x0f] + storage[0x0b])))) { .. }
+if (!(((storage[0x0f] + storage[0x0b]) < storage[0x0c]))) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (!((storage[0x0f] > ~(storage[0x0b])))) { .. }
+if (!((block.number == storage[0x0e]))) { .. }"
+db006a75,"redeem(arg0 uint256)",false,false,false,,2905,36,"","","0x03
+0x08
+0x09
+0x07
+0x0c
+0x0e
+0x0b
+0x0f
+0x0d","one of redeemTokensIn or redeemAmountIn should be 0
+SafeMath: addition overflow
+SafeMath: subtraction overflow
+SafeMath: multiplication overflow
+re-entered
+borrow rate is absurdly high
+SafeMath: division by zero","",21228,39931,30537,"address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, arg0, 0, 0);","if (storage[0x03]) { .. }
+if (!arg0) { .. }
+if (!((block.number == storage[0x0e]))) { .. }
+if (!(((storage[0x0f] + storage[0x0b]) < storage[0x0c]))) { .. }
+if (!((storage[0x0f] > ~(storage[0x0b])))) { .. }
+if (!(((memory[0x40].length) & ((arg0 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / memory[0x40].length)))))) { .. }
+if (!(((storage[0x0f] + storage[0x0b]) < storage[0x0f]))) { .. }
+if (((memory[0x40].length * arg0) / memory[0x40].length) == arg0) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (bytes1((storage[0x07] / 0x010000000000000000000000000000000000000000))) { .. }
+if (!((storage[0x0c] > (storage[0x0f] + storage[0x0b])))) { .. }"
+07e27959,"reduceReserves(arg0 uint256)",false,false,false,,1051,50,"","","0x0f
+0x0d
+0x0e
+0x0b
+0x14
+0x06
+0x0c
+0x13
+0x08","require admin auth
+block number check fails
+SafeMath: subtraction overflow
+SafeERC20: ERC20 operation did not succeed
+borrow rate is absurdly high
+Address: call to non-contract
+SafeMath: multiplication overflow
+Transfer of ETH failed
+insufficient balance of underlying asset
+invalid reduce amount","",21209,45563,27048,"address(address((address(storage[0x06])))).call{ gas: storage[0x14], value: arg0 }();
+address(address((address((address(storage[0x13])))))).call{ value: 0 }(0x08c379a000000000000000000000000000000000000000000000000000000000);
+address(address((address((address(storage[0x13])))))).call{ value: 0 }(ret0.length, 0x536166654d6174683a207375627472616374696f6e206f766572666c6f770000, 0x1e);
+address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, 0x536166654d6174683a207375627472616374696f6e206f766572666c6f770000, ((0x64 + memory[0x40]) - memory[0x40]) + 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0, 0xa9059cbb00000000000000000000000000000000000000000000000000000000 | (uint224((memory[(memory[0x40] + 0x20)]))));","if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (!((block.number < storage[0x0e]))) { .. }
+if (!(((0) & ((storage[0x0b] > 0))))) { .. }
+if (!((arg0 > storage[0x0c]))) { .. }
+if (msg.sender == (address(storage[0x06]))) { .. }
+if (!((storage[0x0e] > block.number))) { .. }
+if (((0 * storage[0x0b]) / 0) == storage[0x0b]) { .. }
+if (storage[0x0e] == block.number) { .. }
+if (!((block.number == storage[0x0e]))) { .. }
+if (!((storage[0x0c] < arg0))) { .. }
+if (!((0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee == (address(storage[0x13]))))) { .. }
+if (address((address((address(storage[0x13]))))).code.length) { .. }
+if (!((storage[0x0f] < arg0))) { .. }
+if (!((arg0 > storage[0x0f]))) { .. }"
+6c540baf,"accrualBlockNumber()",false,true,false,uint256,1810,1,"","","0x0e","","",21207,23385,22297,"",""
+c2ee3a08,"ONE()",false,false,true,uint256,2688,1,"","","","","",21184,21262,21224,"",""
+aa5af0fd,"borrowIndex()",false,true,false,uint256,2401,1,"","","0x0d","","",21229,23407,22319,"",""
+d2089f73,"getSupplyApy()",false,false,false,uint256,2820,11,"","","0x0b
+0x08
+0x0f
+0x0c
+0x0a","SafeMath: multiplication overflow","",21250,41250,35048,"address(address((address((storage[0x08]))))).staticcall(0xa385fb9600000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x08])).staticcall(0xb816881600000000000000000000000000000000000000000000000000000000);","if (!((!((address((address((address((storage[0x08])))))).code.length))))) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }"
+8f840ddd,"totalReserves()",false,true,false,uint256,2206,1,"","","0x0c","","",21252,23430,22342,"",""
+ba9316b7,"getExp(arg0 uint256, arg1 uint256)",false,false,true,uint256,1714,14,"","","","SafeMath: multiplication overflow
+SafeMath: division by zero","",21250,22085,21510,"","if (((arg0 * 0x0de0b6b3a7640000) / arg0) == 0x0de0b6b3a7640000) { .. }
+if (!(((arg0) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))) { .. }
+if (arg1) { .. }
+if (arg0) { .. }"
+a6afed95,"accrueInterest()",false,false,false,,2348,17,"","","0x0f
+0x0e
+0x0b
+0x0c
+0x0d
+0x08","borrow rate is absurdly high
+SafeMath: subtraction overflow
+SafeMath: multiplication overflow","",21185,40450,39799,"address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000);","if (!((block.number < storage[0x0e]))) { .. }
+if (!(((0) & ((storage[0x0b] > 0))))) { .. }
+if (!((block.number == storage[0x0e]))) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (!((storage[0x0e] > block.number))) { .. }
+if (((0 * storage[0x0b]) / 0) == storage[0x0b]) { .. }"
+26782247,"pendingAdmin()",false,true,false,uint256,1305,1,"","","0x07","","",21208,23428,22319,"",""
+dd62ed3e,"allowance(arg0 address, arg1 address)",false,false,true,,2937,3,"","","","","",21250,21465,21365,"","if (arg0 == (address(arg0))) { .. }
+if (arg1 == (address(arg1))) { .. }"
+92eefe9b,"setController(arg0 address)",false,false,false,,2228,4,"","","0x10
+0x06","require admin auth","",21185,28673,22918,"","if (arg0 == (address(arg0))) { .. }
+if (msg.sender == (address(storage[0x06]))) { .. }"
+ce603aad,"divScalarByExp(arg0 uint256, arg1 uint256)",false,false,true,uint256,2788,15,"","","","SafeMath: multiplication overflow
+SafeMath: division by zero","",21228,22171,21450,"","if (arg1) { .. }"
+4dd18bf5,"setPendingAdmin(arg0 address)",false,false,false,,1660,4," NewPendingAdmin(address,address)","","0x06
+0x07","require admin auth","",21185,30035,23088,"","if (msg.sender == (address(storage[0x06]))) { .. }
+if (arg0 == (address(arg0))) { .. }"
+7715632e,"Unresolved_7715632e(arg0 bytes, arg1 address, arg2 address)",false,false,true,,2027,3,"","","","","",21206,21453,21343,"","if (arg1 == (address(arg1))) { .. }
+if (arg2 == (address(arg2))) { .. }"
+4751b79c,"divScalar(arg0 uint256, arg1 uint256)",false,false,true,uint256,1574,8,"","","","SafeMath: division by zero","",21208,21801,21527,"","if (arg1) { .. }"
+81565600,"repayBorrow(arg0 uint256, arg1 address, arg2 uint256)",false,false,false,,2091,50,"","","0x0c
+0x01 + keccak256(memory[0])
+0x10
+0 + keccak256(memory[0])
+0x0b
+0x08
+0x0e
+keccak256(memory[0])
+0x0d
+0x0f
+0x13","SafeMath: multiplication overflow
+SafeMath: addition overflow
+invalid repay amount
+Address: call to non-contract
+ETH value not enough
+ERC20 don't accecpt ETH
+SafeERC20: ERC20 operation did not succeed
+block number check fails
+SafeMath: division by zero","",21292,49188,30377,"address(address(storage[0x10])).call{ value: 0 }(0x778c610a00000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x13])).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000, 0x536166654d6174683a207375627472616374696f6e206f766572666c6f770000);
+address(address((address((address(storage[0x13])))))).call{ value: 0 }(0x08c379a000000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x13])).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x13])).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address((address((address(storage[0x13])))))).call{ value: 0 }(ret0.length, 0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, storage[(0x01 + keccak256(memory[0]))], 0, 0);","if (!((storage[0x0f] > (~((memory[(0 + memory[0x40])])))))) { .. }
+if (storage[0x0d]) { .. }
+if (!((!((address((address(storage[0x10]))).code.length))))) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (!(((storage[0x0f] + (memory[(0 + memory[0x40])])) < storage[0x0f]))) { .. }
+if (!(((storage[0x0d]) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x0d])))))) { .. }
+if (!((0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee == (address(storage[0x13]))))) { .. }
+if (!((arg2 == 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff))) { .. }
+if (!((block.number == storage[0x0e]))) { .. }
+if (address((address((address(storage[0x13]))))).code.length) { .. }
+if (storage[0x0e] == block.number) { .. }
+if (storage[(0x01 + keccak256(memory[0]))]) { .. }
+if (storage[keccak256(memory[0])]) { .. }
+if (((storage[0x0d] * 0x0de0b6b3a7640000) / storage[0x0d]) == 0x0de0b6b3a7640000) { .. }
+if (!((!((address((address(storage[0x13]))).code.length))))) { .. }
+if (arg1 == (address(arg1))) { .. }"
+c8e9f47d,"orderLiquidated(arg0 uint256)",false,true,false,bytes memory,2716,2,"","","keccak256(memory[0])
+keccak256(memory[0]) + 0x01","","",21206,25749,22382,"",""
+74944da3,"liquidatedOrders(arg0 uint256)",false,true,false,bytes memory,1918,2,"","","keccak256(memory[0])
+keccak256(memory[0]) + 0x01","","",21184,25727,22360,"",""
+689f036b,"getBorrowed(arg0 uint256)",false,false,false,uint256,1778,29,"","","0 + keccak256(memory[0])
+0x0e
+0x01 + keccak256(memory[0])
+0x0b
+0x08
+keccak256(memory[0])
+0x0f
+0x0d
+0x0c","SafeMath: division by zero
+SafeMath: multiplication overflow
+borrow rate is absurdly high","",21185,40731,30631,"address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, 0x536166654d6174683a206469766973696f6e206279207a65726f000000000000, 0x08c379a000000000000000000000000000000000000000000000000000000000);","if (storage[(0x01 + keccak256(memory[0]))]) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (!((block.number < storage[0x0e]))) { .. }
+if (storage[0x0d]) { .. }
+if (((storage[0x0d] * 0x0de0b6b3a7640000) / storage[0x0d]) == 0x0de0b6b3a7640000) { .. }
+if (storage[keccak256(memory[0])]) { .. }
+if (!((storage[0x0e] > block.number))) { .. }
+if (!(((memory[0x40].length) & (((block.number - storage[0x0e]) > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / memory[0x40].length)))))) { .. }
+if (memory[0x40].length * (block.number - storage[0x0e])) { .. }
+if (!((((!((!((memory[0x40].length * (block.number - storage[0x0e]))))))) & ((storage[0x0b] > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / (memory[0x40].length * (block.number - storage[0x0e])))))))) { .. }
+if (!(((storage[0x0d]) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x0d])))))) { .. }
+if (((memory[0x40].length * (block.number - storage[0x0e])) / memory[0x40].length) == (block.number - storage[0x0e])) { .. }
+if (!((block.number == storage[0x0e]))) { .. }
+if ((((memory[0x40].length * (block.number - storage[0x0e])) * storage[0x0b]) / (memory[0x40].length * (block.number - storage[0x0e]))) == storage[0x0b]) { .. }"
+f77c4791,"controller()",false,true,false,uint256,3090,1,"","","0x10","","",21249,23469,22360,"",""
+182df0f5,"exchangeRateStored()",false,true,false,uint256,1220,10,"","","0x0b
+0x03
+0x0c
+0x09
+0x0f","SafeMath: subtraction overflow
+SafeMath: addition overflow","",21230,30420,27899,"","if (!((storage[0x0f] > ~(storage[0x0b])))) { .. }
+if (!((storage[0x0c] > (storage[0x0f] + storage[0x0b])))) { .. }
+if (!(((storage[0x0f] + storage[0x0b]) < storage[0x0c]))) { .. }
+if (storage[0x03]) { .. }
+if (!(((storage[0x0f] + storage[0x0b]) < storage[0x0f]))) { .. }"
+23b872dd,"Unresolved_23b872dd(arg0 address, arg1 address)",false,false,true,,1273,3,"","","","","",21186,21404,21303,"","if (arg0 == (address(arg0))) { .. }
+if (arg1 == (address(arg1))) { .. }"
+95d89b41,"symbol()",false,true,false,bytes memory,2260,10,"","","keccak256(memory[0])
+0x01 + keccak256(memory[0])
+0x01","","",21207,28148,23784,"","if (!(((bytes1(storage[0x01])) == ((storage[0x01] / 0x02) < 0x20)))) { .. }
+if (!(((bytes1(storage[0x01])) == ((bytes1((storage[0x01] / 0x02))) < 0x20)))) { .. }
+if (((0x20 + memory[0x40]) + (storage[0x01] / 0x02)) > (0x20 + (0x20 + (0x20 + memory[0x40])))) { .. }
+if (!((storage[0x01] / 0x02))) { .. }
+if (0x1f < (storage[0x01] / 0x02)) { .. }
+if (bytes1(storage[0x01])) { .. }
+if (((0x20 + memory[0x40]) + (storage[0x01] / 0x02)) > (0x20 + (0x20 + memory[0x40]))) { .. }"
+bd6d894d,"exchangeRateCurrent()",false,false,false,,2613,15,"","","0x0d
+0x03
+0x0b
+0x0f
+0x09
+0x0c
+0x08
+0x0e","SafeMath: addition overflow
+borrow rate is absurdly high
+SafeMath: subtraction overflow","",21207,39836,39689,"address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, 0x536166654d6174683a207375627472616374696f6e206f766572666c6f770000, 0x08c379a000000000000000000000000000000000000000000000000000000000);","if (!(((storage[0x0f] + storage[0x0b]) < storage[0x0c]))) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (!((block.number == storage[0x0e]))) { .. }
+if (!(((storage[0x0f] + storage[0x0b]) < storage[0x0f]))) { .. }
+if (!((storage[0x0f] > ~(storage[0x0b])))) { .. }
+if (storage[0x03]) { .. }
+if (!((storage[0x0c] > (storage[0x0f] + storage[0x0b])))) { .. }"
+a0712d68,"mint(arg0 uint256)",false,false,false,,2281,42,"","","0x0b
+0x10
+0x03
+0x09
+0x13
+0x0f
+0x0c
+0x0d
+0x08
+0x07
+0x0e","SafeMath: addition overflow
+re-entered
+Address: call to non-contract
+SafeERC20: ERC20 operation did not succeed
+ETH value not enough
+blocknumber check fails
+ERC20 don't accecpt ETH
+SafeMath: subtraction overflow","",21265,53916,30258,"address(address(storage[0x10])).call{ value: 0 }(0x4ef4c3e100000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x13])).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000, 0x536166654d6174683a207375627472616374696f6e206f766572666c6f770000);
+address(address((address((address(storage[0x13])))))).call{ value: 0 }(0x08c379a000000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x13])).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x13])).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address((address((address(storage[0x13])))))).call{ value: 0 }(ret0.length, 0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, 0, 0, 0);","if (bytes1((storage[0x07] / 0x010000000000000000000000000000000000000000))) { .. }
+if (storage[0x03]) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (!((msg.value > arg0))) { .. }
+if (!((!((address((address(storage[0x13]))).code.length))))) { .. }
+if (!((storage[0x0f] > ~(storage[0x0b])))) { .. }
+if (storage[0x0e] == block.number) { .. }
+if (!(((storage[0x0f] + storage[0x0b]) < storage[0x0c]))) { .. }
+if (!(((storage[0x0f] + storage[0x0b]) < storage[0x0f]))) { .. }
+if (!((storage[0x0c] > (storage[0x0f] + storage[0x0b])))) { .. }
+if (!((0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee == (address(storage[0x13]))))) { .. }
+if (!((!((address((address(storage[0x10]))).code.length))))) { .. }
+if (address((address((address(storage[0x13]))))).code.length) { .. }
+if (!((msg.value < arg0))) { .. }
+if (!((block.number == storage[0x0e]))) { .. }"
+5293ff31,"getDiv(arg0 uint256, arg1 uint256)",false,false,true,uint256,1714,14,"","","","SafeMath: division by zero
+SafeMath: multiplication overflow","",21229,22064,21489,"","if (arg0) { .. }
+if (arg1) { .. }
+if (((arg0 * 0x0de0b6b3a7640000) / arg0) == 0x0de0b6b3a7640000) { .. }
+if (!(((arg0) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))) { .. }"
+8bcd4016,"setInterestRateModel(arg0 address)",false,false,false,,2142,26,"","","0x08
+0x0c
+0x0d
+0x06
+0x0b
+0x0f
+0x0e","SafeMath: multiplication overflow
+invalid interestRateModel
+SafeMath: subtraction overflow
+borrow rate is absurdly high
+require admin auth
+block number check fails","",21208,42780,27084,"address(address(arg0)).call{ value: 0 }(0x2191f92a00000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, 0x08c379a000000000000000000000000000000000000000000000000000000000);","if (!((block.number < storage[0x0e]))) { .. }
+if (!((storage[0x0e] > block.number))) { .. }
+if (((0 * storage[0x0b]) / 0) == storage[0x0b]) { .. }
+if (arg0 == (address(arg0))) { .. }
+if (!((!((address((address(arg0))).code.length))))) { .. }
+if (!((block.number == storage[0x0e]))) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (msg.sender == (address(storage[0x06]))) { .. }
+if (!(((0) & ((storage[0x0b] > 0))))) { .. }
+if (storage[0x0e] == block.number) { .. }"
+6208fc41,"mulScalarTruncateAddUInt(arg0 uint256, arg1 uint256, arg2 uint256)",false,false,true,uint256,1746,14,"","","","SafeMath: division by zero
+SafeMath: addition overflow
+SafeMath: multiplication overflow","",21251,22209,21556,"","if (!(((arg0) & ((arg1 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))) { .. }
+if (!(((((arg0 * arg1) / 0x0de0b6b3a7640000) + arg2) < ((arg0 * arg1) / 0x0de0b6b3a7640000)))) { .. }
+if (((arg0 * arg1) / arg0) == arg1) { .. }
+if (arg0) { .. }
+if (!((((arg0 * arg1) / 0x0de0b6b3a7640000) > ~(arg2)))) { .. }"
+2985fa31,"mulScalar(arg0 uint256, arg1 uint256)",false,false,true,uint256,1361,6,"","","","SafeMath: multiplication overflow","",21230,21712,21427,"","if (arg0) { .. }
+if (!(((arg0) & ((arg1 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))) { .. }
+if (((arg0 * arg1) / arg0) == arg1) { .. }"
+70a08231,"balanceOf(arg0 address)",false,true,false,uint256,1864,3,"","","keccak256(memory[0])","","",21251,23665,21913,"","if (arg0 == (address(arg0))) { .. }"
+8de46362,"mulExp3(arg0 uint256, arg1 uint256, arg2 uint256)",false,false,true,,2174,6,"","","","SafeMath: multiplication overflow","",21230,21765,21447,"","if (arg0) { .. }
+if (!(((arg0) & ((arg1 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))) { .. }
+if (((arg0 * arg1) / arg0) == arg1) { .. }"
+7b94aaac,"truncate(arg0 uint256)",false,false,true,uint256,2059,8,"","","","SafeMath: division by zero","",21228,21798,21451,"",""
+d6079cc6,"divScalarByExpTruncate(arg0 uint256, arg1 uint256)",false,false,true,,2841,15,"","","","SafeMath: multiplication overflow
+SafeMath: division by zero","",21184,22154,21421,"","if (arg1) { .. }"
+a9059cbb,"transfer(arg0 address, arg1 uint256)",false,false,false,bool,2369,20," Transfer(address,address,uint256)","","0x10
+keccak256(memory[0])","SafeMath: addition overflow
+Cannot transfer to self
+SafeMath: subtraction overflow","",21207,47969,29625,"address(address(storage[0x10])).call{ value: 0 }(0xbdcdc25800000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x10])).call{ value: 0 }(0x77fc7c8500000000000000000000000000000000000000000000000000000000);","if (!(((storage[keccak256(memory[0])] + arg1) < storage[keccak256(memory[0])]))) { .. }
+if (storage[keccak256(memory[0])] == 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff) { .. }
+if (!(((address(msg.sender)) == (address(arg0))))) { .. }
+if (!((arg1 > storage[keccak256(memory[0])]))) { .. }
+if (!(((address(msg.sender)) == (address(msg.sender))))) { .. }
+if (!((storage[keccak256(memory[0])] > ~(arg1)))) { .. }
+if (!((!((address((address(storage[0x10]))).code.length))))) { .. }
+if (!((storage[keccak256(memory[0])] < arg1))) { .. }
+if (arg0 == (address(arg0))) { .. }
+if (!((arg1 > 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff))) { .. }"
+06fdde03,"name()",false,true,false,bytes memory,1008,10,"","","0
+0x01 + keccak256(memory[0])
+keccak256(memory[0])","","",21187,28128,23764,"","if (((0x20 + memory[0x40]) + (storage[0] / 0x02)) > (0x20 + (0x20 + (0x20 + memory[0x40])))) { .. }
+if (0x1f < (storage[0] / 0x02)) { .. }
+if (((0x20 + memory[0x40]) + (storage[0] / 0x02)) > (0x20 + (0x20 + memory[0x40]))) { .. }
+if (!((storage[0] / 0x02))) { .. }
+if (!(((bytes1(storage[0])) == ((bytes1((storage[0] / 0x02))) < 0x20)))) { .. }
+if (!(((bytes1(storage[0])) == ((storage[0] / 0x02) < 0x20)))) { .. }
+if (bytes1(storage[0])) { .. }"
+095ea7b3,"approve(arg0 address, arg1 uint256)",false,false,false,bool,1083,3," Approval(address,address,uint256)","","keccak256(memory[0])","","",21231,28516,23113,"","if (arg0 == (address(arg0))) { .. }"
+6f307dc3,"underlying()",false,true,false,uint256,1832,1,"","","0x13","","",21229,23449,22340,"",""
+d9af3db8,"borrowBalanceCurrent(arg0 uint256)",false,false,false,uint256,2873,20,"","","0x0d
+0x0f
+0x08
+0x01 + keccak256(memory[0])
+0x0e
+0x0c
+0x0b
+0 + keccak256(memory[0])
+keccak256(memory[0])","SafeMath: multiplication overflow
+borrow rate is absurdly high
+SafeMath: division by zero","",21206,40038,30558,"address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, 0x536166654d6174683a206469766973696f6e206279207a65726f000000000000, 0x08c379a000000000000000000000000000000000000000000000000000000000);","if (storage[keccak256(memory[0])]) { .. }
+if (storage[(0x01 + keccak256(memory[0]))]) { .. }
+if (!((block.number == storage[0x0e]))) { .. }
+if (!((block.number < storage[0x0e]))) { .. }
+if (((storage[0x0d] * 0x0de0b6b3a7640000) / storage[0x0d]) == 0x0de0b6b3a7640000) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (storage[0x0d]) { .. }
+if (!((storage[0x0e] > block.number))) { .. }
+if (!(((storage[0x0d]) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x0d])))))) { .. }"
+b4ab15e7,"mulScalarTruncate(arg0 uint256, arg1 uint256)",false,false,true,uint256,2496,12,"","","","SafeMath: multiplication overflow
+SafeMath: division by zero","",21184,22093,21454,"","if (!(((arg0) & ((arg1 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))) { .. }
+if (arg0) { .. }
+if (((arg0 * arg1) / arg0) == arg1) { .. }"
+313ce567,"decimals()",false,true,false,uint256,1393,1,"","","0x02","","",21252,23448,22351,"",""
+b54f4d87,"getBorrowApy()",false,false,false,uint256,2560,11,"","","0x0f
+0x0b
+0x0c
+0x08","SafeMath: multiplication overflow","",21228,39102,33961,"address(address((address((storage[0x08]))))).staticcall(0xa385fb9600000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000);","if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (!((!((address((address((address((storage[0x08])))))).code.length))))) { .. }"
+bc928173,"getSupplyed(arg0 uint256)",false,false,false,uint256,2581,40,"","","0x0d
+0x0e
+0x0f
+0x0c
+0x03
+0x08
+0x09
+0x0b","SafeMath: multiplication overflow
+SafeMath: division by zero
+SafeMath: subtraction overflow
+SafeMath: addition overflow
+borrow rate is absurdly high","",21185,40734,30633,"address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, 0x536166654d6174683a206469766973696f6e206279207a65726f000000000000, (storage[0x09] * arg0) / 0x0de0b6b3a7640000);","if (!(((storage[0x0f] + storage[0x0b]) < storage[0x0f]))) { .. }
+if (storage[0x09]) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (!((((!((!((memory[0x40].length * (block.number - storage[0x0e]))))))) & ((storage[0x0b] > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / (memory[0x40].length * (block.number - storage[0x0e])))))))) { .. }
+if (!(((storage[0x0f] + storage[0x0b]) < storage[0x0c]))) { .. }
+if (((storage[0x09] * arg0) / storage[0x09]) == arg0) { .. }
+if (!((storage[0x0e] > block.number))) { .. }
+if (!((block.number == storage[0x0e]))) { .. }
+if (!((block.number < storage[0x0e]))) { .. }
+if (!((storage[0x0f] > ~(storage[0x0b])))) { .. }
+if ((((memory[0x40].length * (block.number - storage[0x0e])) * storage[0x0b]) / (memory[0x40].length * (block.number - storage[0x0e]))) == storage[0x0b]) { .. }
+if (!((storage[0x0c] > (storage[0x0f] + storage[0x0b])))) { .. }
+if (!((0 == storage[0x03]))) { .. }
+if (memory[0x40].length * (block.number - storage[0x0e])) { .. }
+if (((memory[0x40].length * (block.number - storage[0x0e])) / memory[0x40].length) == (block.number - storage[0x0e])) { .. }
+if (!(((storage[0x09]) & ((arg0 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x09])))))) { .. }
+if (!(((memory[0x40].length) & (((block.number - storage[0x0e]) > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / memory[0x40].length)))))) { .. }"
+a4f38292,"accrueInterestReadOnly()",false,false,false,bytes memory,2300,15,"","","0x0e
+0x0c
+0x0b
+0x0d
+0x0f
+0x08","borrow rate is absurdly high
+SafeMath: subtraction overflow","",21251,40369,39878,"address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, storage[0x0c], storage[0x0d]);","if (!((block.number == storage[0x0e]))) { .. }
+if (!((block.number < storage[0x0e]))) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (!((storage[0x0e] > block.number))) { .. }
+if (!(((0) & ((storage[0x0b] > 0))))) { .. }"
+396a98cf,"subExp(arg0 uint256, arg1 uint256)",false,false,true,uint256,1456,8,"","","","SafeMath: subtraction overflow","",21207,21812,21454,"","if (!((arg1 > arg0))) { .. }
+if (!((arg0 < arg1))) { .. }"
+3af9e669,"balanceOfUnderlying(arg0 address)",false,false,false,,1488,17,"","","0x09
+0x0e
+0x0c
+0x0f
+0x0d
+0x03
+0x08
+0x0b","SafeMath: addition overflow
+borrow rate is absurdly high
+SafeMath: subtraction overflow","",21229,40031,30589,"address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, 0x536166654d6174683a207375627472616374696f6e206f766572666c6f770000, 0x08c379a000000000000000000000000000000000000000000000000000000000);","if (!(((storage[0x0f] + storage[0x0b]) < storage[0x0f]))) { .. }
+if (arg0 == (address(arg0))) { .. }
+if (!(((storage[0x0f] + storage[0x0b]) < storage[0x0c]))) { .. }
+if (storage[0x03]) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (!((storage[0x0f] > ~(storage[0x0b])))) { .. }
+if (!((storage[0x0c] > (storage[0x0f] + storage[0x0b])))) { .. }
+if (!((block.number == storage[0x0e]))) { .. }"
+1c446983,"setReserveFactor(arg0 uint256)",false,false,false,,1241,21,"","","0x0d
+0x0b
+0x0f
+0x06
+0x0e
+0x08
+0x0c
+0x0a","SafeMath: multiplication overflow
+borrow rate is absurdly high
+require admin auth
+block number check fails
+SafeMath: subtraction overflow
+new reserveFactor too lardge","",21252,42749,27091,"address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000);","if (storage[0x0e] == block.number) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (arg0 < 0x0de0b6b3a7640000) { .. }
+if (!((block.number < storage[0x0e]))) { .. }
+if (!((storage[0x0e] > block.number))) { .. }
+if (((0 * storage[0x0b]) / 0) == storage[0x0b]) { .. }
+if (msg.sender == (address(storage[0x06]))) { .. }
+if (!((block.number == storage[0x0e]))) { .. }
+if (!(((0) & ((storage[0x0b] > 0))))) { .. }"
+4147da13,"addExp(arg0 uint256, arg1 uint256)",false,false,true,uint256,1520,4,"","","","SafeMath: addition overflow","",21251,21616,21444,"","if (!(((arg0 + arg1) < arg0))) { .. }
+if (!((arg0 > ~(arg1)))) { .. }"
+4dbd05d5,"borrowBalanceStored(arg0 uint256)",false,true,false,uint256,1628,13,"","","0x0d
+keccak256(memory[0])
+0 + keccak256(memory[0])
+0x01 + keccak256(memory[0])","SafeMath: division by zero
+SafeMath: multiplication overflow","",21252,28634,23628,"","if (storage[keccak256(memory[0])]) { .. }
+if (storage[0x0d]) { .. }
+if (((storage[0x0d] * 0x0de0b6b3a7640000) / storage[0x0d]) == 0x0de0b6b3a7640000) { .. }
+if (storage[(0x01 + keccak256(memory[0]))]) { .. }
+if (!(((storage[0x0d]) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x0d])))))) { .. }"
+0c28d13e,"borrow(arg0 uint256, arg1 address, arg2 uint256)",false,false,false,,1131,30,"","","0x0e
+keccak256(memory[0])
+0x07
+0x0b
+0x0d
+0x0f
+0 + keccak256(memory[0])
+0x01 + keccak256(memory[0])
+0x0c
+0x10
+0x08","SafeMath: division by zero
+SafeMath: multiplication overflow
+block number check fails
+insufficient balance of underlying asset
+borrower is wrong
+re-entered
+borrow rate is absurdly high
+SafeMath: addition overflow","",21253,46364,23767,"address(address(storage[0x10])).call{ value: 0 }(0x8f63a48200000000000000000000000000000000000000000000000000000000);
+address(address(storage[0x08])).staticcall(0x15f2405300000000000000000000000000000000000000000000000000000000, 0, 0, 0x08c379a000000000000000000000000000000000000000000000000000000000);","if (!(((storage[0x0d]) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / storage[0x0d])))))) { .. }
+if (!((0 > ~(arg2)))) { .. }
+if (!((block.number < storage[0x0e]))) { .. }
+if (!((!((address((address(storage[0x10]))).code.length))))) { .. }
+if (storage[keccak256(memory[0])]) { .. }
+if (((storage[0x0d] * 0x0de0b6b3a7640000) / storage[0x0d]) == 0x0de0b6b3a7640000) { .. }
+if (!((!((address((address(storage[0x08]))).code.length))))) { .. }
+if (storage[0x0d]) { .. }
+if (!((block.number == storage[0x0e]))) { .. }
+if (!(((0 + arg2) < 0))) { .. }
+if ((address(arg1)) == msg.sender) { .. }
+if (bytes1((storage[0x07] / 0x010000000000000000000000000000000000000000))) { .. }
+if (storage[(0x01 + keccak256(memory[0]))]) { .. }
+if (!((storage[0x0f] < arg2))) { .. }
+if ((address(arg1)) == tx.origin) { .. }
+if (storage[0x0e] == block.number) { .. }
+if (!((storage[0x0e] > block.number))) { .. }
+if (arg1 == (address(arg1))) { .. }"
+18160ddd,"totalSupply()",false,true,false,uint256,1184,1,"","","0x03","","",21208,23386,22298,"",""
+de32abd1,"mulExp(arg0 uint256, arg1 uint256)",false,false,true,,3007,6,"","","","SafeMath: multiplication overflow","",21183,21668,21374,"","if (!(((arg0) & ((arg1 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))) { .. }
+if (((arg0 * arg1) / arg0) == arg1) { .. }
+if (arg0) { .. }"
+f851a440,"admin()",false,true,false,uint256,3122,1,"","","0x06","","",21271,23491,22382,"",""
+4322b714,"reserveFactor()",false,true,false,uint256,1552,1,"","","0x0a","","",21186,23364,22276,"",""
+b507f9f9,"divExp(arg0 uint256, arg1 uint256)",false,false,true,,2528,14,"","","","SafeMath: division by zero
+SafeMath: multiplication overflow","",21206,22065,21474,"","if (arg0) { .. }
+if (arg1) { .. }
+if (!(((arg0) & ((0x0de0b6b3a7640000 > (0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff / arg0)))))) { .. }
+if (((arg0 * 0x0de0b6b3a7640000) / arg0) == 0x0de0b6b3a7640000) { .. }"
+f3fdb15a,"interestRateModel()",false,true,false,uint256,3058,1,"","","0x08","","",21227,23447,22338,"",""
+4f9c751e,"transferEthGasCost()",false,true,false,uint256,1692,1,"","","0x14","","",21207,23385,22297,"",""
+0e18b681,"acceptAdmin()",false,false,false,,1163,2," NewAdmin(address,address)
+ NewPendingAdmin(address,address)","","0x07
+0x06","only pending admin could accept","",21186,34455,25910,"","if (msg.sender == (address(storage[0x07]))) { .. }"
+c0627004,"setTransferEthGasCost(arg0 uint256)",false,false,false,,2656,3,"","","0x06
+0x14","require admin auth","",21251,28498,22925,"","if (msg.sender == (address(storage[0x06]))) { .. }"
+bee12d53,"totalCash()",false,true,false,uint256,2634,1,"","","0x0f","","",21229,23407,22319,"",""
