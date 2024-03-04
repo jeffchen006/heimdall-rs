@@ -39,11 +39,11 @@ use heimdall_common::{
 pub fn spec_trace(
     vm_trace: &VMTrace,
     spec: Spec,
-    branchSpec: BranchSpec,
+    branch_spec: BranchSpec,
 ) -> (Spec, BranchSpec) {
     // make a clone of the recursed analysis function
     let mut spec = spec;
-    let mut branchSpec = branchSpec;
+    let mut branchSpec = branch_spec;
 
     let mut JUMPI_locs = (0, 0);
 
@@ -131,9 +131,9 @@ pub fn spec_trace(
             let jump_taken = instruction.inputs.get(1).map(|op| !op.is_zero()).unwrap_or(true);
             let jump_dest = instruction.inputs[0];
 
-            println!("JUMPI conditional: {:?}", conditional);
-            println!("JUMPI jump_taken: {:?}", jump_taken);
-            println!("JUMPI jump_dest: {:?}", jump_dest);
+            // println!("JUMPI conditional: {:?}", conditional);
+            // println!("JUMPI jump_taken: {:?}", jump_taken);
+            // println!("JUMPI jump_dest: {:?}", jump_dest);
 
 
             // remove non-payable check and mark function as non-payable
@@ -170,7 +170,8 @@ pub fn spec_trace(
             // Safely convert U256 to usize
             let offset: usize = instruction.inputs[0].try_into().unwrap_or(0);
             let size: usize = instruction.inputs[1].try_into().unwrap_or(0);
-            let revert_data = memory.read(offset, size);
+            let revert_data: Vec<u8> = memory.read(offset, size);
+            branchSpec.is_revert = Some(true);
 
             if let Some(hex_data) = revert_data.get(4..) {
                 if let Ok(reverts_with) = decode(&[ParamType::String], hex_data) {
@@ -187,6 +188,7 @@ pub fn spec_trace(
             let offset: usize = instruction.inputs[0].try_into().unwrap_or(0);
             let size: usize = instruction.inputs[1].try_into().unwrap_or(0);
             let return_data = memory.read(offset, size);
+            branchSpec.is_return = Some(true);
 
             if let Some(hex_data) = return_data.get(4..) {
                 if let Ok(returns) = decode(&[ParamType::String], hex_data) {
@@ -522,6 +524,10 @@ pub fn spec_trace(
         }
     }
 
+    if branchSpec.is_revert == None {
+        branchSpec.is_revert = Some(false);
+    }
+
 
     // print last operation of vm_trace.operations
     let last_operation = vm_trace.operations.last().unwrap();
@@ -557,7 +563,7 @@ pub fn spec_trace(
 
 
     // println!("last instruction: {:?}", last_operation);
-
+    
     // recurse into the children of the VMTrace map
     for child in vm_trace.children.iter() {
         // println!("child start instruction index: {:?}", child.instruction);
@@ -566,7 +572,7 @@ pub fn spec_trace(
         branchSpec.children.push(child_branchSpec);
     }
 
-
+    spec.branch_specs.push(branchSpec.clone());
 
     (spec, branchSpec)
 }

@@ -40,7 +40,7 @@ pub struct Spec {
 
     // 
     pub cfg_map: HashMap< (u128, u128), Vec< (u128, u128) >>,
-    pub branch_spec: Option<BranchSpec>,
+    pub branch_specs: Vec<BranchSpec>,
     pub resolved_function: Vec<ResolvedFunction>,
 }
 
@@ -48,7 +48,6 @@ pub struct Spec {
 
 #[derive(Clone, Debug)]
 pub struct BranchSpec {
-
     // storage structure
     pub storage: HashSet<String>,
 
@@ -82,6 +81,12 @@ pub struct BranchSpec {
 
     // length of children branches must be Two because of JUMPI
     pub children: Vec<BranchSpec>,
+
+    // this is a revert branch
+    pub is_revert: Option<bool>,
+
+    // this is a return branch
+    pub is_return: Option<bool>,
 }
 
 // create a new() method for BranchSpec
@@ -98,6 +103,8 @@ impl BranchSpec {
             addresses: HashSet::new(),
             control_statement: None,
             children: Vec::new(),
+            is_revert: None,
+            is_return: None,
         }
     }
 }

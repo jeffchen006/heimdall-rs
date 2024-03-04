@@ -5,8 +5,7 @@ pub mod resolve;
 use heimdall_common::{debug_max, utils::threading::run_with_timeout};
 
 use std::{
-    collections::{HashMap, HashSet},
-    time::Duration,
+    collections::{HashMap, HashSet}, process::exit, time::Duration
 };
 
 use clap::{AppSettings, Parser};
@@ -28,10 +27,6 @@ use indicatif::ProgressBar;
 
 use crate::{
     disassemble::{disassemble, DisassemblerArgs},
-    snapshot::{
-        structures::snapshot::{GasUsed, Snapshot},
-        util::tui,
-    },
     spec::{
         resolve::resolve_signatures,
         structures::spec::{BranchSpec, Spec}
@@ -75,7 +70,7 @@ pub struct SpecArgs {
     #[clap(long)]
     pub no_tui: bool,
 
-    /// Name for the output snapshot file.
+    /// Name for the output spec file.
     #[clap(long, short, default_value = "", hide_default_value = true)]
     pub name: String,
 
@@ -106,12 +101,12 @@ impl SpecArgsBuilder {
 
 #[derive(Debug, Clone)]
 pub struct SpecResult {
-    pub snapshots: Vec<Spec>,
+    pub specs: Vec<Spec>,
     pub resolved_errors: HashMap<String, ResolvedError>,
     pub resolved_events: HashMap<String, ResolvedLog>,
 }
 
-/// The main snapshot function, which will be called from the main thread. This module is
+/// The main spec function, which will be called from the main thread. This module is
 /// responsible for generating a high-level overview of the target contract, including function
 /// signatures, access control, gas consumption, storage accesses, event emissions, and more.
 pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Error>> {
@@ -152,7 +147,7 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
     println!("resolved selectors: ");
     println!("{:?}", resolved_selectors);
 
-    let (snapshots, all_resolved_errors, all_resolved_events) = get_spec(
+    let (specs, all_resolved_errors, all_resolved_events) = get_spec(
         selectors,
         resolved_selectors,
         &contract_bytecode,
@@ -161,50 +156,114 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
     )
     .await?;
 
-    for snapshot in &snapshots {
-        if !snapshot.pure && !snapshot.view {
+    for spec in &specs {
+        if !spec.pure && !spec.view {
             println!("================");
-            println!("selector {:?}", snapshot.selector);
+            println!("selector {:?}", spec.selector);
             print!("resolved: ");
-            for (ii, resolved_function) in snapshot.resolved_function.iter().enumerate() {
+            let mut is_all_pure_or_view = true;
+            for (ii, resolved_function) in spec.resolved_function.iter().enumerate() {
                 if ii != 0 {
                     print!("      ");
                 }
                 let mut signature = resolved_function.signature.clone();
-                // append pure if snapshot.pure is true
-                // append view if snapshot.view is true
-                // append payable if snapshot.payable is true
-                if snapshot.pure {
+                // append pure if spec.pure is true
+                // append view if spec.view is true
+                // append payable if spec.payable is true
+                if spec.pure {
                     signature.push_str(" pure");
                 }
-                if snapshot.view {
+                if spec.view {
                     signature.push_str(" view");
                 }
-                if snapshot.payable {
+                if !spec.pure && !spec.view {
+                    is_all_pure_or_view = false;
+                }
+                if spec.payable {
                     signature.push_str(" payable");
                 }
-                println!("[{}]{}", ii, resolved_function.signature);
+                println!("[{}]{}", ii, signature);
             }
-            println!("returns {:?}", snapshot.returns);
+            println!("returns {:?}", spec.returns);
+
+            if is_all_pure_or_view {
+                continue;
+            }
             
 
-            // println!("arguments {:?}", snapshot.arguments);
-            // println!("storage {:?}", snapshot.storage);
+            // println!("arguments {:?}", spec.arguments);
+            // println!("storage {:?}", spec.storage);
 
-            // println!("pure {:?}", snapshot.pure);
-            // println!("view {:?}", snapshot.view);
-            // println!("payable {:?}", snapshot.payable);
+            // println!("pure {:?}", spec.pure);
+            // println!("view {:?}", spec.view);
+            // println!("payable {:?}", spec.payable);
 
-            // println!("external calls {:?}", snapshot.external_calls);
-            // println!("control_statements {:?}", snapshot.control_statements);
-            println!("entry_point {:?}", snapshot.entry_point);
+            // println!("external calls {:?}", spec.external_calls);
+            // println!("control_statements {:?}", spec.control_statements);
+            println!("entry_point {:?}", spec.entry_point);
+
+            // assign revert if necessary:
+            
 
 
+
+            
+            for (i, branch) in spec.branch_specs.iter().enumerate() {
+                // if is_revert or control_statement is not None, or addresses is not empty, or external_calls is not empty, or strings is not empty
+                if (branch.is_revert.is_some() && branch.is_revert.unwrap()) || 
+                        branch.control_statement.is_some() || !branch.addresses.is_empty() || 
+                        !branch.external_calls.is_empty() || !branch.strings.is_empty() {
+                    println!("================");
+                    println!("branch {}", i);
+                    println!("storage {:?}", branch.storage);
+                    println!("memory {:?}", branch.memory);
+                    // println!("events {:?}", branch.events);
+                    // println!("errors {:?}", branch.errors);
+                    // println!("resolved function {:?}", branch.resolved_function);
+                    println!("strings {:?}", branch.strings);
+                    println!("external calls {:?}", branch.external_calls);
+                    println!("addresses {:?}", branch.addresses);
+                    println!("control statement {:?}", branch.control_statement);
+                    let num_children = branch.children.len();
+                    // println!("children {:?}", num_children);
+                    if num_children > 0 {
+                        if num_children != 2 {
+                            println!("branch has more than 2 children");
+                            exit(-1);
+                        }
+                        // -1 for None
+                        // 0 for True
+                        // 1 for False
+                        // 2 for Both
+                        let mut revert_branch_index = -1;
+                        for (ii, child) in branch.children.iter().enumerate() {
+                            if child.is_revert.is_some() && child.is_revert.unwrap() {
+                                if revert_branch_index != -1 {
+                                    revert_branch_index = 2;
+                                } else {
+                                    revert_branch_index = ii as i32;
+                                }
+                            }
+                        }
+                        if revert_branch_index == 0 {
+                            println!("control statement be True to revert");
+                        } else if revert_branch_index == 1{
+                            println!("control statement be False to revert");
+                        } else {
+                            println!("will revert any way");
+                        }
+                    }
+                    
+                    
+
+
+                    println!("is revert {:?}", branch.is_revert);                
+                }
+            }
         }
-        
     }
     Ok(SpecResult {
-        snapshots,
+        specs,
         resolved_errors: all_resolved_errors,
         resolved_events: all_resolved_events,
     })
@@ -243,7 +302,7 @@ async fn get_spec(
                 continue
             }
         };
-        debug_max!("building snapshot for selector {} from symbolic execution trace", selector);
+        debug_max!("building spec for selector {} from symbolic execution trace", selector);
 
 
         let mut spec = Spec {
@@ -257,15 +316,13 @@ async fn get_spec(
             payable: true,
             branch_count: jumpdest_count,              
             cfg_map: HashMap::new(),
-            branch_spec: None,  
+            branch_specs: Vec::new(),  
             resolved_function: Vec::new(),
         };
 
         let mut branchSpec = BranchSpec::new();
 
         (spec, branchSpec) = spec_trace(&map, spec, branchSpec);
-
-        spec.branch_spec = Some(branchSpec);
 
         if !args.skip_resolving {
             resolve_signatures(
@@ -275,6 +332,96 @@ async fn get_spec(
             )
             .await?;
         }
+
+
+
+
+
+        // assign revert if necessary:
+        while true {
+            let mut is_stop = true;
+            for (ii, branch) in spec.branch_specs.iter_mut().enumerate() {
+                println!("{:?}", spec.selector);
+                if ii == 10 && spec.selector == "06fdd603"{
+                    println!("now is the time");
+                }
+                // Directly use `if let` to check and unwrap in one step
+                if let Some(true) = branch.is_revert {
+                    continue;
+                }
+                if !branch.children.is_empty() {
+                    let mut is_all_revert = true;
+                    for child in &branch.children {
+                        // Again, use `if let` for more idiomatic Rust code
+                        if let Some(false) = child.is_revert {
+                            is_all_revert = false;
+                            break;
+                        }
+                    }
+                    if is_all_revert {
+                        branch.is_revert = Some(true);
+                        is_stop = false;
+                    }
+                }
+            }
+            if is_stop {
+                break;
+            }
+        }
+        // 06fdd603
+        // check:
+        for (ii, branch) in spec.branch_specs.iter().enumerate() {
+            if !branch.children.is_empty() {
+                let mut is_all_revert = true;
+                for child in &branch.children {
+                    if let Some(false) = child.is_revert {
+                        is_all_revert = false;
+                        break;
+                    }
+                }
+                if is_all_revert && branch.is_revert.is_some() && !branch.is_revert.unwrap() {
+                    println!("branch has all children revert");
+                    exit(-1);
+                }
+            }
+
+            let num_children = branch.children.len();
+            // println!("children {:?}", num_children);
+            if num_children > 0 {
+                if num_children != 2 {
+                    println!("branch has more than 2 children");
+                    exit(-1);
+                }
+                // -1 for None
+                // 0 for True
+                // 1 for False
+                // 2 for Both
+                let mut revert_branch_index = -1;
+                for (ii, child) in branch.children.iter().enumerate() {
+                    if child.is_revert.is_some() && child.is_revert.unwrap() {
+                        if revert_branch_index != -1 {
+                            revert_branch_index = 2;
+                        } else {
+                            revert_branch_index = ii as i32;
+                        }
+                    }
+                }
+                if revert_branch_index == 0 {
+                    println!("control statement be True to revert");
+                } else if revert_branch_index == 1{
+                    println!("control statement be False to revert");
+                } else {
+                    println!("will revert any way");
+                    if let Some(false) = branch.is_revert {
+                        println!("branch is not revert");
+                        exit(-1);
+                    }
+                }
+            }
+        
+        }
+
+
 
         specs.push(spec);
     }
