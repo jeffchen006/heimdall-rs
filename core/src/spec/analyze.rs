@@ -12,6 +12,7 @@ use ethers::{
     abi::{decode, ParamType},
     types::U256,
 };
+use heimdall_common::debug_max;
 use heimdall_common::{
     ether::{
         evm::{
@@ -130,6 +131,16 @@ pub fn spec_trace(
         } else if opcode_name == "JUMPI" {
             // this is an if conditional for the children branches
             let conditional = instruction.input_operations[1].solidify().cleanup();
+            if conditional.contains("memory") {
+                println!("now is the time");
+                println!("{:?}", conditional);
+                // print input_operations
+                for op in instruction.input_operations.iter() {
+                    println!("{:?}", op);
+                }
+            }
+
+
             let jump_taken = instruction.inputs.get(1).map(|op| !op.is_zero()).unwrap_or(true);
             let jump_dest = instruction.inputs[0];
 
@@ -528,12 +539,11 @@ pub fn spec_trace(
     if branchSpec.is_revert == None {
         branchSpec.is_revert = Some(false);
     }
-    
 
-  
+
 
     // println!("last instruction: {:?}", last_operation);
-    
+
     // recurse into the children of the VMTrace map
     for child in vm_trace.children.iter() {
         // println!("child start instruction index: {:?}", child.instruction);

@@ -434,9 +434,6 @@ fn check_cfg_has_no_broken_edges(vm_trace: &VMTrace, spec: &Spec) {
     }
 
 
-
-
-
     // let is_step_in = false;
     // if spec.cfg_map.contains_key(&key) {
     //     println!("key already exists");

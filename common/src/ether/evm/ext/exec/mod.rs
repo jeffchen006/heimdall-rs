@@ -129,9 +129,9 @@ impl VM {
                     jump_taken,
                 );
 
-                if state.last_instruction.instruction == 15723 && state.last_instruction.inputs[0] == U256::from(15738) {
-                    debug_max!("jump frame: {:?}", jump_frame);
-                }
+                // if state.last_instruction.instruction == 15723 && state.last_instruction.inputs[0] == U256::from(15738) {
+                //     debug_max!("jump frame: {:?}", jump_frame);
+                // }
 
                 // if the stack contains too many items, it's probably a loop
                 if stack_contains_too_many_items(&vm.stack) {
