@@ -1,0 +1,33 @@
+Function Selector,Resolved Function Signature,Payable,View,Pure,Returns,Entry Point,Branch Count,Emitted Events,Custom Errors,Storage Slots,Strings,Hardcoded Addresses,Minimum Gas Used,Maximum Gas Used,Average Gas Used,External Calls Made,Control Statements
+09ce7680,"Unresolved_09ce7680()",true,false,false,,127,7,"","","0x01","","",21163,29230,22729,"address(address((address((storage[0x01]))))).call{ value: 0 }(0x022c0d9f00000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x01]))))).call{ value: 0 }(0x022c0d9f00000000000000000000000000000000000000000000000000000000);","if (!((!((address((address((address((storage[0x01])))))).code.length))))) { .. }"
+2681f7e4,"uniswap()",true,true,false,uint256,384,0,"","","0","","",23353,23353,23353,"",""
+947098c5,"Unresolved_947098c5()",true,true,false,uint256,458,0,"","","0x04","","",23375,23375,23375,"",""
+b0074de5,"em()",true,true,false,uint256,532,0,"","","0x03","","",23397,23397,23397,"",""
+10d1e85c,"uniswapV2Call(arg0 address, arg1 uint256, arg2 uint256, arg3 bytes)",true,false,false,,137,64,"","","0x03
+0x01
+0x02
+0x04","check
+check_1","0x223034edbe95823c1160c16f26e3000315171ca9",21182,73185,22837,"address(address((address((storage[0x02]))))).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x02]))))).call{ value: 0 }(0x095ea7b300000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x02]))))).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x02]))))).call{ value: 0 }(0xa9059cbb00000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x02]))))).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x02]))))).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x02]))))).call{ value: 0 }(0xa9059cbb00000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x02]))))).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x03]))))).call{ value: 0 }(0xd6febde800000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x03]))))).call{ value: 0 }(0x095ea7b300000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x03]))))).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x04]))))).call{ value: 0 }(0xd6febde800000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x03]))))).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x03]))))).call{ value: 0 }(0xd79875eb00000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x04]))))).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x04]))))).call{ value: 0 }(0xd79875eb00000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x03]))))).staticcall(0x70a0823100000000000000000000000000000000000000000000000000000000);
+address(address((address((storage[0x03]))))).call{ value: 0 }(0xd79875eb00000000000000000000000000000000000000000000000000000000);","if (!((!((address((address((address((storage[0x02])))))).code.length))))) { .. }
+if (!((arg3 > 0x0100000000))) { .. }
+if (!((!((address((address((address((storage[0x04])))))).code.length))))) { .. }
+if (!((!((address((address((address((storage[0x03])))))).code.length))))) { .. }"
+f4b9fa75,"dai()",true,true,false,uint256,606,0,"","","0x02","","",23419,23419,23419,"",""
+1134ad82,"Unresolved_1134ad82()",true,true,false,uint256,310,0,"","","0x01","","",23398,23398,23398,"",""

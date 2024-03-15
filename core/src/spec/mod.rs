@@ -142,10 +142,10 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
     let (selectors, resolved_selectors) =
         get_resolved_selectors(&disassembled_bytecode, &args.skip_resolving, &evm).await?;
     
-    println!("selectors: ");
-    println!("{:?}", selectors);
-    println!("resolved selectors: ");
-    println!("{:?}", resolved_selectors);
+    // println!("selectors: ");
+    // println!("{:?}", selectors);
+    // println!("resolved selectors: ");
+    // println!("{:?}", resolved_selectors);
 
     let (specs, all_resolved_errors, all_resolved_events) = get_spec(
         selectors,
@@ -202,11 +202,11 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
             // println!("control_statements {:?}", spec.control_statements);
             println!("entry_point {:?}", spec.entry_point);
 
+            let head = spec.branch_specs.first().unwrap();
+            let head_children = &head.children;
+
+
             // assign revert if necessary:
-            
-
-
-
             
             for (i, branch) in spec.branch_specs.iter().enumerate() {
                 // if is_revert or control_statement is not None, or addresses is not empty, or external_calls is not empty, or strings is not empty
@@ -225,7 +225,7 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
                     println!("addresses {:?}", branch.addresses);
                     println!("control statement {:?}", branch.control_statement);
                     let num_children = branch.children.len();
-                    // println!("children {:?}", num_children);
+                    println!("children {:?}", num_children);
                     if num_children > 0 {
                         if num_children != 2 {
                             println!("branch has more than 2 children");
@@ -254,10 +254,8 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
                         }
                     }
                     
-                    
-
-
-                    println!("is revert {:?}", branch.is_revert);                
+                
+                    // println!("is revert {:?}", branch.is_revert);                
                 }
             }
         }
@@ -341,10 +339,10 @@ async fn get_spec(
         while true {
             let mut is_stop = true;
             for (ii, branch) in spec.branch_specs.iter_mut().enumerate() {
-                println!("{:?}", spec.selector);
-                if ii == 10 && spec.selector == "06fdd603"{
-                    println!("now is the time");
-                }
+                // println!("{:?}", spec.selector);
+                // if ii == 10 && spec.selector == "06fdd603"{
+                //     println!("now is the time");
+                // }
                 // Directly use `if let` to check and unwrap in one step
                 if let Some(true) = branch.is_revert {
                     continue;
@@ -370,56 +368,56 @@ async fn get_spec(
         }
         // 06fdd603
         // check:
-        for (ii, branch) in spec.branch_specs.iter().enumerate() {
-            if !branch.children.is_empty() {
-                let mut is_all_revert = true;
-                for child in &branch.children {
-                    if let Some(false) = child.is_revert {
-                        is_all_revert = false;
-                        break;
-                    }
-                }
-                if is_all_revert && branch.is_revert.is_some() && !branch.is_revert.unwrap() {
-                    println!("branch has all children revert");
-                    exit(-1);
-                }
-            }
+        // for (ii, branch) in spec.branch_specs.iter().enumerate() {
+        //     if !branch.children.is_empty() {
+        //         let mut is_all_revert = true;
+        //         for child in &branch.children {
+        //             if let Some(false) = child.is_revert {
+        //                 is_all_revert = false;
+        //                 break;
+        //             }
+        //         }
+        //         if is_all_revert && branch.is_revert.is_some() && !branch.is_revert.unwrap() {
+        //             println!("branch has all children revert");
+        //             exit(-1);
+        //         }
+        //     }
 
-            let num_children = branch.children.len();
-            // println!("children {:?}", num_children);
-            if num_children > 0 {
-                if num_children != 2 {
-                    println!("branch has more than 2 children");
-                    exit(-1);
-                }
-                // -1 for None
-                // 0 for True
-                // 1 for False
-                // 2 for Both
-                let mut revert_branch_index = -1;
-                for (ii, child) in branch.children.iter().enumerate() {
-                    if child.is_revert.is_some() && child.is_revert.unwrap() {
-                        if revert_branch_index != -1 {
-                            revert_branch_index = 2;
-                        } else {
-                            revert_branch_index = ii as i32;
-                        }
-                    }
-                }
-                if revert_branch_index == 0 {
-                    println!("control statement be True to revert");
-                } else if revert_branch_index == 1{
-                    println!("control statement be False to revert");
-                } else {
-                    println!("will revert any way");
-                    if let Some(false) = branch.is_revert {
-                        println!("branch is not revert");
-                        exit(-1);
-                    }
-                }
-            }
+        //     let num_children = branch.children.len();
+        //     // println!("children {:?}", num_children);
+        //     if num_children > 0 {
+        //         if num_children != 2 {
+        //             println!("branch has more than 2 children");
+        //             exit(-1);
+        //         }
+        //         // -1 for None
+        //         // 0 for True
+        //         // 1 for False
+        //         // 2 for Both
+        //         let mut revert_branch_index = -1;
+        //         for (ii, child) in branch.children.iter().enumerate() {
+        //             if child.is_revert.is_some() && child.is_revert.unwrap() {
+        //                 if revert_branch_index != -1 {
+        //                     revert_branch_index = 2;
+        //                 } else {
+        //                     revert_branch_index = ii as i32;
+        //                 }
+        //             }
+        //         }
+        //         if revert_branch_index == 0 {
+        //             println!("control statement be True to revert");
+        //         } else if revert_branch_index == 1{
+        //             println!("control statement be False to revert");
+        //         } else {
+        //             println!("will revert any way");
+        //             if let Some(false) = branch.is_revert {
+        //                 println!("branch is not revert");
+        //                 exit(-1);
+        //             }
+        //         }
+        //     }
         
-        }
+        // }
 
 
 

@@ -80,7 +80,7 @@ pub struct BranchSpec {
     pub control_statement: Option<String>,
 
     // length of children branches must be Two because of JUMPI
-    pub children: Vec<BranchSpec>,
+    pub children: Vec<Box<BranchSpec>>,
 
     // this is a revert branch
     pub is_revert: Option<bool>,

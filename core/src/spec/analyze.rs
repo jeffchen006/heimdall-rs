@@ -569,7 +569,7 @@ pub fn spec_trace(
         // println!("child start instruction index: {:?}", child.instruction);
         let mut child_branchSpec = BranchSpec::new();
         (spec, child_branchSpec) = spec_trace(child, spec, child_branchSpec);
-        branchSpec.children.push(child_branchSpec);
+        branchSpec.children.push(Box::new(child_branchSpec));
     }
 
     spec.branch_specs.push(branchSpec.clone());
