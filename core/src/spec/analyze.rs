@@ -44,8 +44,10 @@ pub fn spec_trace(
     // make a clone of the recursed analysis function
     let mut spec = spec;
     let mut branchSpec = branch_spec;
+    
+    branchSpec.start_instruction = Some(vm_trace.operations.first().unwrap().last_instruction.instruction);
+    branchSpec.end_instruction = Some(vm_trace.operations.last().unwrap().last_instruction.instruction);
 
-    let mut JUMPI_locs = (0, 0);
 
     // perform analysis on the operations of the current VMTrace branch
     for operation in &vm_trace.operations {
@@ -134,7 +136,6 @@ pub fn spec_trace(
             // println!("JUMPI conditional: {:?}", conditional);
             // println!("JUMPI jump_taken: {:?}", jump_taken);
             // println!("JUMPI jump_dest: {:?}", jump_dest);
-
 
             // remove non-payable check and mark function as non-payable
             if conditional == "!msg.value" {
@@ -527,12 +528,33 @@ pub fn spec_trace(
     if branchSpec.is_revert == None {
         branchSpec.is_revert = Some(false);
     }
+    
+
+  
+
+    // println!("last instruction: {:?}", last_operation);
+    
+    // recurse into the children of the VMTrace map
+    for child in vm_trace.children.iter() {
+        // println!("child start instruction index: {:?}", child.instruction);
+        let mut child_branchSpec = BranchSpec::new();
+        (spec, child_branchSpec) = spec_trace(child, spec, child_branchSpec);
+        branchSpec.children.push(Box::new(child_branchSpec));
+    }
 
 
-    // print last operation of vm_trace.operations
-    let last_operation = vm_trace.operations.last().unwrap();
-    let first_operation = vm_trace.operations.first().unwrap();
-    let key = (first_operation.last_instruction.instruction, last_operation.last_instruction.instruction);
+
+    // // print last operation of vm_trace.operations
+    // let last_operation = vm_trace.operations.last().unwrap();
+    // let first_operation = vm_trace.operations.first().unwrap();
+    // let key = (first_operation.last_instruction.instruction, last_operation.last_instruction.instruction);
+
+    
+    // let is_step_in = false;
+    // if spec.cfg_map.contains_key(&key) {
+    //     println!("key already exists");
+    //     exit(1);
+    // }
 
     // if !spec.cfg_map.contains_key(&key) {
     //     // check 
@@ -544,33 +566,49 @@ pub fn spec_trace(
     //     } else if vm_trace.children.len() == 0 {
     //         if branchSpec.control_statement != None {
     //             println!("impossible, reach a branch with no children and a control statement");
+                
+    //             println!("control statement: {:?}", branchSpec.control_statement);
+
+    //             println!("operations:");
+    //             vm_trace.pretty_print_trace();
+
+    //             // // build hashable jump frame
+    //             // let jump_frame = JumpFrame::new(
+    //             //     state.last_instruction.instruction,
+    //             //     state.last_instruction.inputs[0],
+    //             //     vm.stack.size(),
+    //             //     jump_taken,
+    //             // );
+
+    //             // locate jump frame in the graph
+    //             let last_instruction = vm_trace.operations.last().unwrap().last_instruction.clone();
+    //             let aa = last_instruction.instruction;
+    //             let inputs0 = last_instruction.inputs[0];
+                
+    //             println!("I care {:?}", aa);
+    //             println!("I care {:?}", inputs0);
+            
+
+                
+
+    //             println!("impossible, reach a branch with no children and a control statement");
     //             exit(1);
+                
     //         }
     //     } else {
     //         println!("not two children");
     //         exit(1);
     //     }
-        
-
     //     spec.cfg_map.insert(
     //         key,
     //         Vec::new(),
     //     );
-
     // } else {
 
     // }
 
+      
 
-    // println!("last instruction: {:?}", last_operation);
-    
-    // recurse into the children of the VMTrace map
-    for child in vm_trace.children.iter() {
-        // println!("child start instruction index: {:?}", child.instruction);
-        let mut child_branchSpec = BranchSpec::new();
-        (spec, child_branchSpec) = spec_trace(child, spec, child_branchSpec);
-        branchSpec.children.push(Box::new(child_branchSpec));
-    }
 
     spec.branch_specs.push(branchSpec.clone());
 

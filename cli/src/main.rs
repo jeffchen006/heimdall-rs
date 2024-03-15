@@ -407,7 +407,7 @@ async fn main() -> Result<(), Error> {
                 .await
                 .map_err(|e| Error::Generic(format!("failed to spec contract: {}", e)))?;
             let csv_lines = generate_csv_spec(
-                &snapshot_result.snapshots,
+                &snapshot_result.specs,
             );
 
             if cmd.output == "print" {

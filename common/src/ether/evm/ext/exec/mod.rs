@@ -24,6 +24,9 @@ use crate::{
 };
 use std::collections::HashMap;
 
+use ethers::prelude::U256;
+
+
 #[derive(Clone, Debug, Default)]
 pub struct VMTrace {
     pub instruction: u128,
@@ -31,6 +34,22 @@ pub struct VMTrace {
     pub operations: Vec<State>,
     pub children: Vec<VMTrace>,
 }
+
+impl VMTrace {
+    // pretty print the operations of a VMTrace
+    pub fn pretty_print_trace(&self) {
+        // ignore the first element
+        for operation in self.operations.iter() {
+            let opcode_detail = operation.last_instruction.opcode_details.clone().unwrap();
+            let inputs = operation.last_instruction.inputs.clone();
+            let input_operations = operation.last_instruction.input_operations.clone();
+            
+            println!("{:?} \t- {:?} \t- {:?}\n", opcode_detail.name, inputs, input_operations);
+            
+        }
+    }
+}
+
 
 impl VM {
     /// Run symbolic execution on a given function selector within a contract
@@ -47,6 +66,7 @@ impl VM {
             }
         }
         debug_max!("beginning symbolic execution for selector 0x{}", selector);
+        
         // the VM is at the function entry point, begin tracing
         let mut branch_count = 0;
         (self.recursive_map(&mut branch_count, &mut HashMap::new()), branch_count)
@@ -108,6 +128,10 @@ impl VM {
                     vm.stack.size(),
                     jump_taken,
                 );
+
+                if state.last_instruction.instruction == 15723 && state.last_instruction.inputs[0] == U256::from(15738) {
+                    debug_max!("jump frame: {:?}", jump_frame);
+                }
 
                 // if the stack contains too many items, it's probably a loop
                 if stack_contains_too_many_items(&vm.stack) {

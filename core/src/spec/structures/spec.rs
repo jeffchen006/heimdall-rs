@@ -87,6 +87,10 @@ pub struct BranchSpec {
 
     // this is a return branch
     pub is_return: Option<bool>,
+
+    // this is a snippet of the function
+    pub start_instruction: Option<u128>,
+    pub end_instruction: Option<u128>,
 }
 
 // create a new() method for BranchSpec
@@ -105,6 +109,8 @@ impl BranchSpec {
             children: Vec::new(),
             is_revert: None,
             is_return: None,
+            start_instruction: None,
+            end_instruction: None,
         }
     }
 }

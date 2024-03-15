@@ -33,8 +33,16 @@ use crate::{
     },
 };
 
+use crate::cfg::graph::build_cfg;
 
 use crate::spec::analyze::spec_trace;
+
+use petgraph::Graph;
+
+use heimdall_common::ether::evm::ext::exec::VMTrace;
+
+
+
 
 
 #[derive(Debug, Clone, Parser, Builder)]
@@ -286,7 +294,13 @@ async fn get_spec(
     let mut all_resolved_events: HashMap<String, ResolvedLog> = HashMap::new();
     let mut specs: Vec<Spec> = Vec::new();
 
+    let assertions_on = true;
+
     for (selector, function_entry_point) in selectors {
+
+        if selector != "1c446983" {
+            continue;
+        }
         // analyze the function
         // get a map of possible jump destinations
         let mut evm_clone = evm.clone();
@@ -320,7 +334,13 @@ async fn get_spec(
 
         let mut branchSpec = BranchSpec::new();
 
+        println!("selector {:?}", selector);
+
         (spec, branchSpec) = spec_trace(&map, spec, branchSpec);
+
+
+        check_cfg_has_no_broken_edges(&map, &spec);
+
 
         if !args.skip_resolving {
             resolve_signatures(
@@ -332,18 +352,11 @@ async fn get_spec(
         }
 
 
-
-
-
         // assign revert if necessary:
         while true {
             let mut is_stop = true;
-            for (ii, branch) in spec.branch_specs.iter_mut().enumerate() {
-                // println!("{:?}", spec.selector);
-                // if ii == 10 && spec.selector == "06fdd603"{
-                //     println!("now is the time");
-                // }
-                // Directly use `if let` to check and unwrap in one step
+            for branch in spec.branch_specs.iter_mut() {
+                // if ii == 10 && spec.selector == "06fdd603"{ check and unwrap in one step
                 if let Some(true) = branch.is_revert {
                     continue;
                 }
@@ -362,63 +375,22 @@ async fn get_spec(
                     }
                 }
             }
+
             if is_stop {
+                if assertions_on {
+                    for branch in spec.branch_specs.iter() {
+                        let condition1 = !branch.is_revert.unwrap();
+                        let condition2 = !branch.children.is_empty() && branch.children[0].is_revert.is_some() && branch.children[0].is_revert.unwrap();
+                        let condition3 = !branch.children.is_empty() && branch.children[1].is_revert.is_some() && branch.children[1].is_revert.unwrap();
+                        if condition1 && condition2 && condition3 {
+                            println!("branch has all children revert hahahaha");
+                            exit(-1);
+                        }
+                    }
+                }
                 break;
             }
         }
-        // 06fdd603
-        // check:
-        // for (ii, branch) in spec.branch_specs.iter().enumerate() {
-        //     if !branch.children.is_empty() {
-        //         let mut is_all_revert = true;
-        //         for child in &branch.children {
-        //             if let Some(false) = child.is_revert {
-        //                 is_all_revert = false;
-        //                 break;
-        //             }
-        //         }
-        //         if is_all_revert && branch.is_revert.is_some() && !branch.is_revert.unwrap() {
-        //             println!("branch has all children revert");
-        //             exit(-1);
-        //         }
-        //     }
-
-        //     let num_children = branch.children.len();
-        //     // println!("children {:?}", num_children);
-        //     if num_children > 0 {
-        //         if num_children != 2 {
-        //             println!("branch has more than 2 children");
-        //             exit(-1);
-        //         }
-        //         // -1 for None
-        //         // 0 for True
-        //         // 1 for False
-        //         // 2 for Both
-        //         let mut revert_branch_index = -1;
-        //         for (ii, child) in branch.children.iter().enumerate() {
-        //             if child.is_revert.is_some() && child.is_revert.unwrap() {
-        //                 if revert_branch_index != -1 {
-        //                     revert_branch_index = 2;
-        //                 } else {
-        //                     revert_branch_index = ii as i32;
-        //                 }
-        //             }
-        //         }
-        //         if revert_branch_index == 0 {
-        //             println!("control statement be True to revert");
-        //         } else if revert_branch_index == 1{
-        //             println!("control statement be False to revert");
-        //         } else {
-        //             println!("will revert any way");
-        //             if let Some(false) = branch.is_revert {
-        //                 println!("branch is not revert");
-        //                 exit(-1);
-        //             }
-        //         }
-        //     }
-        
-        // }
-
 
 
         specs.push(spec);
@@ -430,3 +402,98 @@ async fn get_spec(
 
 
 
+// also to help understand the cfg
+fn check_cfg_has_no_broken_edges(vm_trace: &VMTrace, spec: &Spec) {
+
+    // print last operation of vm_trace.operations
+    let last_operation = vm_trace.operations.last().unwrap();
+    let first_operation = vm_trace.operations.first().unwrap();
+    let key = (first_operation.last_instruction.instruction, last_operation.last_instruction.instruction);
+
+
+    let mut count: i32 = 0;
+    let mut indexes = Vec::new();
+    
+    for (ii, branch) in spec.branch_specs.iter().enumerate() {
+        if branch.start_instruction == Some(key.0) && branch.end_instruction == Some(key.1) {
+            count = count + 1;
+            indexes.push(ii);
+        }
+    }
+
+    if count > 1 {
+        println!("two branches key already exists, and they are");
+        for index in indexes {
+            println!("{:?}\n\n", spec.branch_specs.get(index) );
+        }
+        exit(1);
+    }
+
+    for child in vm_trace.children.iter() {
+        check_cfg_has_no_broken_edges(child, &spec);
+    }
+
+
+
+
+
+    // let is_step_in = false;
+    // if spec.cfg_map.contains_key(&key) {
+    //     println!("key already exists");
+    //     exit(1);
+    // }
+
+
+    // if !spec.cfg_map.contains_key(&key) {
+    //     // check 
+    //     if vm_trace.children.len() == 2 {
+    //         if branchSpec.control_statement == None {
+    //             println!("impossible, reach a branch with two children and no control statement");
+    //             exit(1);
+    //         }
+    //     } else if vm_trace.children.len() == 0 {
+    //         if branchSpec.control_statement != None {
+    //             println!("impossible, reach a branch with no children and a control statement");
+                
+    //             println!("control statement: {:?}", branchSpec.control_statement);
+
+    //             println!("operations:");
+    //             vm_trace.pretty_print_trace();
+
+    //             // // build hashable jump frame
+    //             // let jump_frame = JumpFrame::new(
+    //             //     state.last_instruction.instruction,
+    //             //     state.last_instruction.inputs[0],
+    //             //     vm.stack.size(),
+    //             //     jump_taken,
+    //             // );
+
+    //             // locate jump frame in the graph
+    //             let last_instruction = vm_trace.operations.last().unwrap().last_instruction.clone();
+    //             let aa = last_instruction.instruction;
+    //             let inputs0 = last_instruction.inputs[0];
+                
+    //             println!("I care {:?}", aa);
+    //             println!("I care {:?}", inputs0);
+            
+
+                
+
+    //             println!("impossible, reach a branch with no children and a control statement");
+    //             exit(1);
+                
+    //         }
+    //     } else {
+    //         println!("not two children");
+    //         exit(1);
+    //     }
+    //     spec.cfg_map.insert(
+    //         key,
+    //         Vec::new(),
+    //     );
+    // } else {
+
+    // }
+
+      
+}

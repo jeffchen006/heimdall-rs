@@ -17,7 +17,7 @@ mod benchmark {
             no_tui: true,
             name: String::from(""),
             output: String::from(""),
-            timeout: 10000,
+            timeout: 10000000,
         };
         let _ = heimdall_core::spec::spec(args).await.unwrap();
 
