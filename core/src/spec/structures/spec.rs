@@ -79,6 +79,9 @@ pub struct BranchSpec {
     // control statements, such as access control
     pub control_statement: Option<String>,
 
+    /// symbolic control statement, such as access control
+    pub symbolic_control_statement: Option<WrappedOpcode>,
+
     // length of children branches must be Two because of JUMPI
     pub children: Vec<Box<BranchSpec>>,
 
@@ -105,6 +108,7 @@ impl BranchSpec {
             strings: HashSet::new(),
             external_calls: Vec::new(),
             addresses: HashSet::new(),
+            symbolic_control_statement: None,
             control_statement: None,
             children: Vec::new(),
             is_revert: None,

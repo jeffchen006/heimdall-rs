@@ -57,7 +57,6 @@ pub struct SpecArgs {
     #[clap(required = true)]
     pub target: String,
     
-
     /// Set the output verbosity level, 1 - 5.
     #[clap(flatten)]
     pub verbose: clap_verbosity_flag::Verbosity,
@@ -89,6 +88,10 @@ pub struct SpecArgs {
     /// The timeout for each function's symbolic execution in milliseconds.
     #[clap(long, short, default_value = "10000", hide_default_value = true)]
     pub timeout: u64,
+
+    /// The block number to use for fetching the target contract's storage slots.
+    #[clap(long, short, default_value = "0", hide_default_value = true)]
+    pub block: u128,
 }
 
 impl SpecArgsBuilder {
@@ -103,6 +106,7 @@ impl SpecArgsBuilder {
             name: Some(String::new()),
             output: Some(String::new()),
             timeout: Some(10000),
+            block: Some(0),
         }
     }
 }

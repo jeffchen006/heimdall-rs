@@ -131,14 +131,15 @@ pub fn spec_trace(
         } else if opcode_name == "JUMPI" {
             // this is an if conditional for the children branches
             let conditional = instruction.input_operations[1].solidify().cleanup();
-            if conditional.contains("memory") {
-                println!("now is the time");
-                println!("{:?}", conditional);
-                // print input_operations
-                for op in instruction.input_operations.iter() {
-                    println!("{:?}", op);
-                }
-            }
+            // if conditional.contains("memory") {
+            //     // println!("now is the time");
+            //     println!("{:?}", conditional);
+            //     // print input_operations
+            //     for op in instruction.input_operations.iter() {
+            //         println!("{:?}", op);
+            //     }
+            // }
+            let symbolic_conditional = instruction.input_operations[1].clone();
 
 
             let jump_taken = instruction.inputs.get(1).map(|op| !op.is_zero()).unwrap_or(true);
@@ -153,6 +154,7 @@ pub fn spec_trace(
                 // this is marking the start of a non-payable function
                 spec.payable = false;
                 branchSpec.control_statement = Some(format!("if ({}) {{ .. }}", conditional));
+                branchSpec.symbolic_control_statement = Some(symbolic_conditional);
                 continue
             }
 
@@ -167,6 +169,7 @@ pub fn spec_trace(
             {
 
                 branchSpec.control_statement = Some(format!("if ({}) {{ .. }}", conditional));
+                branchSpec.symbolic_control_statement = Some(symbolic_conditional);
                 continue
             }
 
@@ -176,6 +179,7 @@ pub fn spec_trace(
                 exit(1);
             }
             branchSpec.control_statement = Some(format!("if ({}) {{ .. }}", conditional));
+            branchSpec.symbolic_control_statement = Some(symbolic_conditional);
 
 
         } else if opcode_name == "REVERT" {

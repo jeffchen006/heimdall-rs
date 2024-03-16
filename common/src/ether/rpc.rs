@@ -4,8 +4,7 @@ use ethers::{
     core::types::Address,
     providers::{Http, Middleware, Provider},
     types::{
-        BlockNumber::{self},
-        BlockTrace, Filter, FilterBlockOption, StateDiff, TraceType, Transaction, H256,
+        BlockId, BlockNumber, BlockTrace, Filter, FilterBlockOption, StateDiff, TraceType, Transaction, H256
     },
 };
 use heimdall_cache::{read_cache, store_cache};
@@ -455,6 +454,92 @@ pub async fn get_block_logs(
     .map_err(|_| Error::Generic(format!("failed to get logs for block: {:?}", &block_number)))
 }
 
+
+
+/// Get the storage of the provided storage slot and contract address
+/// 
+/// 
+pub async fn get_storage_at(
+    block_number: u64,
+    contract_address: &str,
+    storage_slot: H256,
+    rpc_url: &str,
+) -> Result<H256, Error> {
+    backoff::future::retry(
+        ExponentialBackoff {
+            max_elapsed_time: Some(Duration::from_secs(10)),
+            ..ExponentialBackoff::default()
+        },
+    || async {
+        // get a new logger
+        let logger = Logger::default();
+
+        // get chain_id
+        let chain_id = chain_id(rpc_url).await.unwrap_or(1);
+
+        // // check the cache for a matching address
+        // if let Some(storage) = read_cache(&format!("storage.{}.{}.{}.{}", &chain_id, &block_number, &contract_address, &storage_slot))
+        //     .map_err(|_| logger.error(&format!("failed to read cache for storage: {}.{} at block {}", &contract_address, &storage_slot, &block_number)))?
+        // {
+        //     logger.debug(&format!("found cached storage for '{}.{}' at block {}.", &contract_address, &storage_slot, &block_number));
+        //     return Ok(storage)
+        // }
+
+        debug_max!("fetching storage from node for storage slot: '{}.{}' .", &contract_address, &storage_slot);
+
+        // make sure the RPC provider isn't empty
+        if rpc_url.is_empty() {
+            logger.error("reading on-chain data requires an RPC provider. Use `heimdall --help` for more information.");
+            return Err(backoff::Error::Permanent(()))
+        }
+
+        // create new provider
+        let provider = match Provider::<Http>::try_from(rpc_url) {
+            Ok(provider) => provider,
+            Err(_) => {
+                logger.error(&format!("failed to connect to RPC provider '{}' .", &rpc_url));
+                return Err(backoff::Error::Permanent(()))
+            }
+        };
+
+        // safely unwrap the address
+        let address = match contract_address.parse::<Address>() {
+            Ok(address) => address,
+            Err(_) => {
+                logger.error(&format!("failed to parse address '{}' .", &contract_address));
+                return Err(backoff::Error::Permanent(()))
+            }
+        };
+
+        // fetch the storage at the address
+        let storage = match provider.get_storage_at(address, storage_slot, Some(BlockId::from(block_number))).await {
+            Ok(storage) => storage,
+            Err(_) => {
+                logger.error(&format!("failed to fetch storage from '{}' .", &contract_address));
+                return Err(backoff::Error::Transient { err: (), retry_after: None })
+            }
+        };
+
+        // cache the results
+        store_cache(
+            &format!("storage.{}.{}.{}.{}", &chain_id, &block_number, &contract_address, &storage_slot),
+            storage,
+            None,
+        )
+        .map_err(|_| logger.error(&format!("failed to cache storage for contract: {:?}", &contract_address)))?;
+        
+        Ok(storage)
+    })
+    .await
+    .map_err(|_| Error::Generic(format!("failed to get storage for contract: {:?}", &contract_address)))
+}
+
+
+
+
+
+
+
 // TODO: add tests
 #[cfg(test)]
 pub mod tests {
@@ -562,5 +647,20 @@ pub mod tests {
             .expect("get_block_logs() returned an error!");
 
         assert!(!logs.is_empty());
+    }
+
+    #[tokio::test]
+    async fn test_get_storage_at() {
+        let block_number = 19_446_800;
+        let contract_address = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"; // USDC
+        let storage_slot = H256::from_str("0x0000000000000000000000000000000000000000000000000000000000000000").unwrap();
+        let rpc_url = "https://eth.llamarpc.com";
+        let storage = get_storage_at(block_number, contract_address, storage_slot, rpc_url)
+            .await
+            .expect("get_storage_at() returned an error!");
+
+        println!("storage: {:?}", storage);
+
+        assert!(storage == H256::from_str("0x000000000000000000000000fcb19e6a322b27c06842a71e8c725399f049ae3a").unwrap());
     }
 }
