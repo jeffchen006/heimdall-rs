@@ -2,12 +2,10 @@ pub mod analyze;
 pub mod structures;
 pub mod resolve;
 
-use heimdall_common::{debug_max, utils::threading::run_with_timeout};
-
+use heimdall_common::{debug_max, ether::evm::core::opcodes::WrappedOpcode, utils::threading::run_with_timeout};
 use std::{
     collections::{HashMap, HashSet}, process::exit, time::Duration
 };
-
 use clap::{AppSettings, Parser};
 use derive_builder::Builder;
 use heimdall_common::{
@@ -23,8 +21,6 @@ use heimdall_common::{
         strings::{decode_hex, get_shortned_target},
     },
 };
-use indicatif::ProgressBar;
-
 use crate::{
     disassemble::{disassemble, DisassemblerArgs},
     spec::{
@@ -32,19 +28,10 @@ use crate::{
         structures::spec::{BranchSpec, Spec}
     },
 };
-
-use crate::cfg::graph::build_cfg;
-
 use crate::spec::analyze::spec_trace;
-
-use petgraph::Graph;
-
 use heimdall_common::ether::evm::ext::exec::VMTrace;
-
 use self::structures::fetcher;
-
 use self::fetcher::Fetcher;
-
 
 
 
@@ -252,23 +239,26 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
             let head = spec.branch_specs.first().unwrap();
             let head_children = &head.children;
 
-
             // assign revert if necessary:
-            
+            // extract the summary for a function:
+            // 1. access control & modifiers (on the arguments)
+            let invariant_guards = Vec::<String>::new();
+            // 2. external calls
+            let external_calls = Vec::<String>::new();
+
+
             for (i, branch) in spec.branch_specs.iter().enumerate() {
                 // if is_revert or control_statement is not None, or addresses is not empty, or external_calls is not empty, or strings is not empty
                 if (branch.is_revert.is_some() && branch.is_revert.unwrap()) || 
                         branch.control_statement.is_some() || !branch.addresses.is_empty() || 
                         !branch.external_calls.is_empty() || !branch.strings.is_empty() {
                     
-                    if branch.concolic_external_calls.is_empty() && branch.external_calls.is_empty() {
-                        continue;
-                    }
+                    // if branch.concolic_external_calls.is_empty() && branch.external_calls.is_empty() {
+                    //     continue;
+                    // }
 
                     println!("================");
                     println!("branch {}", i);
-                    println!("storage {:?}", branch.storage);
-                    println!("memory {:?}", branch.memory);
                     // println!("events {:?}", branch.events);
                     // println!("errors {:?}", branch.errors);
                     // println!("resolved function {:?}", branch.resolved_function);
@@ -276,7 +266,12 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
                     println!("external calls {:?}", branch.external_calls);
                     println!("concolic external calls {:?}", branch.concolic_external_calls);
 
+                    for concolic_call in &branch.concolic_external_calls {
+                        println!("concolic call {:?}", concolic_call.to_string());
+                    }
+
                     println!("addresses {:?}", branch.addresses);
+
                     println!("control statement {:?}", branch.control_statement);
                     match &branch.concolic_control_statement {
                         Some(control_statement) => {
@@ -314,8 +309,6 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
                             println!("will revert any way");
                         }
                     }
-                    
-                
                     // println!("is revert {:?}", branch.is_revert);                
                 }
             }
@@ -374,6 +367,8 @@ async fn get_spec(
             bytecode: decode_hex(&contract_bytecode.replacen("0x", "", 1))?,
             entry_point: function_entry_point,
             arguments: HashMap::new(),
+            storage: HashSet::new(),
+            memory: HashMap::new(),
             returns: None,
             pure: true,
             view: true,

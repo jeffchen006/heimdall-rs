@@ -96,9 +96,6 @@ A successful example:
 ./target/debug/heimdall cfg 0x6554FF0f2B6613Bb2baa9A45788AD8574a805f6d -v -r https://eth.llamarpc.com -c -o ./temp/ -t 60000000
 
 
-
-
-
 ./target/debug/heimdall snapshot 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663 -r https://eth.llamarpc.com
 
 

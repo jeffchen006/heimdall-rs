@@ -17,8 +17,6 @@ use async_recursion::async_recursion;
 /// symbolic-execution analysis.
 #[derive(Clone, Debug)]
 pub struct Spec {
-    // META DATA:
-
     // the function's 4byte selector
     pub selector: String,
 
@@ -34,6 +32,15 @@ pub struct Spec {
     //   - value : tuple of ({slot: U256, mask: usize}, potential_types)
     pub arguments: HashMap<usize, (CalldataFrame, Vec<String>)>,
 
+    // storage structure
+    pub storage: HashSet<String>,
+
+    // memory structure:
+    //   - key : slot of the argument. I.E: slot 0 is CALLDATALOAD(4).
+    //   - value : tuple of ({value: U256, operation: WrappedOpcode})
+    pub memory: HashMap<U256, StorageFrame>,
+
+        
     // returns the return type for the function.
     pub returns: Option<String>,
 
@@ -51,11 +58,16 @@ pub struct Spec {
     pub resolved_function: Vec<ResolvedFunction>,
 }
 
+#[derive(Clone, Debug)]
+pub enum CallAddress {
+    Address(String),
+    Opcode(WrappedOpcode),
+}
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct ConcolicExternallCall {
     pub call_type: String,
-    pub address: WrappedOpcode,
+    pub address: CallAddress,
     pub gas: WrappedOpcode,  
     pub value: Option<WrappedOpcode>, // for DelegateCall/Staticall , value is ignored
     pub extcalldata_memory: Vec<StorageFrame>,
@@ -68,6 +80,11 @@ impl ConcolicExternallCall {
             true => format!("gas: {}, ", self.gas.solidify().cleanup()),
             false => String::from(""),
         };
+        let address = match &self.address {
+            CallAddress::Address(address) => address.clone(),
+            CallAddress::Opcode(opcode) => opcode.solidify().cleanup(),
+        };
+
         let extcalldata_memory = &self.extcalldata_memory.clone();
         if self.call_type == "STATICCALL" {
             let modifier = match self.gas != WrappedOpcode::new(0x5A, vec![]){
@@ -77,7 +94,7 @@ impl ConcolicExternallCall {
 
             format!(
                 "address({}).staticcall{}({});",
-                self.address.solidify().cleanup(),
+                address,
                 modifier,
                 extcalldata_memory
                     .iter()
@@ -93,7 +110,7 @@ impl ConcolicExternallCall {
 
             format!(
                 "address({}).delegatecall{}({});",
-                self.address.solidify().cleanup(),
+                address,
                 modifier,
                 extcalldata_memory
                     .iter()
@@ -112,7 +129,7 @@ impl ConcolicExternallCall {
             };
             format!(
                 "address({}).call{}({});",
-                self.address.solidify().cleanup(),
+                address,
                 modifier,
                 extcalldata_memory
                     .iter()
@@ -128,31 +145,22 @@ impl ConcolicExternallCall {
 }
 
 
-// Implement the Debug trait for A
-impl fmt::Debug for ConcolicExternallCall {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        // Write the formatted string to the given formatter
-        write!(f, "{}", self.to_string())
-    }
-}
+// // Implement the Debug trait for A
+// impl fmt::Debug for ConcolicExternallCall {
+//     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+//         // Write the formatted string to the given formatter
+//         write!(f, "{}", self.to_string())
+//     }
+// }
 
 
 
 #[derive(Clone, Debug)]
 pub struct BranchSpec {
-    // storage structure
-    pub storage: HashSet<String>,
-    
-
     // here we should have a storage similar the memory below:
     // however, here we assume the sstore always happens after the sload
     // and no sload happens after the sstore
     // not sure if Solidity compiler has this optimization
-
-    // memory structure:
-    //   - key : slot of the argument. I.E: slot 0 is CALLDATALOAD(4).
-    //   - value : tuple of ({value: U256, operation: WrappedOpcode})
-    pub memory: HashMap<U256, StorageFrame>,
 
     // holds all found events used to generate solidity error definitions
     // as well as ABI specifications.
@@ -201,8 +209,6 @@ pub struct BranchSpec {
 impl BranchSpec {
     pub fn new() -> Self {
         BranchSpec {
-            storage: HashSet::new(),
-            memory: HashMap::new(),
             events: HashMap::new(),
             errors: HashMap::new(),
             resolved_function: None,
@@ -236,7 +242,8 @@ pub struct CalldataFrame {
     pub heuristics: Vec<String>,
 }
 
-impl BranchSpec {
+
+impl Spec {
     // get a specific memory slot
     pub fn get_memory_range(&self, _offset: U256, _size: U256) -> Vec<StorageFrame> {
         let mut memory_slice: Vec<StorageFrame> = Vec::new();
@@ -264,10 +271,6 @@ impl BranchSpec {
         match wrappedOpcode.opcode.name {
             "SLOAD" => {
                 let storage_slot = wrappedOpcode.inputs[0].clone();
-                // pub enum WrappedInput {
-                //     Raw(U256),
-                //     Opcode(WrappedOpcode),
-                // }
                 match storage_slot {
                     WrappedInput::Raw(slot) => {
                         let value = fetcher.fetch_storage_slot(slot).await;

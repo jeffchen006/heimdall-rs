@@ -153,9 +153,10 @@ fn simplify_casts(line: &str) -> String {
             );
         }
     }
-
     cleaned
 }
+
+
 
 /// Simplifies arithmatic by removing unnecessary operations
 fn simplify_arithmatic(line: &str) -> String {
@@ -166,6 +167,43 @@ fn simplify_arithmatic(line: &str) -> String {
     cleaned.replace("!!", "")
 }
 
+
+fn extract_content_with_limited_nesting(input: &str) -> Option<String> {
+    // Construct a regex pattern that accounts for up to three layers of parentheses
+    let pattern = r"address\(\(?(\(?(?P<content>[^()]*)\)?)\)?\)";
+    let regex = Regex::new(pattern).expect("Failed to compile regex");
+
+    // Attempt to find a match in the input string and extract the "content" named group
+    if let Ok(Some(caps)) = regex.captures(input) {
+        caps.name("content").map(|match_| match_.as_str().to_string())
+    } else {
+        None
+    }
+}
+
+pub fn extract_address_arg(input: &str) -> Option<String> {
+    match extract_content_with_limited_nesting(input) {
+        Some(content) => {
+            // Remove any whitespace from the extracted content
+            let content = content.replace(" ", "");
+
+            // If the content is a valid hexadecimal address, return it
+            if content.starts_with("0x") && content.len() == 42 {
+                Some(content)
+            } else if content.starts_with("arg") && content.len() == 4 {
+                Some(content)
+            }
+            else {
+                None
+            }
+        }
+        None => None,
+    }
+    
+}
+
+
+
 impl Cleanup for String {
     fn cleanup(mut self) -> Self {
         // remove unnecessary casts
@@ -174,9 +212,44 @@ impl Cleanup for String {
         // convert bitmasks to casts
         self = convert_bitmask_to_casting(&self);
 
+        // remove unnecessary casts
+        self = simplify_casts(&self);
+
         // simplify arithmatic
         self = simplify_arithmatic(&self);
 
+        // remove unnecessary casts
+        self = simplify_casts(&self);
+
         self
     }
+}
+
+
+
+
+
+// test simplify_parerentheses
+#[cfg(test)]
+pub mod test {
+    use super::*;
+
+    #[test]
+    fn test_simplify_parentheses() {
+        let input = "address(((storage[0x11])))";
+        println!("{} \n\t=> {:?}", input, extract_address_arg(input));
+
+        let input = "address(storage[0x11])";
+        println!("{} \n\t=> {:?}", input, extract_address_arg(input));
+
+        let input = "address(((0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48)))";
+        println!("{} \n\t=> {:?}", input, extract_address_arg(input));
+
+        let input = "address(((arg1)))";
+        println!("{} \n\t=> {:?}", input, extract_address_arg(input));
+
+        let input = "address(((storage[0x11] + 0x01)))";
+        println!("{} \n\t=> {:?}", input, extract_address_arg(input));
+    } 
+
 }

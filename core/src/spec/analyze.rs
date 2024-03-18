@@ -6,7 +6,7 @@ use crate::snapshot::{
     constants::VARIABLE_SIZE_CHECK_REGEX
 };
 
-use crate::spec::structures::spec::{Spec, BranchSpec, CalldataFrame, StorageFrame};
+use crate::spec::structures::spec::{BranchSpec, CallAddress, CalldataFrame, Spec, StorageFrame};
 
 use ethers::{
     abi::{decode, ParamType},
@@ -30,6 +30,7 @@ use heimdall_common::{
 use super::structures::fetcher::{self, Fetcher};
 use super::structures::spec::ConcolicExternallCall;
 use async_recursion::async_recursion;
+use heimdall_common::ether::lexers::cleanup::extract_address_arg;
 
 /// Generates a spec of a VMTrace's underlying function
 ///
@@ -149,7 +150,7 @@ pub async fn spec_trace(
 
 
             let return_memory_operations =
-                branchSpec.get_memory_range(instruction.inputs[0], instruction.inputs[1]);
+                spec.get_memory_range(instruction.inputs[0], instruction.inputs[1]);
                 
             let symbolic_conditional = instruction.input_operations[1].clone();
 
@@ -169,7 +170,7 @@ pub async fn spec_trace(
                 if fetcher.is_some() {
                     let mut concolic_conditional = symbolic_conditional.clone();
                     println!("before filling, concolic_conditional: {:?}", symbolic_conditional);
-                    branchSpec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
+                    spec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
                     println!("after filling, concolic_conditional: {:?}", concolic_conditional);
 
                     branchSpec.concolic_control_statement = Some(concolic_conditional);
@@ -190,7 +191,7 @@ pub async fn spec_trace(
                 branchSpec.control_statement = Some(format!("if ({}) {{ .. }}", conditional));
                 if fetcher.is_some() {
                     let mut concolic_conditional = symbolic_conditional.clone();
-                    branchSpec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
+                    spec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
                     branchSpec.concolic_control_statement = Some(concolic_conditional);
                 }
                 continue
@@ -204,7 +205,7 @@ pub async fn spec_trace(
             branchSpec.control_statement = Some(format!("if ({}) {{ .. }}", conditional));
             if fetcher.is_some() {
                 let mut concolic_conditional = symbolic_conditional.clone();
-                branchSpec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
+                spec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
                 branchSpec.concolic_control_statement = Some(concolic_conditional);
             }
 
@@ -243,7 +244,7 @@ pub async fn spec_trace(
             }
 
             let return_memory_operations =
-                branchSpec.get_memory_range(instruction.inputs[0], instruction.inputs[1]);
+                spec.get_memory_range(instruction.inputs[0], instruction.inputs[1]);
             let return_memory_operations_solidified = return_memory_operations
                 .iter()
                 .map(|x| x.operations.solidify().cleanup())
@@ -284,7 +285,7 @@ pub async fn spec_trace(
                 }
             }
         } else if opcode_name == "SSTORE" || opcode_name == "SLOAD" {
-            branchSpec.storage.insert(instruction.input_operations[0].solidify().cleanup());
+            spec.storage.insert(instruction.input_operations[0].solidify().cleanup());
         } else if opcode_name == "CALLDATALOAD" {
             let slot_as_usize: usize = instruction.inputs[0].try_into().unwrap_or(usize::MAX);
             let calldata_slot = (slot_as_usize.saturating_sub(4)) / 32;
@@ -399,7 +400,7 @@ pub async fn spec_trace(
             let operation = instruction.input_operations[1].clone();
 
             // add the mstore to the function's memory map
-            branchSpec.memory.insert(key, StorageFrame { value, operations: operation });
+            spec.memory.insert(key, StorageFrame { value, operations: operation });
         } else if opcode_name == "CODECOPY" {
             let memory_offset = &instruction.inputs[0];
             let source_offset = instruction.inputs[1].try_into().unwrap_or(usize::MAX);
@@ -413,7 +414,7 @@ pub async fn spec_trace(
                 let key = memory_offset + (index * 32);
                 let value = U256::from_big_endian(chunk);
 
-                branchSpec.memory.insert(
+                spec.memory.insert(
                     key,
                     StorageFrame { value, operations: WrappedOpcode::new(0x39, vec![]) },
                 );
@@ -430,25 +431,32 @@ pub async fn spec_trace(
 
             let address = &instruction.input_operations[1];
             let extcalldata_memory =
-                branchSpec.get_memory_range(instruction.inputs[2], instruction.inputs[3]);
+                spec.get_memory_range(instruction.inputs[2], instruction.inputs[3]);
             
 
             if fetcher.is_some() {
                 let mut concolic_address: WrappedOpcode = address.clone();
-                branchSpec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
+                spec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
+                let concolic_address_string = concolic_address.solidify().cleanup();
+                println!("concolic_address_string: {:?}", concolic_address_string);
+                
+                let address = match extract_address_arg(&concolic_address_string) {
+                    Some(address) => CallAddress::Address(address),
+                    None => {
+                        CallAddress::Opcode(concolic_address.clone())
+                    }
+                };
+                
                 branchSpec.concolic_external_calls.push(
                     ConcolicExternallCall {
                         call_type: "STATICCALL".to_string(),
-                        address: concolic_address,
+                        address: address,
                         gas: instruction.input_operations[0].clone(),
                         value: None,
                         extcalldata_memory: extcalldata_memory.clone(),
                     }
                 );
             }
-
-
-
 
             branchSpec.external_calls.push(format!(
                 "address({}).staticcall{}({});",
@@ -460,6 +468,8 @@ pub async fn spec_trace(
                     .collect::<Vec<String>>()
                     .join(", "),
             ));
+
+            println!()
 
         } else if opcode_name == "DELEGATECALL" {
             // if the gas param WrappedOpcode is not GAS(), add the gas param to the function's
@@ -474,15 +484,26 @@ pub async fn spec_trace(
 
             let address = &instruction.input_operations[1];
             let extcalldata_memory =
-                branchSpec.get_memory_range(instruction.inputs[2], instruction.inputs[3]);
+                spec.get_memory_range(instruction.inputs[2], instruction.inputs[3]);
             
             if fetcher.is_some() {
                 let mut concolic_address: WrappedOpcode = address.clone();
-                branchSpec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
+                spec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
+
+                let concolic_address_string = concolic_address.solidify().cleanup();
+                println!("concolic_address_string: {:?}", concolic_address_string);
+
+                let address = match extract_address_arg(&concolic_address_string) {
+                    Some(address) => CallAddress::Address(address),
+                    None => {
+                        CallAddress::Opcode(concolic_address.clone())
+                    }
+                };
+
                 branchSpec.concolic_external_calls.push(
                     ConcolicExternallCall {
                         call_type: "DELEGATECALL".to_string(),
-                        address: concolic_address,
+                        address: address,
                         gas: instruction.input_operations[0].clone(),
                         value: None,
                         extcalldata_memory: extcalldata_memory.clone(),
@@ -518,23 +539,32 @@ pub async fn spec_trace(
 
             let address = &instruction.input_operations[1];
             let extcalldata_memory =
-                branchSpec.get_memory_range(instruction.inputs[3], instruction.inputs[4]);
+                spec.get_memory_range(instruction.inputs[3], instruction.inputs[4]);
 
             if fetcher.is_some() {
                 let mut concolic_address: WrappedOpcode = address.clone();
-                branchSpec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
+                spec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
+
+                let concolic_address_string = concolic_address.solidify().cleanup();
+                println!("concolic_address_string: {:?}", concolic_address_string);
+
+                let address = match extract_address_arg(&concolic_address_string) {
+                    Some(address) => CallAddress::Address(address),
+                    None => {
+                        CallAddress::Opcode(concolic_address.clone())
+                    }
+                };
+
                 branchSpec.concolic_external_calls.push(
                     ConcolicExternallCall {
                         call_type: opcode_name.to_string(),
-                        address: concolic_address,
+                        address: address,
                         gas: instruction.input_operations[0].clone(),
                         value: Some(instruction.input_operations[2].clone()),
                         extcalldata_memory: extcalldata_memory.clone(),
                     }
                 );
-
             }
-
             branchSpec.external_calls.push(format!(
                 "address({}).call{}({});",
                 address.solidify().cleanup(),
