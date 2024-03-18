@@ -9,7 +9,22 @@ mod benchmark {
     async fn benchmark_spec_complex() {
         let args = SpecArgs {
             // target: String::from("0xE90d8Fb7B79C8930B5C8891e61c298b412a6e81a"),
-            target: String::from("0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663"),
+            
+            // XCarnival:
+            // proxy: 0xb38707e31c813f832ef71c70731ed80b45b85b2d
+            // implementation: 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663
+            // block: 15028889
+
+            // Eminence:
+            // 0x5ade7ae8660293f2ebfcefaba91d141d72d221e8
+            // block: 10954411
+
+            // CheeseBank:
+            // 0x5e181bdde2fa8af7265cb3124735e9a13779c021
+            // block: 11205648
+
+            
+            target: String::from("0x5e181bdde2fa8af7265cb3124735e9a13779c021"), // XCarnival
             verbose: Verbosity::new(0, 0),
             rpc_url: String::from("https://eth.llamarpc.com"),
             default: true,
@@ -18,6 +33,7 @@ mod benchmark {
             name: String::from(""),
             output: String::from(""),
             timeout: 10000000,
+            block: 11205647,
         };
         let _ = heimdall_core::spec::spec(args).await.unwrap();
 
@@ -35,6 +51,7 @@ mod benchmark {
             name: String::from(""),
             output: String::from(""),
             timeout: 10000,
+            ..Default::default()
         };
         let spec = heimdall_core::spec::spec(args).await.unwrap();
 
@@ -51,14 +68,9 @@ mod integration_tests {
     async fn test_spec_weth() {
         let args = SpecArgs {
             target: String::from("0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"),
-            verbose: Verbosity::new(0, 0),
-            rpc_url: String::from("https://eth.llamarpc.com"),
             default: true,
             skip_resolving: true,
-            no_tui: true,
-            name: String::from(""),
-            output: String::from(""),
-            timeout: 10000,
+            ..Default::default()
         };
 
         let _ = heimdall_core::spec::spec(args).await.unwrap();
@@ -76,6 +88,7 @@ mod integration_tests {
             name: String::from(""),
             output: String::from(""),
             timeout: 10000,
+            ..Default::default()
         };
 
         let _ = heimdall_core::spec::spec(args).await.unwrap();
@@ -167,6 +180,7 @@ mod integration_tests {
                 name: String::from(""),
                 output: String::from(""),
                 timeout: 10000,
+                ..Default::default()
             };
             let _ = heimdall_core::spec::spec(args).await.unwrap();
         }

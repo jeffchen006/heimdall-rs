@@ -41,6 +41,9 @@ use petgraph::Graph;
 
 use heimdall_common::ether::evm::ext::exec::VMTrace;
 
+use self::structures::fetcher;
+
+use self::fetcher::Fetcher;
 
 
 
@@ -91,8 +94,26 @@ pub struct SpecArgs {
 
     /// The block number to use for fetching the target contract's storage slots.
     #[clap(long, short, default_value = "0", hide_default_value = true)]
-    pub block: u128,
+    pub block: u64,
 }
+
+impl Default for SpecArgs {
+    fn default() -> Self {
+        SpecArgs {
+            target: String::new(),
+            verbose: clap_verbosity_flag::Verbosity::new(0, 1),
+            rpc_url: String::from("https://eth.llamarpc.com"),
+            default: true,
+            skip_resolving: false,
+            no_tui: true,
+            name: String::new(),
+            output: String::new(),
+            timeout: 10000,
+            block: 0,
+        }
+    }
+}
+
 
 impl SpecArgsBuilder {
     pub fn new() -> Self {
@@ -110,6 +131,9 @@ impl SpecArgsBuilder {
         }
     }
 }
+
+
+
 
 #[derive(Debug, Clone)]
 pub struct SpecResult {
@@ -158,6 +182,16 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
     // println!("{:?}", selectors);
     // println!("resolved selectors: ");
     // println!("{:?}", resolved_selectors);
+    let fetcher = Fetcher {
+        block_number: Some(args.block),
+        contract_address: args.target.clone(),
+        rpc_url: args.rpc_url.clone(),
+    };
+
+    let optional_fetcher = match args.block {
+        0 => None,
+        _ => Some(&fetcher),
+    };
 
     let (specs, all_resolved_errors, all_resolved_events) = get_spec(
         selectors,
@@ -165,6 +199,7 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
         &contract_bytecode,
         &evm,
         &args,
+        optional_fetcher,
     )
     .await?;
 
@@ -225,6 +260,11 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
                 if (branch.is_revert.is_some() && branch.is_revert.unwrap()) || 
                         branch.control_statement.is_some() || !branch.addresses.is_empty() || 
                         !branch.external_calls.is_empty() || !branch.strings.is_empty() {
+                    
+                    if branch.concolic_external_calls.is_empty() && branch.external_calls.is_empty() {
+                        continue;
+                    }
+
                     println!("================");
                     println!("branch {}", i);
                     println!("storage {:?}", branch.storage);
@@ -232,10 +272,19 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
                     // println!("events {:?}", branch.events);
                     // println!("errors {:?}", branch.errors);
                     // println!("resolved function {:?}", branch.resolved_function);
-                    println!("strings {:?}", branch.strings);
+                    // println!("strings {:?}", branch.strings);
                     println!("external calls {:?}", branch.external_calls);
+                    println!("concolic external calls {:?}", branch.concolic_external_calls);
+
                     println!("addresses {:?}", branch.addresses);
                     println!("control statement {:?}", branch.control_statement);
+                    match &branch.concolic_control_statement {
+                        Some(control_statement) => {
+                            println!("concolic control statement {:?}", control_statement.to_string());
+                        }
+                        None => {}
+                    }
+
                     let num_children = branch.children.len();
                     println!("children {:?}", num_children);
                     if num_children > 0 {
@@ -282,14 +331,13 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
 
 
 
-
-
 async fn get_spec(
     selectors: HashMap<String, u128>,
     resolved_selectors: HashMap<String, Vec<ResolvedFunction>>,
     contract_bytecode: &str,
     evm: &VM,
     args: &SpecArgs,
+    fetcher: Option<&Fetcher>,
 ) -> Result<
     (Vec<Spec>, HashMap<String, ResolvedError>, HashMap<String, ResolvedLog>),
     Box<dyn std::error::Error>,
@@ -302,9 +350,9 @@ async fn get_spec(
 
     for (selector, function_entry_point) in selectors {
 
-        if selector != "1c446983" {
-            continue;
-        }
+        // if selector != "1c446983" {
+        //     continue;
+        // }
         // analyze the function
         // get a map of possible jump destinations
         let mut evm_clone = evm.clone();
@@ -340,7 +388,8 @@ async fn get_spec(
 
         println!("selector {:?}", selector);
 
-        (spec, branchSpec) = spec_trace(&map, spec, branchSpec);
+
+        (spec, branchSpec) = spec_trace(&map, spec, branchSpec, fetcher).await;
 
 
         check_cfg_has_no_broken_edges(&map, &spec);
@@ -425,13 +474,14 @@ fn check_cfg_has_no_broken_edges(vm_trace: &VMTrace, spec: &Spec) {
         }
     }
 
-    if count > 1 {
-        println!("two branches key already exists, and they are");
-        for index in indexes {
-            println!("{:?}\n\n", spec.branch_specs.get(index) );
-        }
-        exit(1);
-    }
+    //// Nothing suprising here
+    // if count > 1 {
+    //     for index in indexes {
+    //         println!("{:?}\n\n", spec.branch_specs.get(index) );
+    //     }
+    //     println!("Two same branches are found in the spec, meaning there is a cyclic path in the cfg");
+    //     // exit(1);
+    // }
 
     for child in vm_trace.children.iter() {
         check_cfg_has_no_broken_edges(child, &spec);

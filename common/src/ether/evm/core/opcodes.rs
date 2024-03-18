@@ -1,5 +1,6 @@
 use ethers::types::U256;
 use std::fmt::{Display, Formatter, Result};
+use super::super::super::lexers::cleanup::Cleanup;
 
 /// An [`Opcode`] represents an Ethereum Virtual Machine (EVM) opcode. \
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
@@ -197,6 +198,11 @@ impl WrappedOpcode {
     /// ```
     pub fn depth(&self) -> u32 {
         self.inputs.iter().map(|x| x.depth()).max().unwrap_or(0) + 1
+    }
+
+    /// to string
+    pub fn to_string(&self) -> String {
+        self.solidify().cleanup()
     }
 }
 

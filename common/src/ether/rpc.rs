@@ -477,13 +477,13 @@ pub async fn get_storage_at(
         // get chain_id
         let chain_id = chain_id(rpc_url).await.unwrap_or(1);
 
-        // // check the cache for a matching address
-        // if let Some(storage) = read_cache(&format!("storage.{}.{}.{}.{}", &chain_id, &block_number, &contract_address, &storage_slot))
-        //     .map_err(|_| logger.error(&format!("failed to read cache for storage: {}.{} at block {}", &contract_address, &storage_slot, &block_number)))?
-        // {
-        //     logger.debug(&format!("found cached storage for '{}.{}' at block {}.", &contract_address, &storage_slot, &block_number));
-        //     return Ok(storage)
-        // }
+        // check the cache for a matching address
+        if let Some(storage) = read_cache(&format!("storage.{}.{}.{}.{}", &chain_id, &block_number, &contract_address, &storage_slot))
+            .map_err(|_| logger.error(&format!("failed to read cache for storage: {}.{} at block {}", &contract_address, &storage_slot, &block_number)))?
+        {
+            logger.debug(&format!("found cached storage for '{}.{}' at block {}.", &contract_address, &storage_slot, &block_number));
+            return Ok(storage)
+        }
 
         debug_max!("fetching storage from node for storage slot: '{}.{}' .", &contract_address, &storage_slot);
 

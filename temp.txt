@@ -1,12 +1,9 @@
 
 running 1 test
-15-03-2024 10:48:32.908423623  debug: found cached chain id for rpc url: "https://eth.llamarpc.com"
-15-03-2024 10:48:32.911639636  debug: found cached bytecode for '0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663' .
-selector "1c446983"
-two branches key already exists, and they are
-Some(BranchSpec { storage: {}, memory: {}, events: {}, errors: {}, resolved_function: None, strings: {}, external_calls: [], addresses: {}, control_statement: Some("if (!((0 > memory[0x40].length))) { .. }"), children: [BranchSpec { storage: {}, memory: {322: StorageFrame { value: 0, operations: WrappedOpcode { opcode: Opcode { code: 96, name: "PUSH1", mingas: 3, inputs: 0, outputs: 1 }, inputs: [Raw(0)] } }}, events: {}, errors: {}, resolved_function: None, strings: {}, external_calls: [], addresses: {}, control_statement: None, children: [], is_revert: Some(true), is_return: None, start_instruction: Some(15748), end_instruction: Some(3391) }, BranchSpec { storage: {}, memory: {}, events: {}, errors: {}, resolved_function: None, strings: {}, external_calls: [], addresses: {}, control_statement: None, children: [], is_revert: Some(true), is_return: None, start_instruction: Some(6811), end_instruction: Some(3391) }], is_revert: Some(false), is_return: None, start_instruction: Some(15739), end_instruction: Some(15747) })
-
-
-Some(BranchSpec { storage: {}, memory: {}, events: {}, errors: {}, resolved_function: None, strings: {}, external_calls: [], addresses: {}, control_statement: Some("if (!((0x20 > memory[0x40].length))) { .. }"), children: [BranchSpec { storage: {}, memory: {}, events: {}, errors: {}, resolved_function: None, strings: {"SafeMath: subtraction overflow"}, external_calls: [], addresses: {}, control_statement: None, children: [], is_revert: Some(true), is_return: None, start_instruction: Some(6811), end_instruction: Some(3391) }, BranchSpec { storage: {}, memory: {322: StorageFrame { value: 0, operations: WrappedOpcode { opcode: Opcode { code: 96, name: "PUSH1", mingas: 3, inputs: 0, outputs: 1 }, inputs: [Raw(0)] } }}, events: {}, errors: {}, resolved_function: None, strings: {"SafeMath: subtraction overflow"}, external_calls: [], addresses: {}, control_statement: None, children: [], is_revert: Some(true), is_return: None, start_instruction: Some(15748), end_instruction: Some(3391) }], is_revert: Some(false), is_return: None, start_instruction: Some(15739), end_instruction: Some(15747) })
-
-
+17-03-2024 22:03:11.229812000  debug: found cached chain id for rpc url: "https://eth.llamarpc.com"
+17-03-2024 22:03:11.231294000  debug: found cached bytecode for '0xb38707e31c813f832ef71c70731ed80b45b85b2d' .
+selector "5c60da1b"
+before filling, concolic_conditional: WrappedOpcode { opcode: Opcode { code: 21, name: "ISZERO", mingas: 3, inputs: 1, outputs: 1 }, inputs: [Opcode(WrappedOpcode { opcode: Opcode { code: 52, name: "CALLVALUE", mingas: 2, inputs: 0, outputs: 1 }, inputs: [] })] }
+after filling, concolic_conditional: WrappedOpcode { opcode: Opcode { code: 21, name: "ISZERO", mingas: 3, inputs: 1, outputs: 1 }, inputs: [Opcode(WrappedOpcode { opcode: Opcode { code: 52, name: "CALLVALUE", mingas: 2, inputs: 0, outputs: 1 }, inputs: [] })] }
+SLOAD encounters a symbolic slot, instead of a concrete slot.
+The symbolic slot is 2222: "0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103"

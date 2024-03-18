@@ -27,6 +27,10 @@ use heimdall_common::{
     utils::{io::logging::TraceFactory, strings::encode_hex_reduced},
 };
 
+use super::structures::fetcher::{self, Fetcher};
+use super::structures::spec::ConcolicExternallCall;
+use async_recursion::async_recursion;
+
 /// Generates a spec of a VMTrace's underlying function
 ///
 /// ## Parameters
@@ -37,10 +41,13 @@ use heimdall_common::{
 ///
 /// ## Returns
 /// - `spec` - The updated spec
-pub fn spec_trace(
+
+#[async_recursion]
+pub async fn spec_trace(
     vm_trace: &VMTrace,
     spec: Spec,
     branch_spec: BranchSpec,
+    fetcher: Option<&'async_recursion Fetcher>,
 ) -> (Spec, BranchSpec) {
     // make a clone of the recursed analysis function
     let mut spec = spec;
@@ -139,6 +146,11 @@ pub fn spec_trace(
             //         println!("{:?}", op);
             //     }
             // }
+
+
+            let return_memory_operations =
+                branchSpec.get_memory_range(instruction.inputs[0], instruction.inputs[1]);
+                
             let symbolic_conditional = instruction.input_operations[1].clone();
 
 
@@ -154,7 +166,14 @@ pub fn spec_trace(
                 // this is marking the start of a non-payable function
                 spec.payable = false;
                 branchSpec.control_statement = Some(format!("if ({}) {{ .. }}", conditional));
-                branchSpec.symbolic_control_statement = Some(symbolic_conditional);
+                if fetcher.is_some() {
+                    let mut concolic_conditional = symbolic_conditional.clone();
+                    println!("before filling, concolic_conditional: {:?}", symbolic_conditional);
+                    branchSpec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
+                    println!("after filling, concolic_conditional: {:?}", concolic_conditional);
+
+                    branchSpec.concolic_control_statement = Some(concolic_conditional);
+                }
                 continue
             }
 
@@ -169,7 +188,11 @@ pub fn spec_trace(
             {
 
                 branchSpec.control_statement = Some(format!("if ({}) {{ .. }}", conditional));
-                branchSpec.symbolic_control_statement = Some(symbolic_conditional);
+                if fetcher.is_some() {
+                    let mut concolic_conditional = symbolic_conditional.clone();
+                    branchSpec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
+                    branchSpec.concolic_control_statement = Some(concolic_conditional);
+                }
                 continue
             }
 
@@ -179,8 +202,11 @@ pub fn spec_trace(
                 exit(1);
             }
             branchSpec.control_statement = Some(format!("if ({}) {{ .. }}", conditional));
-            branchSpec.symbolic_control_statement = Some(symbolic_conditional);
-
+            if fetcher.is_some() {
+                let mut concolic_conditional = symbolic_conditional.clone();
+                branchSpec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
+                branchSpec.concolic_control_statement = Some(concolic_conditional);
+            }
 
         } else if opcode_name == "REVERT" {
             // Safely convert U256 to usize
@@ -395,8 +421,7 @@ pub fn spec_trace(
         } else if opcode_name == "STATICCALL" {
             // if the gas param WrappedOpcode is not GAS(), add the gas param to the function's
             // logic
-            let modifier = match instruction.input_operations[0] != WrappedOpcode::new(0x5A, vec![])
-            {
+            let modifier = match instruction.input_operations[0] != WrappedOpcode::new(0x5A, vec![]){
                 true => {
                     format!("{{ gas: {} }}", instruction.input_operations[0].solidify().cleanup())
                 }
@@ -406,6 +431,24 @@ pub fn spec_trace(
             let address = &instruction.input_operations[1];
             let extcalldata_memory =
                 branchSpec.get_memory_range(instruction.inputs[2], instruction.inputs[3]);
+            
+
+            if fetcher.is_some() {
+                let mut concolic_address: WrappedOpcode = address.clone();
+                branchSpec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
+                branchSpec.concolic_external_calls.push(
+                    ConcolicExternallCall {
+                        call_type: "STATICCALL".to_string(),
+                        address: concolic_address,
+                        gas: instruction.input_operations[0].clone(),
+                        value: None,
+                        extcalldata_memory: extcalldata_memory.clone(),
+                    }
+                );
+            }
+
+
+
 
             branchSpec.external_calls.push(format!(
                 "address({}).staticcall{}({});",
@@ -417,6 +460,7 @@ pub fn spec_trace(
                     .collect::<Vec<String>>()
                     .join(", "),
             ));
+
         } else if opcode_name == "DELEGATECALL" {
             // if the gas param WrappedOpcode is not GAS(), add the gas param to the function's
             // logic
@@ -431,7 +475,20 @@ pub fn spec_trace(
             let address = &instruction.input_operations[1];
             let extcalldata_memory =
                 branchSpec.get_memory_range(instruction.inputs[2], instruction.inputs[3]);
-
+            
+            if fetcher.is_some() {
+                let mut concolic_address: WrappedOpcode = address.clone();
+                branchSpec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
+                branchSpec.concolic_external_calls.push(
+                    ConcolicExternallCall {
+                        call_type: "DELEGATECALL".to_string(),
+                        address: concolic_address,
+                        gas: instruction.input_operations[0].clone(),
+                        value: None,
+                        extcalldata_memory: extcalldata_memory.clone(),
+                    }
+                );
+            }
             branchSpec.external_calls.push(format!(
                 "address({}).delegatecall{}({});",
                 address.solidify().cleanup(),
@@ -442,6 +499,7 @@ pub fn spec_trace(
                     .collect::<Vec<String>>()
                     .join(", "),
             ));
+
         } else if opcode_name == "CALL" || opcode_name == "CALLCODE" {
             // if the gas param WrappedOpcode is not GAS(), add the gas param to the function's
             // logic
@@ -461,6 +519,21 @@ pub fn spec_trace(
             let address = &instruction.input_operations[1];
             let extcalldata_memory =
                 branchSpec.get_memory_range(instruction.inputs[3], instruction.inputs[4]);
+
+            if fetcher.is_some() {
+                let mut concolic_address: WrappedOpcode = address.clone();
+                branchSpec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
+                branchSpec.concolic_external_calls.push(
+                    ConcolicExternallCall {
+                        call_type: opcode_name.to_string(),
+                        address: concolic_address,
+                        gas: instruction.input_operations[0].clone(),
+                        value: Some(instruction.input_operations[2].clone()),
+                        extcalldata_memory: extcalldata_memory.clone(),
+                    }
+                );
+
+            }
 
             branchSpec.external_calls.push(format!(
                 "address({}).call{}({});",
@@ -552,7 +625,7 @@ pub fn spec_trace(
     for child in vm_trace.children.iter() {
         // println!("child start instruction index: {:?}", child.instruction);
         let mut child_branchSpec = BranchSpec::new();
-        (spec, child_branchSpec) = spec_trace(child, spec, child_branchSpec);
+        (spec, child_branchSpec) = spec_trace(child, spec, child_branchSpec, fetcher).await;
         branchSpec.children.push(Box::new(child_branchSpec));
     }
 
