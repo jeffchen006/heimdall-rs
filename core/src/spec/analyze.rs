@@ -2,9 +2,7 @@ use std::process::exit;
 
 use crate::decompile::constants::AND_BITMASK_REGEX;
 
-use crate::snapshot::{
-    constants::VARIABLE_SIZE_CHECK_REGEX
-};
+use crate::snapshot::constants::VARIABLE_SIZE_CHECK_REGEX;
 
 use crate::spec::structures::spec::{BranchSpec, CallAddress, CalldataFrame, Spec, StorageFrame};
 
@@ -12,7 +10,6 @@ use ethers::{
     abi::{decode, ParamType},
     types::U256,
 };
-use heimdall_common::debug_max;
 use heimdall_common::{
     ether::{
         evm::{
@@ -24,10 +21,10 @@ use heimdall_common::{
         },
         lexers::cleanup::Cleanup,
     },
-    utils::{io::logging::TraceFactory, strings::encode_hex_reduced},
+    utils::strings::encode_hex_reduced,
 };
 
-use super::structures::fetcher::{self, Fetcher};
+use super::structures::fetcher::Fetcher;
 use super::structures::spec::ConcolicExternallCall;
 use async_recursion::async_recursion;
 use heimdall_common::ether::lexers::cleanup::extract_address_arg;
@@ -154,7 +151,6 @@ pub async fn spec_trace(
                 
             let symbolic_conditional = instruction.input_operations[1].clone();
 
-
             let jump_taken = instruction.inputs.get(1).map(|op| !op.is_zero()).unwrap_or(true);
             let jump_dest = instruction.inputs[0];
 
@@ -172,7 +168,6 @@ pub async fn spec_trace(
                     println!("before filling, concolic_conditional: {:?}", symbolic_conditional);
                     spec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
                     println!("after filling, concolic_conditional: {:?}", concolic_conditional);
-
                     branchSpec.concolic_control_statement = Some(concolic_conditional);
                 }
                 continue
