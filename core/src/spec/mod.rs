@@ -2,9 +2,9 @@ pub mod analyze;
 pub mod structures;
 pub mod resolve;
 
-use heimdall_common::{debug_max, ether::{evm::core::opcodes::WrappedOpcode, lexers::cleanup::Cleanup}, utils::{env, threading::run_with_timeout}};
+use heimdall_common::{debug_max, ether::{evm::core::opcodes::WrappedOpcode, lexers::cleanup::Cleanup, rpc::get_functions_from_contract}, utils::{env, threading::run_with_timeout}};
 use std::{
-    collections::{HashMap, HashSet}, env::set_var, process::exit, time::Duration
+    collections::{BTreeMap, HashMap, HashSet}, env::set_var, process::exit, time::Duration
 };
 use clap::{AppSettings, Parser};
 use derive_builder::Builder;
@@ -167,9 +167,9 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
         get_resolved_selectors(&disassembled_bytecode, &args.skip_resolving, &evm).await?;
     
 
-    // step 6: set up the onchain fetcher and EtherScan API key
+    // step 6: set up the onchain fetcher
     let fetcher = Fetcher {
-        block_number: None,
+        block_number: Some(args.block),
         contract_address: args.target.clone(),
         rpc_url: args.rpc_url.clone(),
     };
@@ -177,7 +177,6 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
         0 => None,
         _ => Some(&fetcher),
     };
-    set_var("ETHERSCAN_API_KEY", "I7R59ER7AQ8HEBYTNR15ETXJSMTD86BHA4");
 
     // step 7: get the spec
     let (specs, all_resolved_errors, all_resolved_events) = get_spec(
@@ -190,37 +189,60 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
     )
     .await?;
 
+    // step 8: get contract from EtherScan if verfied on EtherScan
+    set_var("ETHERSCAN_API_KEY", "I7R59ER7AQ8HEBYTNR15ETXJSMTD86BHA4");
+    let ret = get_functions_from_contract(&args.target).await;
+    let selector_map = match ret {
+        Ok(functions) => {
+            functions
+        }
+        Err(e) => {
+            BTreeMap::new()
+        }
+    };
+    
+
     for spec in &specs {
         if !spec.pure && !spec.view {
             println!("================");
-            println!("selector: {:?}", spec.selector);
-            // if spec.selector == "095ea7b3"{
-            //     println!("Hey!");
-            // }
-            println!("args: {:?}", spec.arguments);
-            println!("arguments: {:?}", args2string(&spec.arguments));
+            print!("selector: {:?}", spec.selector);
+            // check if spec.selector is in selector_map
+            if selector_map.contains_key(&spec.selector) {
+                println!(" Open Sourced:  ");
+                let function = selector_map.get(&spec.selector).unwrap();
+                // println!("function name: {:?}", function.name);
+                // println!("function inputs: {:?}", function.inputs);
+                // println!("function outputs: {:?}", function.outputs);
+                println!("{:?}", function.signature())
+            } else {
+                println!(" Close Sourced:  ");
+                println!("args: {:?}", spec.arguments);
+                println!("arguments: {:?}", args2string(&spec.arguments));
+                println!("resolved: ");
+                for (ii, resolved_function) in spec.resolved_function.iter().enumerate() {
+                    if ii != 0 {
+                        print!("      ");
+                    }
+                    let mut signature = resolved_function.signature.clone();
+                    // append pure if spec.pure is true
+                    // append view if spec.view is true
+                    // append payable if spec.payable is true
+                    if spec.pure {
+                        signature.push_str(" pure");
+                    }
+                    if spec.view {
+                        signature.push_str(" view");
+                    }
+                    if spec.payable {
+                        signature.push_str(" payable");
+                    }
+                    println!("[{}]{}", ii, signature);
+                }
+                println!("returns {:?}", spec.returns);
 
-            println!("resolved: ");
-            for (ii, resolved_function) in spec.resolved_function.iter().enumerate() {
-                if ii != 0 {
-                    print!("      ");
-                }
-                let mut signature = resolved_function.signature.clone();
-                // append pure if spec.pure is true
-                // append view if spec.view is true
-                // append payable if spec.payable is true
-                if spec.pure {
-                    signature.push_str(" pure");
-                }
-                if spec.view {
-                    signature.push_str(" view");
-                }
-                if spec.payable {
-                    signature.push_str(" payable");
-                }
-                println!("[{}]{}", ii, signature);
             }
-            println!("returns {:?}", spec.returns);
+
+
 
             if spec.pure && spec.view {
                 continue;
@@ -298,10 +320,10 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
                             }
                         }
                         if revert_branch_index == 0 {
-                            invariant_guards.push(branch.concolic_control_statement.clone().unwrap().simplify().solidify().cleanup());
+                            invariant_guards.push(format!("!{}", branch.concolic_control_statement.clone().unwrap().simplify().solidify().cleanup()));
                             // println!("control statement be True to revert");
                         } else if revert_branch_index == 1 {
-                            invariant_guards.push(format!("!{}", branch.concolic_control_statement.clone().unwrap().simplify().solidify().cleanup()));
+                            invariant_guards.push(branch.concolic_control_statement.clone().unwrap().simplify().solidify().cleanup());
                             // println!("control statement be False to revert");
                         } else {
                             // println!("will revert any way");

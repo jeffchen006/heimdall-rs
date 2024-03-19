@@ -1,153 +1,231 @@
 
 running 1 test
-18-03-2024 19:20:08.378145000  debug: found cached chain id for rpc url: "https://eth.llamarpc.com"
-18-03-2024 19:20:08.380492000  debug: found cached bytecode for '0x5ade7ae8660293f2ebfcefaba91d141d72d221e8' .
-selector "dd62ed3e"
-selector "5e37f3ea"
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-selector "f51e181a"
-selector "23b872dd"
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-selector "872190a3"
-selector "a9059cbb"
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-selector "0c7d5cd8"
+19-03-2024 12:49:20.163062731  debug: found cached chain id for rpc url: "https://eth.llamarpc.com"
+19-03-2024 12:49:20.165154997  debug: found cached bytecode for '0x5ade7ae8660293f2ebfcefaba91d141d72d221e8' .
 selector "d6febde8"
 
-selector "e0bab4c4"
-selector "90f0c2ea"
-
-selector "095ea7b3"
-selector "aad3ec96"
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-selector "d79875eb"
-
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-selector "94dcc240"
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-selector "c86c9d5a"
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-selector "95d89b41"
-selector "12d8d1a9"
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-selector "5d8a776e"
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-SLOAD encounters a SHA3 opcode, which is not supported yet.
-But it's really a very good sign!
-selector "a10954fe"
-selector "a457c2d7"
+selector "5e37f3ea"
 SLOAD encounters a SHA3 opcode, which is not supported yet.
 But it's really a very good sign!
 selector "70a08231"
-selector "18160ddd"
-selector "3a3c3b87"
+selector "12d8d1a9"
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+selector "dd62ed3e"
 selector "313ce567"
+selector "e0bab4c4"
+selector "d79875eb"
+
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+selector "872190a3"
+selector "90f0c2ea"
+
+selector "3a3c3b87"
+selector "f51e181a"
+selector "95d89b41"
 selector "28c3d701"
 
+selector "23b872dd"
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+selector "94dcc240"
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+selector "18160ddd"
+selector "a9059cbb"
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+selector "5d8a776e"
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
 selector "7929f63a"
+selector "a457c2d7"
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+selector "aad3ec96"
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
 selector "06fdde03"
+selector "095ea7b3"
+selector "0c7d5cd8"
+selector "a10954fe"
 selector "39509351"
 SLOAD encounters a SHA3 opcode, which is not supported yet.
 But it's really a very good sign!
 SLOAD encounters a SHA3 opcode, which is not supported yet.
 But it's really a very good sign!
+selector "c86c9d5a"
+SLOAD encounters a SHA3 opcode, which is not supported yet.
+But it's really a very good sign!
 ================
-selector "5e37f3ea"
-resolved: returns None
-================
-selector "23b872dd"
-resolved: returns None
-================
-selector "a9059cbb"
-resolved: returns Some("bool")
-================
-selector "d6febde8"
-resolved: [0]buy(uint256,uint256) payable
-returns None
+selector: "d6febde8" Open Sourced:  
+"buy(uint256,uint256):(uint256)"
 invariant guards: 
-    ["(!(((address(msg.sender)) == 0)))", "!(!((ret0.length < 0x20)))", "success", "address(0x6b175474e89094c44da98b954eedeac495271d0f).code.length", "(!((memory[0x40].length < arg1)))", "(!(((0x0749197ee36bb056734fad + arg0) < 0x0749197ee36bb056734fad)))", "!(!((ret0.length < 0x20)))", "success", "address(0x16f6664c16bede5d70818654defef11769d40983).code.length", "!(!(((msg.data.length - 0x04) < 0x40)))"]
+    ["!(!(((address(msg.sender)) == 0)))", "(!((ret0.length < 0x20)))", "!success", "!address(0x6b175474e89094c44da98b954eedeac495271d0f).code.length", "!(!((memory[0x40].length < arg1)))", "!(!(((0x0749197ee36bb056734fad + arg0) < 0x0749197ee36bb056734fad)))", "(!((ret0.length < 0x20)))", "!success", "!address(0x16f6664c16bede5d70818654defef11769d40983).code.length", "(!(((msg.data.length - 0x04) < 0x40)))"]
+storage reads: 
+   {"0x04", "0x05", "0x02"}
+storage writes: 
+   {"0x04"}
 concolic external calls: 
     ["address(0x6b175474e89094c44da98b954eedeac495271d0f).call{ value: 0 }(0x23b872dd00000000000000000000000000000000000000000000000000000000);", "address(0x16f6664c16bede5d70818654defef11769d40983).staticcall(0x29a00e7c00000000000000000000000000000000000000000000000000000000);"]
 ================
-selector "90f0c2ea"
-resolved: [0]calculateContinuousBurnReturn(uint256) payable
-returns Some("uint256")
+selector: "5e37f3ea" Open Sourced:  
+"revokeNPC(address)"
 invariant guards: 
-    ["!(!((ret0.length < 0x20)))", "success", "address(0x16f6664c16bede5d70818654defef11769d40983).code.length", "!(!(((msg.data.length - 0x04) < 0x20)))"]
+    ["(bytes1(storage[keccak256(memory[0])]))", "(!(((msg.data.length - 0x04) < 0x20)))"]
+storage reads: 
+   {"keccak256(memory[0])"}
+storage writes: 
+   {"keccak256(memory[0])"}
+concolic external calls: 
+    []
+================
+selector: "12d8d1a9" Open Sourced:  
+"addGM(address)"
+invariant guards: 
+    ["(bytes1(storage[keccak256(memory[0])]))", "(!(((msg.data.length - 0x04) < 0x20)))"]
+storage reads: 
+   {"keccak256(memory[0])"}
+storage writes: 
+   {"keccak256(memory[0])"}
+concolic external calls: 
+    []
+================
+selector: "d79875eb" Open Sourced:  
+"sell(uint256,uint256):(uint256)"
+invariant guards: 
+    ["!(!(((address(msg.sender)) == 0)))", "!(!((memory[0x40].length < arg1)))", "(!((ret0.length < 0x20)))", "!success", "!address(0x16f6664c16bede5d70818654defef11769d40983).code.length", "(!(((msg.data.length - 0x04) < 0x40)))"]
+storage reads: 
+   {"0x04", "keccak256(memory[0])", "0x02", "0x05"}
+storage writes: 
+   {"0x04"}
 concolic external calls: 
     ["address(0x16f6664c16bede5d70818654defef11769d40983).staticcall(0x49f9b0f700000000000000000000000000000000000000000000000000000000);"]
 ================
-selector "095ea7b3"
-resolved: returns Some("bool")
-================
-selector "aad3ec96"
-resolved: returns None
-================
-selector "d79875eb"
-resolved: [0]sell(uint256,uint256) payable
-returns None
+selector: "23b872dd" Open Sourced:  
+"transferFrom(address,address,uint256):(bool)"
 invariant guards: 
-    ["(!(((address(msg.sender)) == 0)))", "(!((memory[0x40].length < arg1)))", "!(!((ret0.length < 0x20)))", "success", "address(0x16f6664c16bede5d70818654defef11769d40983).code.length", "!(!(((msg.data.length - 0x04) < 0x40)))"]
+    ["!(!(((storage[keccak256(memory[0])] + arg2) < storage[keccak256(memory[0])])))", "(!(((address(((arg1)))) == 0)))", "(!(((address(((arg0)))) == 0)))", "(!(((msg.data.length - 0x04) < 0x60)))"]
+storage reads: 
+   {"keccak256(memory[0])"}
+storage writes: 
+   {"keccak256(memory[0])"}
 concolic external calls: 
-    ["address(0x16f6664c16bede5d70818654defef11769d40983).staticcall(0x49f9b0f700000000000000000000000000000000000000000000000000000000);"]
+    []
 ================
-selector "94dcc240"
-resolved: returns None
-================
-selector "c86c9d5a"
-resolved: returns None
-================
-selector "12d8d1a9"
-resolved: returns None
-================
-selector "5d8a776e"
-resolved: returns None
-================
-selector "a457c2d7"
-resolved: returns Some("bool")
-================
-selector "28c3d701"
-resolved: [0]calculateContinuousMintReturn(uint256) payable
-returns Some("uint256")
+selector: "94dcc240" Open Sourced:  
+"addNPC(address)"
 invariant guards: 
-    ["!(!((ret0.length < 0x20)))", "success", "address(0x16f6664c16bede5d70818654defef11769d40983).code.length", "!(!(((msg.data.length - 0x04) < 0x20)))"]
+    ["(bytes1(storage[keccak256(memory[0])]))", "(!(((msg.data.length - 0x04) < 0x20)))"]
+storage reads: 
+   {"keccak256(memory[0])"}
+storage writes: 
+   {"keccak256(memory[0])"}
 concolic external calls: 
-    ["address(0x16f6664c16bede5d70818654defef11769d40983).staticcall(0x29a00e7c00000000000000000000000000000000000000000000000000000000);"]
+    []
 ================
-selector "39509351"
-resolved: returns Some("bool")
+selector: "a9059cbb" Open Sourced:  
+"transfer(address,uint256):(bool)"
+invariant guards: 
+    ["!(!(((storage[keccak256(memory[0])] + arg1) < storage[keccak256(memory[0])])))", "(!(((address(((arg0)))) == 0)))", "!(!(((address(msg.sender)) == 0)))", "(!(((msg.data.length - 0x04) < 0x40)))"]
+storage reads: 
+   {"keccak256(memory[0])"}
+storage writes: 
+   {"keccak256(memory[0])"}
+concolic external calls: 
+    []
+================
+selector: "5d8a776e" Open Sourced:  
+"award(address,uint256)"
+invariant guards: 
+    ["!(!(((0x04670fef76b51186ddaed146 + arg1) < 0x04670fef76b51186ddaed146)))", "(!(((address(((arg0)))) == 0)))", "(bytes1(storage[keccak256(memory[0])]))", "(!(((msg.data.length - 0x04) < 0x40)))"]
+storage reads: 
+   {"keccak256(memory[0])", "0x02"}
+storage writes: 
+   {"0x02"}
+concolic external calls: 
+    []
+================
+selector: "a457c2d7" Open Sourced:  
+"decreaseAllowance(address,uint256):(bool)"
+invariant guards: 
+    ["(!(((address(((arg0)))) == 0)))", "!(!(((address(msg.sender)) == 0)))", "(!(((msg.data.length - 0x04) < 0x40)))"]
+storage reads: 
+   {"keccak256(memory[0])"}
+storage writes: 
+   {"keccak256(memory[0])"}
+concolic external calls: 
+    []
+================
+selector: "aad3ec96" Open Sourced:  
+"claim(address,uint256)"
+invariant guards: 
+    ["(!(((address(((arg0)))) == 0)))", "(bytes1(storage[keccak256(memory[0])]))", "(!(((msg.data.length - 0x04) < 0x40)))"]
+storage reads: 
+   {"0x02", "keccak256(memory[0])"}
+storage writes: 
+   {"keccak256(memory[0])", "0x02"}
+concolic external calls: 
+    []
+================
+selector: "095ea7b3" Open Sourced:  
+"approve(address,uint256):(bool)"
+invariant guards: 
+    ["(!(((address(((arg0)))) == 0)))", "!(!(((address(msg.sender)) == 0)))", "(!(((msg.data.length - 0x04) < 0x40)))"]
+storage reads: 
+   {}
+storage writes: 
+   {"keccak256(memory[0])"}
+concolic external calls: 
+    []
+================
+selector: "39509351" Open Sourced:  
+"increaseAllowance(address,uint256):(bool)"
+invariant guards: 
+    ["(!(((address(((arg0)))) == 0)))", "!(!(((address(msg.sender)) == 0)))", "!(!(((storage[keccak256(memory[0])] + arg1) < storage[keccak256(memory[0])])))", "(!(((msg.data.length - 0x04) < 0x40)))"]
+storage reads: 
+   {"keccak256(memory[0])"}
+storage writes: 
+   {"keccak256(memory[0])"}
+concolic external calls: 
+    []
+================
+selector: "c86c9d5a" Open Sourced:  
+"revokeGM(address)"
+invariant guards: 
+    ["(bytes1(storage[keccak256(memory[0])]))", "(!(((msg.data.length - 0x04) < 0x20)))"]
+storage reads: 
+   {"keccak256(memory[0])"}
+storage writes: 
+   {"keccak256(memory[0])"}
+concolic external calls: 
+    []
 test benchmark::benchmark_spec_complex ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.74s
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.78s
 

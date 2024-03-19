@@ -169,8 +169,7 @@ pub fn snapshot_trace(
                 (conditional.replace('!', "") == "success") ||
                 (!conditional.contains("msg.sender") &&
                     !conditional.contains("arg") &&
-                    !conditional.contains("storage"))
-            {
+                    !conditional.contains("storage")){
                 continue
             }
 

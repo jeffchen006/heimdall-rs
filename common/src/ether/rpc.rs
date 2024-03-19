@@ -1,17 +1,20 @@
 use crate::{debug_max, error::Error, utils::io::logging::Logger};
 use async_openai::Client;
-use backoff::ExponentialBackoff;
+use backoff::{ExponentialBackoff};
 use ethers::{
-    addressbook::contract, core::types::Address, providers::{Http, Middleware, Provider}, types::{
+    addressbook::contract, core::types::Address, etherscan::contract, providers::{Http, Middleware, Provider}, types::{
         BlockId, BlockNumber, BlockTrace, Filter, FilterBlockOption, StateDiff, TraceType, Transaction, H256
     }
 };
-use ethers::core::abi::Abi;
+// use ethers::core::abi::Abi;
+use ethabi::Contract;
+use ethabi::Function;
 use ethers::types::{Chain};
 use ethers::prelude;
 
 use heimdall_cache::{read_cache, store_cache};
-use std::{str::FromStr, time::Duration};
+use tokio::fs::read;
+use std::{clone, collections::BTreeMap, str::FromStr, time::Duration};
 use std::env::set_var;
 
 
@@ -540,11 +543,80 @@ pub async fn get_storage_at(
 }
 
 
-pub async fn get_contract(contract_address: &str) -> Result<Abi, ethers::etherscan::errors::EtherscanError>{
-    let contract_address_h160 = contract_address.parse().unwrap();
-    let client = prelude::Client::new_from_env(Chain::Mainnet);
-    return client.unwrap().contract_abi(contract_address_h160).await;
+pub async fn get_functions_from_contract(contract_address: &str) -> Result<BTreeMap<String, Function>, Error> {
+    let contract_info = get_contract_info(contract_address).await;
+    // one function name could have different functions with different input params
+    // but one function selector could only have one function
+    match contract_info {
+        Ok(contract_info) => {
+            let mut selector_tree = BTreeMap::new();
+            let functions_tree = contract_info.functions;
+            for (_, functions) in functions_tree.iter() {
+                for function in functions {
+                    let short_signature = function.short_signature();
+                    // covert it to a hex string, like 0xb214faa6
+                    let mut hex_string = String::new();
+                    for byte in short_signature.iter() {
+                        hex_string.push_str(&format!("{:02x}", byte));
+                    }
+                    selector_tree.insert(hex_string, function.clone());
+                }
+            }
+            Ok(selector_tree)
+        },
+        Err(e) => {
+            return Err(e)
+        }
+    }
 }
+
+
+pub async fn get_contract_info(contract_address: &str) -> Result<Contract, Error> {
+    // get a new logger
+    let logger = Logger::default();
+    // get chain_id
+    let chain_id: u64 = 1;
+    // check the cache for a matching address
+    let kkkkk: Result<Option<String>, heimdall_cache::error::Error> = read_cache(&format!("contract_info.{}.{}", &chain_id, &contract_address));
+    match kkkkk {
+        Ok(some_serialized_contract) => {
+            if some_serialized_contract == None {
+                // means it was not cached
+                // logger.error(&format!("failed to read cache for contract_info: {:?}", &contract_address));
+            } else {
+                let serialized_contract: String = some_serialized_contract.unwrap(); // Explicit type annotation
+                let contract: Contract = serde_json::from_str(&serialized_contract).unwrap();
+                return Ok(contract)
+            }
+        },
+        Err(_) => {
+            logger.error(&format!("failed to read cache for contract_info: {:?}", &contract_address));
+        }
+    }
+    let address_h160 = contract_address.parse().unwrap();
+    let client = prelude::Client::new_from_env(Chain::Mainnet).unwrap();
+    let contract_info = match client.contract_abi(address_h160).await {
+        Ok(contract_info) => contract_info,
+        Err(_) => {
+            // logger.error(&format!("failed to fetch contract info from '{}' .", &contract_address));
+            return Err(Error::Generic(format!("failed to get contract info for contract: {:?}", &contract_address)))
+        }
+    };
+
+    // serialize the contract
+    let serialized_contract = serde_json::to_string(&contract_info).unwrap();
+    let asassaas: Contract = serde_json::from_str(&serialized_contract).unwrap();
+    println!("asassaas: {:?}", asassaas);
+    // cache the results
+    let _ = store_cache(
+        &format!("contract_info.{}.{}", &chain_id, &contract_address),
+        serialized_contract,
+        None,
+    )
+    .map_err(|_| logger.error(&format!("failed to cache contract info for contract: {:?}", &contract_address)));
+    Ok(contract_info)
+}
+
 
 
 
@@ -676,16 +748,47 @@ pub mod tests {
 
     #[tokio::test]
     async fn test_get_contract() {
+        set_var("ETHERSCAN_API_KEY", "I7R59ER7AQ8HEBYTNR15ETXJSMTD86BHA4");
+        // USDC
+        let contract_address = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48";
+        let contract = get_contract_info(contract_address).await.unwrap();
+        println!("contract.functions:\n {:?}", contract.functions);
+        assert!(contract.functions.len() > 0);
 
+        for (name, functions) in contract.functions.iter() {
+            println!("name: {:?}", name);
+            for function in functions {
+                println!("short_signature: {:?}", function.short_signature());
+                let short_signature = function.short_signature();
+                // covert it to a hex string, like 0xb214faa6
+                let mut hex_string = String::new();
+                for byte in short_signature.iter() {
+                    hex_string.push_str(&format!("{:02x}", byte));
+                }
+                println!("hex_string: {:?}", hex_string);
+                println!("function: {:?}", function.signature());
+            }
+        }
+    }
+
+    #[tokio::test]
+    async fn test_get_functions_from_contract() {
+        set_var("ETHERSCAN_API_KEY", "I7R59ER7AQ8HEBYTNR15ETXJSMTD86BHA4");
+        // USDC
+        let contract_address = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48";
+        let functions = get_functions_from_contract(contract_address).await.unwrap();
+        println!("functions: {:?}", functions);
+        assert!(functions.len() > 0);
+    }
+
+    #[tokio::test]
+    async fn test_get_contract_close_source() {
         set_var("ETHERSCAN_API_KEY", "I7R59ER7AQ8HEBYTNR15ETXJSMTD86BHA4");
 
-        let contract_address = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"; // USDC
-        let contract = get_contract(contract_address).await.unwrap();
+        // a close source contract: 0xfca4416d9def20ac5b6da8b8b322b6559770efbf
+        let contract_address = "0xfca4416d9def20ac5b6da8b8b322b6559770efbf";
+        let contract = get_contract_info(contract_address).await;
+        assert!(contract.is_err());
 
-        println!("contract.functions:\n {:?}", contract.functions);
-        println!("contract.receive:\n {:?}", contract.receive);
-        println!("contract.fallback:\n {:?}", contract.fallback);
-
-        
     }
 }

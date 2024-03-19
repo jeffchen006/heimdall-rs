@@ -1,7 +1,8 @@
 use clap::{AppSettings, Parser};
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 #[allow(deprecated)]
-use std::env::home_dir;
+// use std::env::home_dir;
+use dirs::home_dir;
 
 use error::Error;
 use util::*;
@@ -193,7 +194,6 @@ pub fn delete_cache(key: &str) -> Result<(), Error> {
     ))?;
     let cache_dir = home.join(".bifrost").join("cache");
     let cache_file = cache_dir.join(format!("{key}.bin"));
-
     if cache_file.exists() {
         std::fs::remove_file(cache_file)
             .map_err(|e| Error::Generic(format!("failed to delete cache file: {:?}", e)))?;
@@ -217,9 +217,11 @@ pub fn delete_cache(key: &str) -> Result<(), Error> {
 pub fn read_cache<T>(key: &str) -> Result<Option<T>, Error>
 where
     T: 'static + DeserializeOwned, {
-    let home = home_dir().ok_or(Error::Generic(
-        "failed to get home directory. does your os support `std::env::home_dir()`?".to_string(),
-    ))?;
+    let kk = home_dir();
+    let home = match kk {
+        Some(home) => home,
+        None => return Err(Error::Generic("failed to get home directory. does your os support `std::env::home_dir()`?".to_string()))
+    };
     let cache_dir = home.join(".bifrost").join("cache");
     let cache_file = cache_dir.join(format!("{key}.bin"));
 
@@ -268,9 +270,12 @@ where
 pub fn store_cache<T>(key: &str, value: T, expiry: Option<u64>) -> Result<(), Error>
 where
     T: Serialize, {
-    let home = home_dir().ok_or(Error::Generic(
-        "failed to get home directory. does your os support `std::env::home_dir()`?".to_string(),
-    ))?;
+    let kk = home_dir();
+    let home = match kk {
+        Some(home) => home,
+        None => return Err(Error::Generic("failed to get home directory. does your os support `std::env::home_dir()`?".to_string()))
+    };
+
     let cache_dir = home.join(".bifrost").join("cache");
     let cache_file = cache_dir.join(format!("{key}.bin"));
 
