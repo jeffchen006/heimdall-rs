@@ -33,7 +33,8 @@ pub struct Spec {
     pub arguments: HashMap<usize, (CalldataFrame, Vec<String>)>,
 
     // storage structure
-    pub storage: HashSet<String>,
+    pub storage_read: HashSet<String>,
+    pub storage_write: HashSet<String>,
 
     // memory structure:
     //   - key : slot of the argument. I.E: slot 0 is CALLDATALOAD(4).

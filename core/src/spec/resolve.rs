@@ -1,6 +1,6 @@
-use std::collections::HashMap;
+use std::{collections::{hash_map::RandomState, HashMap}};
 
-use super::structures::spec::Spec;
+use super::structures::spec::{CalldataFrame, Spec};
 use heimdall_common::{
     debug_max,
     ether::{
@@ -140,9 +140,21 @@ async fn resolve_function_signatures(
         matched_resolved_functions.len(),
         if matched_resolved_functions.len() > 1 { "s" } else { "" }
     );
-
-
-
     Ok(())
 }
+
+
+pub fn args2string(arguments: &HashMap<usize, (CalldataFrame, Vec<String>)>,) -> String {
+    // add resolved function signature
+    let mut arg_strings: Vec<String> = Vec::new();
+    
+    let mut sorted_arguments: Vec<_> = arguments.clone().into_iter().collect();
+    sorted_arguments.sort_by(|x, y| x.0.cmp(&y.0));
+    for (index, (_, solidity_type)) in sorted_arguments {
+        arg_strings.push(format!("arg{} {}", index, solidity_type.first().unwrap()));
+    }
+    arg_strings.join(",")
+}
+
+
 

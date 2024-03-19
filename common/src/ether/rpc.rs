@@ -1,14 +1,19 @@
 use crate::{debug_max, error::Error, utils::io::logging::Logger};
+use async_openai::Client;
 use backoff::ExponentialBackoff;
 use ethers::{
-    core::types::Address,
-    providers::{Http, Middleware, Provider},
-    types::{
+    addressbook::contract, core::types::Address, providers::{Http, Middleware, Provider}, types::{
         BlockId, BlockNumber, BlockTrace, Filter, FilterBlockOption, StateDiff, TraceType, Transaction, H256
-    },
+    }
 };
+use ethers::core::abi::Abi;
+use ethers::types::{Chain};
+use ethers::prelude;
+
 use heimdall_cache::{read_cache, store_cache};
 use std::{str::FromStr, time::Duration};
+use std::env::set_var;
+
 
 /// Get the chainId of the provided RPC URL
 ///
@@ -535,6 +540,11 @@ pub async fn get_storage_at(
 }
 
 
+pub async fn get_contract(contract_address: &str) -> Result<Abi, ethers::etherscan::errors::EtherscanError>{
+    let contract_address_h160 = contract_address.parse().unwrap();
+    let client = prelude::Client::new_from_env(Chain::Mainnet);
+    return client.unwrap().contract_abi(contract_address_h160).await;
+}
 
 
 
@@ -662,5 +672,20 @@ pub mod tests {
         println!("storage: {:?}", storage);
 
         assert!(storage == H256::from_str("0x000000000000000000000000fcb19e6a322b27c06842a71e8c725399f049ae3a").unwrap());
+    }
+
+    #[tokio::test]
+    async fn test_get_contract() {
+
+        set_var("ETHERSCAN_API_KEY", "I7R59ER7AQ8HEBYTNR15ETXJSMTD86BHA4");
+
+        let contract_address = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"; // USDC
+        let contract = get_contract(contract_address).await.unwrap();
+
+        println!("contract.functions:\n {:?}", contract.functions);
+        println!("contract.receive:\n {:?}", contract.receive);
+        println!("contract.fallback:\n {:?}", contract.fallback);
+
+        
     }
 }

@@ -109,7 +109,7 @@ pub async fn spec_trace(
                 "CALL",
                 "CALLCODE",
                 "DELEGATECALL",
-                "STATICCALL",
+                // "STATICCALL",  // can include STATICCALL function in a view function
                 "CREATE2",
             ]
             .contains(&opcode_name)
@@ -166,7 +166,7 @@ pub async fn spec_trace(
             if conditional == "!msg.value" {
                 // this is marking the start of a non-payable function
                 spec.payable = false;
-                branchSpec.control_statement = Some(format!("if ({}) {{ .. }}", conditional));
+                branchSpec.control_statement = Some(format!("({})", conditional));
                 if fetcher.is_some() {
                     let mut concolic_conditional = symbolic_conditional.clone();
                     println!("before filling, concolic_conditional: {:?}", symbolic_conditional);
@@ -188,7 +188,7 @@ pub async fn spec_trace(
                     !conditional.contains("storage"))
             {
 
-                branchSpec.control_statement = Some(format!("if ({}) {{ .. }}", conditional));
+                branchSpec.control_statement = Some(format!("({})", conditional));
                 if fetcher.is_some() {
                     let mut concolic_conditional = symbolic_conditional.clone();
                     spec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
@@ -202,7 +202,7 @@ pub async fn spec_trace(
                 println!("Error: multiple control statements in a single function");
                 exit(1);
             }
-            branchSpec.control_statement = Some(format!("if ({}) {{ .. }}", conditional));
+            branchSpec.control_statement = Some(format!("({})", conditional));
             if fetcher.is_some() {
                 let mut concolic_conditional = symbolic_conditional.clone();
                 spec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
@@ -284,8 +284,10 @@ pub async fn spec_trace(
                     };
                 }
             }
-        } else if opcode_name == "SSTORE" || opcode_name == "SLOAD" {
-            spec.storage.insert(instruction.input_operations[0].solidify().cleanup());
+        } else if opcode_name == "SSTORE" {
+            spec.storage_write.insert(instruction.input_operations[0].solidify().cleanup());
+        } else if opcode_name == "SLOAD" {
+            spec.storage_read.insert(instruction.input_operations[0].solidify().cleanup());
         } else if opcode_name == "CALLDATALOAD" {
             let slot_as_usize: usize = instruction.inputs[0].try_into().unwrap_or(usize::MAX);
             let calldata_slot = (slot_as_usize.saturating_sub(4)) / 32;
@@ -438,7 +440,7 @@ pub async fn spec_trace(
                 let mut concolic_address: WrappedOpcode = address.clone();
                 spec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
                 let concolic_address_string = concolic_address.solidify().cleanup();
-                println!("concolic_address_string: {:?}", concolic_address_string);
+                // println!("concolic_address_string: {:?}", concolic_address_string);
                 
                 let address = match extract_address_arg(&concolic_address_string) {
                     Some(address) => CallAddress::Address(address),
@@ -491,7 +493,7 @@ pub async fn spec_trace(
                 spec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
 
                 let concolic_address_string = concolic_address.solidify().cleanup();
-                println!("concolic_address_string: {:?}", concolic_address_string);
+                // println!("concolic_address_string: {:?}", concolic_address_string);
 
                 let address = match extract_address_arg(&concolic_address_string) {
                     Some(address) => CallAddress::Address(address),
@@ -546,7 +548,7 @@ pub async fn spec_trace(
                 spec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
 
                 let concolic_address_string = concolic_address.solidify().cleanup();
-                println!("concolic_address_string: {:?}", concolic_address_string);
+                // println!("concolic_address_string: {:?}", concolic_address_string);
 
                 let address = match extract_address_arg(&concolic_address_string) {
                     Some(address) => CallAddress::Address(address),

@@ -2,9 +2,9 @@ pub mod analyze;
 pub mod structures;
 pub mod resolve;
 
-use heimdall_common::{debug_max, ether::evm::core::opcodes::WrappedOpcode, utils::threading::run_with_timeout};
+use heimdall_common::{debug_max, ether::{evm::core::opcodes::WrappedOpcode, lexers::cleanup::Cleanup}, utils::{env, threading::run_with_timeout}};
 use std::{
-    collections::{HashMap, HashSet}, process::exit, time::Duration
+    collections::{HashMap, HashSet}, env::set_var, process::exit, time::Duration
 };
 use clap::{AppSettings, Parser};
 use derive_builder::Builder;
@@ -24,7 +24,7 @@ use heimdall_common::{
 use crate::{
     disassemble::{disassemble, DisassemblerArgs},
     spec::{
-        resolve::resolve_signatures,
+        resolve::{args2string, resolve_signatures},
         structures::spec::{BranchSpec, Spec}
     },
 };
@@ -162,24 +162,24 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
     })
     .await?;
 
+    // step 5: resolve the selectors and signatures (optional)
     let (selectors, resolved_selectors) =
         get_resolved_selectors(&disassembled_bytecode, &args.skip_resolving, &evm).await?;
     
-    // println!("selectors: ");
-    // println!("{:?}", selectors);
-    // println!("resolved selectors: ");
-    // println!("{:?}", resolved_selectors);
+
+    // step 6: set up the onchain fetcher and EtherScan API key
     let fetcher = Fetcher {
-        block_number: Some(args.block),
+        block_number: None,
         contract_address: args.target.clone(),
         rpc_url: args.rpc_url.clone(),
     };
-
     let optional_fetcher = match args.block {
         0 => None,
         _ => Some(&fetcher),
     };
+    set_var("ETHERSCAN_API_KEY", "I7R59ER7AQ8HEBYTNR15ETXJSMTD86BHA4");
 
+    // step 7: get the spec
     let (specs, all_resolved_errors, all_resolved_events) = get_spec(
         selectors,
         resolved_selectors,
@@ -193,9 +193,14 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
     for spec in &specs {
         if !spec.pure && !spec.view {
             println!("================");
-            println!("selector {:?}", spec.selector);
-            print!("resolved: ");
-            let mut is_all_pure_or_view = true;
+            println!("selector: {:?}", spec.selector);
+            // if spec.selector == "095ea7b3"{
+            //     println!("Hey!");
+            // }
+            println!("args: {:?}", spec.arguments);
+            println!("arguments: {:?}", args2string(&spec.arguments));
+
+            println!("resolved: ");
             for (ii, resolved_function) in spec.resolved_function.iter().enumerate() {
                 if ii != 0 {
                     print!("      ");
@@ -210,9 +215,6 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
                 if spec.view {
                     signature.push_str(" view");
                 }
-                if !spec.pure && !spec.view {
-                    is_all_pure_or_view = false;
-                }
                 if spec.payable {
                     signature.push_str(" payable");
                 }
@@ -220,7 +222,7 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
             }
             println!("returns {:?}", spec.returns);
 
-            if is_all_pure_or_view {
+            if spec.pure && spec.view {
                 continue;
             }
             
@@ -234,7 +236,7 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
 
             // println!("external calls {:?}", spec.external_calls);
             // println!("control_statements {:?}", spec.control_statements);
-            println!("entry_point {:?}", spec.entry_point);
+            // println!("entry_point {:?}", spec.entry_point);
 
             let head = spec.branch_specs.first().unwrap();
             let head_children = &head.children;
@@ -242,10 +244,11 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
             // assign revert if necessary:
             // extract the summary for a function:
             // 1. access control & modifiers (on the arguments)
-            let invariant_guards = Vec::<String>::new();
+            let mut invariant_guards = Vec::<String>::new(); // Statement be true to revert
             // 2. external calls
-            let external_calls = Vec::<String>::new();
-
+            let mut concolic_external_calls = Vec::<String>::new();
+            // 3. storage accesses
+            
 
             for (i, branch) in spec.branch_specs.iter().enumerate() {
                 // if is_revert or control_statement is not None, or addresses is not empty, or external_calls is not empty, or strings is not empty
@@ -253,35 +256,28 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
                         branch.control_statement.is_some() || !branch.addresses.is_empty() || 
                         !branch.external_calls.is_empty() || !branch.strings.is_empty() {
                     
-                    // if branch.concolic_external_calls.is_empty() && branch.external_calls.is_empty() {
-                    //     continue;
-                    // }
-
-                    println!("================");
-                    println!("branch {}", i);
+                    // println!("================");
+                    // println!("branch {}", i);
                     // println!("events {:?}", branch.events);
                     // println!("errors {:?}", branch.errors);
                     // println!("resolved function {:?}", branch.resolved_function);
                     // println!("strings {:?}", branch.strings);
-                    println!("external calls {:?}", branch.external_calls);
-                    println!("concolic external calls {:?}", branch.concolic_external_calls);
-
+                    // println!("external calls {:?}", branch.external_calls);
+                    // println!("concolic external calls {:?}", branch.concolic_external_calls);
                     for concolic_call in &branch.concolic_external_calls {
-                        println!("concolic call {:?}", concolic_call.to_string());
+                        // println!("concolic call {:?}", concolic_call.to_string());
+                        concolic_external_calls.push(concolic_call.to_string());
                     }
-
-                    println!("addresses {:?}", branch.addresses);
-
-                    println!("control statement {:?}", branch.control_statement);
-                    match &branch.concolic_control_statement {
-                        Some(control_statement) => {
-                            println!("concolic control statement {:?}", control_statement.to_string());
-                        }
-                        None => {}
-                    }
+                    // println!("addresses {:?}", branch.addresses);
+                    // println!("control statement {:?}", branch.control_statement);
+                    // match &branch.concolic_control_statement {
+                    //     Some(control_statement) => {
+                    //         println!("concolic control statement {:?}", control_statement.to_string());
+                    //     }
+                    //     None => {}
+                    // }
 
                     let num_children = branch.children.len();
-                    println!("children {:?}", num_children);
                     if num_children > 0 {
                         if num_children != 2 {
                             println!("branch has more than 2 children");
@@ -302,16 +298,25 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
                             }
                         }
                         if revert_branch_index == 0 {
-                            println!("control statement be True to revert");
-                        } else if revert_branch_index == 1{
-                            println!("control statement be False to revert");
+                            invariant_guards.push(branch.concolic_control_statement.clone().unwrap().simplify().solidify().cleanup());
+                            // println!("control statement be True to revert");
+                        } else if revert_branch_index == 1 {
+                            invariant_guards.push(format!("!{}", branch.concolic_control_statement.clone().unwrap().simplify().solidify().cleanup()));
+                            // println!("control statement be False to revert");
                         } else {
-                            println!("will revert any way");
+                            // println!("will revert any way");
                         }
                     }
                     // println!("is revert {:?}", branch.is_revert);                
                 }
             }
+        
+            println!("invariant guards: \n    {:?}", invariant_guards);
+            println!("storage reads: \n   {:?}", spec.storage_read);
+            println!("storage writes: \n   {:?}", spec.storage_write);
+            println!("concolic external calls: \n    {:?}", concolic_external_calls);    
+
+
         }
     }
     Ok(SpecResult {
@@ -367,7 +372,8 @@ async fn get_spec(
             bytecode: decode_hex(&contract_bytecode.replacen("0x", "", 1))?,
             entry_point: function_entry_point,
             arguments: HashMap::new(),
-            storage: HashSet::new(),
+            storage_read: HashSet::new(),
+            storage_write: HashSet::new(),
             memory: HashMap::new(),
             returns: None,
             pure: true,
