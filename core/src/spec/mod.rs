@@ -196,12 +196,15 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
         Ok(functions) => {
             functions
         }
-        Err(e) => {
+        Err(_) => {
             BTreeMap::new()
         }
     };
     
 
+    // step 9: print function specifications, 
+    // if open sourced, print the function signature
+    // if close sourced, print the function signature resolved
     for spec in &specs {
         if !spec.pure && !spec.view {
             println!("================");
@@ -215,7 +218,7 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
                 // println!("function outputs: {:?}", function.outputs);
                 println!("{:?}", function.signature())
             } else {
-                println!(" Close Sourced:  ");
+                println!("Close Sourced:  ");
                 println!("args: {:?}", spec.arguments);
                 println!("arguments: {:?}", args2string(&spec.arguments));
                 println!("resolved: ");
@@ -249,16 +252,16 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
             }
             
 
-            // println!("arguments {:?}", spec.arguments);
+            println!("arguments {:?}", spec.arguments);
             // println!("storage {:?}", spec.storage);
 
-            // println!("pure {:?}", spec.pure);
-            // println!("view {:?}", spec.view);
-            // println!("payable {:?}", spec.payable);
+            println!("pure {:?}", spec.pure);
+            println!("view {:?}", spec.view);
+            println!("payable {:?}", spec.payable);
 
             // println!("external calls {:?}", spec.external_calls);
             // println!("control_statements {:?}", spec.control_statements);
-            // println!("entry_point {:?}", spec.entry_point);
+            println!("entry_point {:?}", spec.entry_point);
 
             let head = spec.branch_specs.first().unwrap();
             let head_children = &head.children;
@@ -362,14 +365,13 @@ async fn get_spec(
     (Vec<Spec>, HashMap<String, ResolvedError>, HashMap<String, ResolvedLog>),
     Box<dyn std::error::Error>,
 > {
-    let mut all_resolved_errors: HashMap<String, ResolvedError> = HashMap::new();
-    let mut all_resolved_events: HashMap<String, ResolvedLog> = HashMap::new();
+    let all_resolved_errors: HashMap<String, ResolvedError> = HashMap::new();
+    let all_resolved_events: HashMap<String, ResolvedLog> = HashMap::new();
     let mut specs: Vec<Spec> = Vec::new();
 
     let assertions_on = true;
 
     for (selector, function_entry_point) in selectors {
-
         // if selector != "1c446983" {
         //     continue;
         // }

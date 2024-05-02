@@ -279,10 +279,24 @@ pub async fn spec_trace(
                     };
                 }
             }
-        } else if opcode_name == "SSTORE" {
-            spec.storage_write.insert(instruction.input_operations[0].solidify().cleanup());
-        } else if opcode_name == "SLOAD" {
-            spec.storage_read.insert(instruction.input_operations[0].solidify().cleanup());
+        } else if opcode_name == "SSTORE" || opcode_name == "SLOAD"{
+            // ideally we should insert what is stored in the storage
+            // but skip for now
+            println!("SSTORE: {:?}", instruction.input_operations[0].solidify().cleanup().to_string());
+            println!("SSTORE: {:?}", instruction.input_operations[0]);
+            println!("SSTORE: {:?}", instruction.input_operations[0].solidify());
+
+            // concolic value
+            if fetcher.is_some() {
+                let mut concolic_storage_access = instruction.input_operations[0].clone();
+                // println!("before filling, concolic_storage_access: {:?}", concolic_storage_access.solidify());
+                spec.fill_in_storage_memory(&mut concolic_storage_access, fetcher.unwrap()).await;
+                // println!("after filling, concolic_storage_access: {:?}", concolic_storage_access.solidify());
+                spec.storage_write.insert(concolic_storage_access.solidify().cleanup());
+            } else {
+                spec.storage_write.insert(instruction.input_operations[0].solidify().cleanup());
+            }
+            
         } else if opcode_name == "CALLDATALOAD" {
             let slot_as_usize: usize = instruction.inputs[0].try_into().unwrap_or(usize::MAX);
             let calldata_slot = (slot_as_usize.saturating_sub(4)) / 32;

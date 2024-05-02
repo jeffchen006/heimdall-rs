@@ -22,7 +22,7 @@ mod benchmark {
             // CheeseBank:
             // 0x5e181bdde2fa8af7265cb3124735e9a13779c021
             // block: 11205648
-            target: String::from("0x5ade7ae8660293f2ebfcefaba91d141d72d221e8"), // XCarnival
+            target: String::from("0x5e181bdde2fa8af7265cb3124735e9a13779c021"), // XCarnival
             verbose: Verbosity::new(0, 0),
             rpc_url: String::from("https://eth.llamarpc.com"),
             default: true,

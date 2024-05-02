@@ -270,7 +270,7 @@ impl Spec {
     #[async_recursion]
     pub async fn fill_in_storage_memory(&self, wrappedOpcode: &mut WrappedOpcode, fetcher: &Fetcher) {
         match wrappedOpcode.opcode.name {
-            "SLOAD" => {
+            "SLOAD" | "SSTORE" => {
                 let storage_slot = wrappedOpcode.inputs[0].clone();
                 match storage_slot {
                     WrappedInput::Raw(slot) => {
@@ -301,14 +301,11 @@ impl Spec {
                         } else if some.solidify().contains("keccak256")  {
                             println!("SLOAD encounters a SHA3 opcode, which is not supported yet.");
                             println!("But it's really a very good sign!")
-
                         } else {
                             println!("SLOAD encounters a symbolic slot, instead of a concrete slot.");
                             println!("The symbolic slot is 2222: {:?}", some.solidify());
                             exit(1);
                         }
-          
-
                     }
                 }
             }

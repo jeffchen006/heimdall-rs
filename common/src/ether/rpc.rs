@@ -606,7 +606,7 @@ pub async fn get_contract_info(contract_address: &str) -> Result<Contract, Error
     // serialize the contract
     let serialized_contract = serde_json::to_string(&contract_info).unwrap();
     let asassaas: Contract = serde_json::from_str(&serialized_contract).unwrap();
-    println!("asassaas: {:?}", asassaas);
+    // println!("asassaas: {:?}", asassaas);
     // cache the results
     let _ = store_cache(
         &format!("contract_info.{}.{}", &chain_id, &contract_address),
