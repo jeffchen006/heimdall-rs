@@ -1,0 +1,60 @@
+{
+    "0x051ebd717311350f1684f89335bed4abd083a2b6": [
+        {
+            "function_selector": "0xd0a494e4",
+            "function_name": "flashLoan",
+            "label": ""
+        }
+    ],
+    "0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445": [
+        {
+            "function_selector": "0xd0a494e4",
+            "function_name": "flashLoan",
+            "label": ""
+        }
+    ],
+    "0xeb7e15b4e38cbee57a98204d05999c3230d36348": [
+        {
+            "function_selector": "0x6e2246a7",
+            "function_name": "borrow",
+            "label": ""
+        }
+    ],
+    "0xc9f27a50f82571c1c8423a42970613b8dbda14ef": [
+        {
+            "function_selector": "0x2e2d2984",
+            "function_name": "deposit",
+            "label": ""
+        }
+    ],
+    "0x77f973fcaf871459aa58cd81881ce453759281bc": [
+        {
+            "function_selector": "0x66fa576f",
+            "function_name": "",
+            "label": ""
+        }
+    ],
+    "0x85ca13d8496b2d22d6518faeb524911e096dd7e0": [
+        {
+            "function_selector": "0x66fa576f",
+            "function_name": "flashBorrowToken",
+            "label": ""
+        }
+    ],
+    "0xd06527d5e56a3495252a528c4987003b712860ee": [
+        {
+            "function_selector": "0xc5ebeaec",
+            "function_name": "borrow",
+            "label": ""
+        }
+    ],
+    "0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6": [
+        {
+            "function_selector": "0xc5ebeaec",
+            "function_name": "borrow",
+            "label": ""
+        }
+    ]
+
+
+}

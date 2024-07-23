@@ -6,6 +6,45 @@ mod benchmark {
     use heimdall_core::spec::SpecArgs;
 
     #[tokio::test]
+    async fn benchmark_spec_arbitrary_external_call() {
+        // 0x3d5bc3c8d13dcb8bf317092d84783c2697ae9258
+        // 0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445
+        // 0x1cc6cf8455f7783980b1ee06ecd4ed9acd94e1c7 implementation DVM
+        let contract = "0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445"; // DVM
+        // define a vector of selectors
+        let selectors_interested: Vec<String> = vec![
+            "d0a494e4".to_string(),
+        ];
+
+        let args = SpecArgs {
+            target: contract.to_string(), 
+            verbose: Verbosity::new(0, 0),
+            rpc_url: String::from("https://eth.llamarpc.com"),
+            default: true,
+            skip_resolving: false,
+            no_tui: true,
+            name: String::from(""),
+            output: String::from(""),
+            timeout: 10000000,
+        };
+        let specs = heimdall_core::spec::spec(args, selectors_interested).await.unwrap();
+        for spec in specs.specs {
+            // println!("function {:?}", spec.selector);
+            // if spec.selector == "d0a494e4" {
+            //     for branch_spec in spec.branch_specs {
+            //         if branch_spec.external_calls.len() > 0 {
+            //             println!("branch {:?}", branch_spec);
+            //         }
+            //     }
+            // }
+            // if spec.selector == "bdcdc258" {
+            //     println!("function {:?}", spec.selector);
+            // }
+        }
+    }
+
+
+    #[tokio::test]
     async fn benchmark_spec_complex() {
         let args = SpecArgs {
             // target: String::from("0xE90d8Fb7B79C8930B5C8891e61c298b412a6e81a"),
@@ -22,7 +61,10 @@ mod benchmark {
             // CheeseBank:
             // 0x5e181bdde2fa8af7265cb3124735e9a13779c021
             // block: 11205648
-            target: String::from("0x5e181bdde2fa8af7265cb3124735e9a13779c021"), // XCarnival
+
+            // DODO
+            // 0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445
+            target: String::from("0xcc44572b57372dac502bcd784705e083779b2afc"), // exchangeRateCurrent
             verbose: Verbosity::new(0, 0),
             rpc_url: String::from("https://eth.llamarpc.com"),
             default: true,
@@ -31,10 +73,20 @@ mod benchmark {
             name: String::from(""),
             output: String::from(""),
             timeout: 10000000,
-            block: 10954411,
         };
-        let _ = heimdall_core::spec::spec(args).await.unwrap();
-
+        let specs = heimdall_core::spec::spec(args, vec![]).await.unwrap();
+        for spec in specs.specs {
+            if spec.selector == "bd6d894d" {
+                for branch_spec in spec.branch_specs {
+                    if branch_spec.external_calls.len() > 0 {
+                        println!("branch {:?}", branch_spec);
+                    }
+                }
+            } else {
+                continue;
+            }
+            // println!("function {:?}", spec.selector);
+        }
     }
 
     #[tokio::test]
@@ -51,10 +103,11 @@ mod benchmark {
             timeout: 10000,
             ..Default::default()
         };
-        let spec = heimdall_core::spec::spec(args).await.unwrap();
-
+        let spec = heimdall_core::spec::spec(args, vec![]).await.unwrap();
+        println!("{:?}", spec)
     }
 }
+
 
 #[cfg(test)]
 mod integration_tests {
@@ -71,7 +124,7 @@ mod integration_tests {
             ..Default::default()
         };
 
-        let _ = heimdall_core::spec::spec(args).await.unwrap();
+        let _ = heimdall_core::spec::spec(args, vec![]).await.unwrap();
     }
 
     #[tokio::test]
@@ -89,7 +142,7 @@ mod integration_tests {
             ..Default::default()
         };
 
-        let _ = heimdall_core::spec::spec(args).await.unwrap();
+        let _ = heimdall_core::spec::spec(args, vec![]).await.unwrap();
     }
 
     /// Thorough testing for snapshot across a large number of contracts
@@ -180,7 +233,7 @@ mod integration_tests {
                 timeout: 10000,
                 ..Default::default()
             };
-            let _ = heimdall_core::spec::spec(args).await.unwrap();
+            let _ = heimdall_core::spec::spec(args, vec![] ).await.unwrap();
         }
 
         delete_path(&String::from("./output/tests/snapshot/integration"));

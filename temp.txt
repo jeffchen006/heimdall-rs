@@ -1,0 +1,13 @@
+
+running 1 test
+01-07-2024 10:23:11.836265000  debug: found cached chain id for rpc url: "https://eth.llamarpc.com"
+01-07-2024 10:23:11.837036000  debug: found cached bytecode for '0x051ebd717311350f1684f89335bed4abd083a2b6' .
+test benchmark::benchmark_spec_arbitrary_external_call ... ok
+
+successes:
+
+successes:
+    benchmark::benchmark_spec_arbitrary_external_call
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.02s
+

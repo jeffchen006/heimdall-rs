@@ -128,9 +128,10 @@ pub async fn snapshot(args: SnapshotArgs) -> Result<SnapshotResult, Box<dyn std:
         "()".to_string(),
     );
 
+    // step 1: get the bytecode
     let contract_bytecode = get_bytecode_from_target(&args.target, &args.rpc_url).await?;
 
-    // perform versioning and compiler heuristics
+    // step 2: perform versioning and compiler heuristics
     let (compiler, version) = detect_compiler(&contract_bytecode);
     trace.add_call(
         snapshot_call,
@@ -148,6 +149,7 @@ pub async fn snapshot(args: SnapshotArgs) -> Result<SnapshotResult, Box<dyn std:
             .warn(&format!("detected compiler {compiler} {version} is not supported by heimdall."));
     }
 
+    // step 3: set up evm
     let evm = VM::new(
         contract_bytecode.clone(),
         String::from("0x"),
@@ -175,6 +177,7 @@ pub async fn snapshot(args: SnapshotArgs) -> Result<SnapshotResult, Box<dyn std:
         "()".to_string(),
     );
 
+    // step 4: disassemble the bytecode
     let disassembled_bytecode = disassemble(DisassemblerArgs {
         rpc_url: args.rpc_url.clone(),
         verbose: args.verbose.clone(),
@@ -185,9 +188,11 @@ pub async fn snapshot(args: SnapshotArgs) -> Result<SnapshotResult, Box<dyn std:
     })
     .await?;
 
+    // step 5: resolve the selectors and function signatures
     let (selectors, resolved_selectors) =
         get_resolved_selectors(&disassembled_bytecode, &args.skip_resolving, &evm).await?;
 
+        
     let (snapshots, all_resolved_errors, all_resolved_events) = get_snapshots(
         selectors,
         resolved_selectors,

@@ -24,7 +24,6 @@ use heimdall_common::{
     utils::strings::encode_hex_reduced,
 };
 
-use super::structures::fetcher::Fetcher;
 use super::structures::spec::ConcolicExternallCall;
 use async_recursion::async_recursion;
 use heimdall_common::ether::lexers::cleanup::extract_address_arg;
@@ -45,7 +44,6 @@ pub async fn spec_trace(
     vm_trace: &VMTrace,
     spec: Spec,
     branch_spec: BranchSpec,
-    fetcher: Option<&'async_recursion Fetcher>,
 ) -> (Spec, BranchSpec) {
     // make a clone of the recursed analysis function
     let mut spec = spec;
@@ -53,7 +51,6 @@ pub async fn spec_trace(
     
     branchSpec.start_instruction = Some(vm_trace.operations.first().unwrap().last_instruction.instruction);
     branchSpec.end_instruction = Some(vm_trace.operations.last().unwrap().last_instruction.instruction);
-
 
     // perform analysis on the operations of the current VMTrace branch
     for operation in &vm_trace.operations {
@@ -136,16 +133,6 @@ pub async fn spec_trace(
         } else if opcode_name == "JUMPI" {
             // this is an if conditional for the children branches
             let conditional = instruction.input_operations[1].solidify().cleanup();
-            // if conditional.contains("memory") {
-            //     // println!("now is the time");
-            //     println!("{:?}", conditional);
-            //     // print input_operations
-            //     for op in instruction.input_operations.iter() {
-            //         println!("{:?}", op);
-            //     }
-            // }
-
-
             let return_memory_operations =
                 spec.get_memory_range(instruction.inputs[0], instruction.inputs[1]);
                 
@@ -163,13 +150,6 @@ pub async fn spec_trace(
                 // this is marking the start of a non-payable function
                 spec.payable = false;
                 branchSpec.control_statement = Some(format!("({})", conditional));
-                if fetcher.is_some() {
-                    let mut concolic_conditional = symbolic_conditional.clone();
-                    println!("before filling, concolic_conditional: {:?}", symbolic_conditional);
-                    spec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
-                    println!("after filling, concolic_conditional: {:?}", concolic_conditional);
-                    branchSpec.concolic_control_statement = Some(concolic_conditional);
-                }
                 continue
             }
 
@@ -182,13 +162,7 @@ pub async fn spec_trace(
                     !conditional.contains("arg") &&
                     !conditional.contains("storage"))
             {
-
                 branchSpec.control_statement = Some(format!("({})", conditional));
-                if fetcher.is_some() {
-                    let mut concolic_conditional = symbolic_conditional.clone();
-                    spec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
-                    branchSpec.concolic_control_statement = Some(concolic_conditional);
-                }
                 continue
             }
 
@@ -198,11 +172,7 @@ pub async fn spec_trace(
                 exit(1);
             }
             branchSpec.control_statement = Some(format!("({})", conditional));
-            if fetcher.is_some() {
-                let mut concolic_conditional = symbolic_conditional.clone();
-                spec.fill_in_storage_memory(&mut concolic_conditional, fetcher.unwrap()).await;
-                branchSpec.concolic_control_statement = Some(concolic_conditional);
-            }
+
 
         } else if opcode_name == "REVERT" {
             // Safely convert U256 to usize
@@ -221,7 +191,11 @@ pub async fn spec_trace(
                 }
             }
 
-        } else if opcode_name == "RETURN" {
+        } else if opcode_name == "INVALID" {
+            branchSpec.is_revert = Some(true);
+        }
+        
+        else if opcode_name == "RETURN" {
             // Safely convert U256 to usize
             let offset: usize = instruction.inputs[0].try_into().unwrap_or(0);
             let size: usize = instruction.inputs[1].try_into().unwrap_or(0);
@@ -279,25 +253,27 @@ pub async fn spec_trace(
                     };
                 }
             }
-        } else if opcode_name == "SSTORE" || opcode_name == "SLOAD"{
-            // ideally we should insert what is stored in the storage
-            // but skip for now
-            println!("SSTORE: {:?}", instruction.input_operations[0].solidify().cleanup().to_string());
-            println!("SSTORE: {:?}", instruction.input_operations[0]);
-            println!("SSTORE: {:?}", instruction.input_operations[0].solidify());
+        } else if opcode_name == "SSTORE" {
+            // // ideally we should insert what is stored in the storage
+            // // but skip for now
+            // println!("SSTORE: {:?}", instruction.input_operations[0].solidify().cleanup().to_string());
+            // println!("SSTORE: {:?}", instruction.input_operations[0]);
+            // println!("SSTORE: {:?}", instruction.input_operations[0].solidify());
+            // let temp = instruction.input_operations[0].solidify().cleanup();
+            // if temp == "0" {
+            //     println!("SSTORE: {:?}", instruction.input_operations[0].solidify().cleanup());
+            // }
 
-            // concolic value
-            if fetcher.is_some() {
-                let mut concolic_storage_access = instruction.input_operations[0].clone();
-                // println!("before filling, concolic_storage_access: {:?}", concolic_storage_access.solidify());
-                spec.fill_in_storage_memory(&mut concolic_storage_access, fetcher.unwrap()).await;
-                // println!("after filling, concolic_storage_access: {:?}", concolic_storage_access.solidify());
-                spec.storage_write.insert(concolic_storage_access.solidify().cleanup());
-            } else {
-                spec.storage_write.insert(instruction.input_operations[0].solidify().cleanup());
-            }
-            
-        } else if opcode_name == "CALLDATALOAD" {
+            spec.storage_write.insert(instruction.input_operations[0].solidify().cleanup());
+            branchSpec.storage_writes.insert(instruction.input_operations[0].solidify().cleanup());
+
+        } else if opcode_name == "SLOAD" {
+            spec.storage_read.insert(instruction.input_operations[0].solidify().cleanup());
+            branchSpec.storage_reads.insert(instruction.input_operations[0].solidify().cleanup());
+        } 
+        
+        
+        else if opcode_name == "CALLDATALOAD" {
             let slot_as_usize: usize = instruction.inputs[0].try_into().unwrap_or(usize::MAX);
             let calldata_slot = (slot_as_usize.saturating_sub(4)) / 32;
             match spec.arguments.get(&calldata_slot) {
@@ -418,18 +394,29 @@ pub async fn spec_trace(
             let size_bytes = instruction.inputs[2].try_into().unwrap_or(usize::MAX);
 
             // get the code from the source offset and size
-            let code = spec.bytecode[source_offset..(source_offset + size_bytes)].to_vec();
+            // Any portion of the length that goes beyond the end of the bytecode will result in the destination memory being filled with zeros for those bytes.
+            
+            // println!("source_offset: {:?}", source_offset);
+            let mut code = vec![0u8; size_bytes];             // let code = spec.bytecode[source_offset..(source_offset + size_bytes)].to_vec();
+            let bytes_to_copy = (spec.bytecode.len() - source_offset).min(size_bytes);
+            if bytes_to_copy > 0 {
+                code[..bytes_to_copy].copy_from_slice(&spec.bytecode[source_offset..(source_offset + bytes_to_copy)]);
+            }
+            // println!("success!");
+
+
+
 
             // add the code to the function's memory map in chunks of 32 bytes
             for (index, chunk) in code.chunks(32).enumerate() {
                 let key = memory_offset + (index * 32);
                 let value = U256::from_big_endian(chunk);
-
                 spec.memory.insert(
                     key,
                     StorageFrame { value, operations: WrappedOpcode::new(0x39, vec![]) },
                 );
             }
+            
         } else if opcode_name == "STATICCALL" {
             // if the gas param WrappedOpcode is not GAS(), add the gas param to the function's
             // logic
@@ -439,37 +426,11 @@ pub async fn spec_trace(
                 }
                 false => String::from(""),
             };
-
             let address = &instruction.input_operations[1];
             let extcalldata_memory =
                 spec.get_memory_range(instruction.inputs[2], instruction.inputs[3]);
-            
 
-            if fetcher.is_some() {
-                let mut concolic_address: WrappedOpcode = address.clone();
-                spec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
-                let concolic_address_string = concolic_address.solidify().cleanup();
-                // println!("concolic_address_string: {:?}", concolic_address_string);
-                
-                let address = match extract_address_arg(&concolic_address_string) {
-                    Some(address) => CallAddress::Address(address),
-                    None => {
-                        CallAddress::Opcode(concolic_address.clone())
-                    }
-                };
-                
-                branchSpec.concolic_external_calls.push(
-                    ConcolicExternallCall {
-                        call_type: "STATICCALL".to_string(),
-                        address: address,
-                        gas: instruction.input_operations[0].clone(),
-                        value: None,
-                        extcalldata_memory: extcalldata_memory.clone(),
-                    }
-                );
-            }
-
-            branchSpec.external_calls.push(format!(
+            let toPush = format!(
                 "address({}).staticcall{}({});",
                 address.solidify().cleanup(),
                 modifier,
@@ -478,9 +439,12 @@ pub async fn spec_trace(
                     .map(|x| x.operations.solidify().cleanup())
                     .collect::<Vec<String>>()
                     .join(", "),
-            ));
+            );
 
-            println!()
+            branchSpec.external_calls.push( toPush.clone() );
+            spec.external_calls.push( toPush );
+
+            // println!()
 
         } else if opcode_name == "DELEGATECALL" {
             // if the gas param WrappedOpcode is not GAS(), add the gas param to the function's
@@ -497,31 +461,7 @@ pub async fn spec_trace(
             let extcalldata_memory =
                 spec.get_memory_range(instruction.inputs[2], instruction.inputs[3]);
             
-            if fetcher.is_some() {
-                let mut concolic_address: WrappedOpcode = address.clone();
-                spec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
-
-                let concolic_address_string = concolic_address.solidify().cleanup();
-                // println!("concolic_address_string: {:?}", concolic_address_string);
-
-                let address = match extract_address_arg(&concolic_address_string) {
-                    Some(address) => CallAddress::Address(address),
-                    None => {
-                        CallAddress::Opcode(concolic_address.clone())
-                    }
-                };
-
-                branchSpec.concolic_external_calls.push(
-                    ConcolicExternallCall {
-                        call_type: "DELEGATECALL".to_string(),
-                        address: address,
-                        gas: instruction.input_operations[0].clone(),
-                        value: None,
-                        extcalldata_memory: extcalldata_memory.clone(),
-                    }
-                );
-            }
-            branchSpec.external_calls.push(format!(
+            let toPush = format!(
                 "address({}).delegatecall{}({});",
                 address.solidify().cleanup(),
                 modifier,
@@ -530,7 +470,10 @@ pub async fn spec_trace(
                     .map(|x| x.operations.solidify().cleanup())
                     .collect::<Vec<String>>()
                     .join(", "),
-            ));
+            );
+
+            branchSpec.external_calls.push( toPush.clone() );
+            spec.external_calls.push( toPush );
 
         } else if opcode_name == "CALL" || opcode_name == "CALLCODE" {
             // if the gas param WrappedOpcode is not GAS(), add the gas param to the function's
@@ -552,31 +495,7 @@ pub async fn spec_trace(
             let extcalldata_memory =
                 spec.get_memory_range(instruction.inputs[3], instruction.inputs[4]);
 
-            if fetcher.is_some() {
-                let mut concolic_address: WrappedOpcode = address.clone();
-                spec.fill_in_storage_memory(&mut concolic_address, fetcher.unwrap()).await;
-
-                let concolic_address_string = concolic_address.solidify().cleanup();
-                // println!("concolic_address_string: {:?}", concolic_address_string);
-
-                let address = match extract_address_arg(&concolic_address_string) {
-                    Some(address) => CallAddress::Address(address),
-                    None => {
-                        CallAddress::Opcode(concolic_address.clone())
-                    }
-                };
-
-                branchSpec.concolic_external_calls.push(
-                    ConcolicExternallCall {
-                        call_type: opcode_name.to_string(),
-                        address: address,
-                        gas: instruction.input_operations[0].clone(),
-                        value: Some(instruction.input_operations[2].clone()),
-                        extcalldata_memory: extcalldata_memory.clone(),
-                    }
-                );
-            }
-            branchSpec.external_calls.push(format!(
+            let toPush = format!(
                 "address({}).call{}({});",
                 address.solidify().cleanup(),
                 modifier,
@@ -584,8 +503,12 @@ pub async fn spec_trace(
                     .iter()
                     .map(|x| x.operations.solidify().cleanup())
                     .collect::<Vec<String>>()
-                    .join(", ")
-            ));
+                    .join(", "),
+            );
+
+            branchSpec.external_calls.push( toPush.clone() );
+            spec.external_calls.push( toPush );
+
         }
 
         // handle type heuristics
@@ -659,16 +582,32 @@ pub async fn spec_trace(
     }
 
 
-
     // println!("last instruction: {:?}", last_operation);
 
     // recurse into the children of the VMTrace map
     for child in vm_trace.children.iter() {
         // println!("child start instruction index: {:?}", child.instruction);
         let mut child_branchSpec = BranchSpec::new();
-        (spec, child_branchSpec) = spec_trace(child, spec, child_branchSpec, fetcher).await;
+        (spec, child_branchSpec) = spec_trace(child, spec, child_branchSpec).await;
         branchSpec.children.push(Box::new(child_branchSpec));
     }
+
+    // if branchSpec.is_revert == Some(false) && branchSpec.is_return == Some(false) && branchSpec.children.len() == 0 {
+    //     println!("Error: function does not return or revert");
+        
+    // }
+
+    // if branchSpec.is_revert.is_some() && branchSpec.is_revert.unwrap() {
+    //     // println!("branch has revert");
+    // } else if branchSpec.is_return.is_some() && branchSpec.is_return.unwrap() {
+    //     // println!("branch has return");
+    // } else if branchSpec.children.is_empty() {
+    //     if vm_trace.message == String::new() {
+    //         // println!("last opcode is {:?}", vm_trace.operations.last().unwrap().last_instruction.instruction);
+    //         // println!("branch has no return or revert, this is the problem!");  
+    //     } 
+    // }
+
 
 
 
@@ -694,9 +633,7 @@ pub async fn spec_trace(
     //     } else if vm_trace.children.len() == 0 {
     //         if branchSpec.control_statement != None {
     //             println!("impossible, reach a branch with no children and a control statement");
-                
     //             println!("control statement: {:?}", branchSpec.control_statement);
-
     //             println!("operations:");
     //             vm_trace.pretty_print_trace();
 
@@ -715,10 +652,6 @@ pub async fn spec_trace(
                 
     //             println!("I care {:?}", aa);
     //             println!("I care {:?}", inputs0);
-            
-
-                
-
     //             println!("impossible, reach a branch with no children and a control statement");
     //             exit(1);
                 

@@ -9,7 +9,7 @@ mod benchmark {
     async fn benchmark_generate_cfg_simple() {
         async fn bench() {
             let args = CFGArgs {
-                target: String::from("0x1bf797219482a29013d804ad96d1c6f84fba4c45"),
+                target: String::from("0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445"),
                 verbose: Verbosity::new(0, 0),
                 rpc_url: String::from("https://eth.llamarpc.com"),
                 default: true,
@@ -18,10 +18,11 @@ mod benchmark {
                 name: String::from(""),
                 timeout: 10000,
             };
-            let _ = heimdall_core::cfg::cfg(args).await;
+            let cfg = heimdall_core::cfg::cfg(args).await;
+            println!("{:?}", cfg)
         }
 
-        async_bench("benchmark_generate_cfg_simple", 1, bench).await;
+        async_bench("benchmark_generate_cfg_simple", 2, bench).await;
     }
 
     #[tokio::test]

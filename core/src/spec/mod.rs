@@ -30,8 +30,6 @@ use crate::{
 };
 use crate::spec::analyze::spec_trace;
 use heimdall_common::ether::evm::ext::exec::VMTrace;
-use self::structures::fetcher;
-use self::fetcher::Fetcher;
 
 
 
@@ -79,9 +77,7 @@ pub struct SpecArgs {
     #[clap(long, short, default_value = "10000", hide_default_value = true)]
     pub timeout: u64,
 
-    /// The block number to use for fetching the target contract's storage slots.
-    #[clap(long, short, default_value = "0", hide_default_value = true)]
-    pub block: u64,
+
 }
 
 impl Default for SpecArgs {
@@ -96,7 +92,6 @@ impl Default for SpecArgs {
             name: String::new(),
             output: String::new(),
             timeout: 10000,
-            block: 0,
         }
     }
 }
@@ -114,7 +109,6 @@ impl SpecArgsBuilder {
             name: Some(String::new()),
             output: Some(String::new()),
             timeout: Some(10000),
-            block: Some(0),
         }
     }
 }
@@ -132,7 +126,7 @@ pub struct SpecResult {
 /// The main spec function, which will be called from the main thread. This module is
 /// responsible for generating a high-level overview of the target contract, including function
 /// signatures, access control, gas consumption, storage accesses, event emissions, and more.
-pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Error>> {
+pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<SpecResult, Box<dyn std::error::Error>> {
 
     // step 1: get the bytecode
     let contract_bytecode = get_bytecode_from_target(&args.target, &args.rpc_url).await?;
@@ -140,6 +134,8 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
     // step 2: perform versioning and compiler heuristics
     let (compiler, version) = detect_compiler(&contract_bytecode);
 
+    // print the bytecode:
+    println!("bytecode: {:?}", contract_bytecode);
     // step 3: set up evm
     let evm = VM::new(
         contract_bytecode.clone(),
@@ -166,17 +162,7 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
     let (selectors, resolved_selectors) =
         get_resolved_selectors(&disassembled_bytecode, &args.skip_resolving, &evm).await?;
     
-
-    // step 6: set up the onchain fetcher
-    let fetcher = Fetcher {
-        block_number: Some(args.block),
-        contract_address: args.target.clone(),
-        rpc_url: args.rpc_url.clone(),
-    };
-    let optional_fetcher = match args.block {
-        0 => None,
-        _ => Some(&fetcher),
-    };
+    // step 6: set up onchain fetcher => skipped
 
     // step 7: get the spec
     let (specs, all_resolved_errors, all_resolved_events) = get_spec(
@@ -185,7 +171,6 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
         &contract_bytecode,
         &evm,
         &args,
-        optional_fetcher,
     )
     .await?;
 
@@ -206,9 +191,20 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
     // if open sourced, print the function signature
     // if close sourced, print the function signature resolved
     for spec in &specs {
+        // if spec.selector not in selectorsInterested
+        // check whether length of selectors_interested is 0
+        // if it is, print all functions
+
+        if selectors_interested.len() != 0 && !selectors_interested.contains(&spec.selector) {
+            continue;
+        }
+
         if !spec.pure && !spec.view {
             println!("================");
             print!("selector: {:?}", spec.selector);
+            
+
+
             // check if spec.selector is in selector_map
             if selector_map.contains_key(&spec.selector) {
                 println!(" Open Sourced:  ");
@@ -242,108 +238,148 @@ pub async fn spec(args: SpecArgs) -> Result<SpecResult, Box<dyn std::error::Erro
                     println!("[{}]{}", ii, signature);
                 }
                 println!("returns {:?}", spec.returns);
-
             }
-
-
-
-            if spec.pure && spec.view {
-                continue;
-            }
-            
-
-            println!("arguments {:?}", spec.arguments);
+            // if spec.pure && spec.view {
+            //     continue;
+            // }            
+            // println!("arguments {:?}", spec.arguments);
             // println!("storage {:?}", spec.storage);
-
             println!("pure {:?}", spec.pure);
             println!("view {:?}", spec.view);
             println!("payable {:?}", spec.payable);
-
             // println!("external calls {:?}", spec.external_calls);
             // println!("control_statements {:?}", spec.control_statements);
             println!("entry_point {:?}", spec.entry_point);
+            let mut head = spec.branch_specs.first().unwrap();
+            let mut head_found = false;
+            // find head
+            for branch in spec.branch_specs.iter() {
+                if branch.start_instruction.is_some() && branch.start_instruction.unwrap() == spec.entry_point + 1 {
+                    head = branch;
+                    head_found = true;
+                    // break;
+                }
 
-            let head = spec.branch_specs.first().unwrap();
-            let head_children = &head.children;
-
-            // assign revert if necessary:
-            // extract the summary for a function:
-            // 1. access control & modifiers (on the arguments)
-            let mut invariant_guards = Vec::<String>::new(); // Statement be true to revert
-            // 2. external calls
-            let mut concolic_external_calls = Vec::<String>::new();
-            // 3. storage accesses
-            
-
-            for (i, branch) in spec.branch_specs.iter().enumerate() {
-                // if is_revert or control_statement is not None, or addresses is not empty, or external_calls is not empty, or strings is not empty
-                if (branch.is_revert.is_some() && branch.is_revert.unwrap()) || 
-                        branch.control_statement.is_some() || !branch.addresses.is_empty() || 
-                        !branch.external_calls.is_empty() || !branch.strings.is_empty() {
-                    
-                    // println!("================");
-                    // println!("branch {}", i);
-                    // println!("events {:?}", branch.events);
-                    // println!("errors {:?}", branch.errors);
-                    // println!("resolved function {:?}", branch.resolved_function);
-                    // println!("strings {:?}", branch.strings);
-                    // println!("external calls {:?}", branch.external_calls);
-                    // println!("concolic external calls {:?}", branch.concolic_external_calls);
-                    for concolic_call in &branch.concolic_external_calls {
-                        // println!("concolic call {:?}", concolic_call.to_string());
-                        concolic_external_calls.push(concolic_call.to_string());
+                if branch.is_revert.is_some() && branch.is_revert.unwrap() {
+                    continue
+                }
+                else if branch.children.len() == 2 {
+                    // check if there is a branch with two children that are both revert
+                    if branch.children[0].is_revert.is_some() && branch.children[0].is_revert.unwrap() &&
+                        branch.children[1].is_revert.is_some() && branch.children[1].is_revert.unwrap() {
+                        println!("branch has two children that are both revert");
+                        // this error should be fixed in get_spec()
+                        exit(-1);
                     }
-                    // println!("addresses {:?}", branch.addresses);
-                    // println!("control statement {:?}", branch.control_statement);
-                    // match &branch.concolic_control_statement {
-                    //     Some(control_statement) => {
-                    //         println!("concolic control statement {:?}", control_statement.to_string());
-                    //     }
-                    //     None => {}
-                    // }
-
-                    let num_children = branch.children.len();
-                    if num_children > 0 {
-                        if num_children != 2 {
-                            println!("branch has more than 2 children");
-                            exit(-1);
-                        }
-                        // -1 for None
-                        // 0 for True
-                        // 1 for False
-                        // 2 for Both
-                        let mut revert_branch_index = -1;
-                        for (ii, child) in branch.children.iter().enumerate() {
-                            if child.is_revert.is_some() && child.is_revert.unwrap() {
-                                if revert_branch_index != -1 {
-                                    revert_branch_index = 2;
-                                } else {
-                                    revert_branch_index = ii as i32;
-                                }
-                            }
-                        }
-                        if revert_branch_index == 0 {
-                            invariant_guards.push(format!("!{}", branch.concolic_control_statement.clone().unwrap().simplify().solidify().cleanup()));
-                            // println!("control statement be True to revert");
-                        } else if revert_branch_index == 1 {
-                            invariant_guards.push(branch.concolic_control_statement.clone().unwrap().simplify().solidify().cleanup());
-                            // println!("control statement be False to revert");
-                        } else {
-                            // println!("will revert any way");
-                        }
-                    }
-                    // println!("is revert {:?}", branch.is_revert);                
                 }
             }
-        
-            println!("invariant guards: \n    {:?}", invariant_guards);
-            println!("storage reads: \n   {:?}", spec.storage_read);
-            println!("storage writes: \n   {:?}", spec.storage_write);
-            println!("concolic external calls: \n    {:?}", concolic_external_calls);    
+            if !head_found {
+                println!("head not found");
+                exit(-1);
+            }
+            // Traverse the tree without recursion using a stack
+            let mut stack = Vec::new();
+            stack.push(head);
+            while let Some(branch) = stack.pop() {
+                for child in branch.children.iter() {
+                    stack.push(child);
+                }
+            }
 
+            // for child in head.children.iter() {
+            //     println!("child selector {:?}", child);
+            // }
+
+
+            // we should have a smarter way to print it:
+            println!("branch count {:?}", spec.branch_count);
+
+            // two tags we must have:
+            // 1. arbitrary external call
+            // this can be told be checking whether there exists an external call with arguments in the branch
+
+            // 2. which branch has which storage accesses and external calls
+            // absolutely will happen: 
+            // possibly will happen:  [ (storageAccess, [branch1, branch2]), (storageAccess, [branch1, branch2]) ]
+            
+            
+            let mut stack: Vec<&BranchSpec> = Vec::new();
+            stack.push(head);
+            
+            // status stack to keep track of whether a branch will certainly be executed
+            // or possibly be executed
+            let mut status_stack: Vec<bool> = Vec::new();
+            status_stack.push( true );
+            
+
+            let mut used_control_statements: HashSet<_> = HashSet::new();
+            let mut absolute_storage_reads: HashSet<String> = HashSet::new();
+            let mut possible_storage_writes: HashSet<String> = HashSet::new();
+            let mut absolute_external_calls: Vec<String> = Vec::new();
+            let mut possible_external_calls: Vec<String> = Vec::new();
+
+            while let Some(branch) = stack.pop() {
+                let status = status_stack.pop().unwrap();
+                if status {
+                    absolute_storage_reads.extend(branch.storage_reads.clone());
+                    absolute_external_calls.extend(branch.external_calls.clone());
+
+                } else {
+                    if branch.control_statement.is_some() {
+                        used_control_statements.insert(branch.control_statement.clone().unwrap());
+                    }
+                    possible_storage_writes.extend(branch.storage_writes.clone());
+                    possible_external_calls.extend(branch.external_calls.clone());
+                }
+                
+                let mut is_one_child_revert = false;
+                let mut revert_child = 9;
+                if branch.children.len() == 2 {
+                    if branch.children[0].is_revert.is_some() && branch.children[0].is_revert.unwrap() &&
+                        branch.children[1].is_revert.is_some() && !branch.children[1].is_revert.unwrap() {
+                        is_one_child_revert = true;
+                        revert_child = 0;
+                    } else if branch.children[1].is_revert.is_some() && branch.children[1].is_revert.unwrap() &&
+                        branch.children[0].is_revert.is_some() && !branch.children[0].is_revert.unwrap() {
+                        is_one_child_revert = true;
+                        revert_child = 1;
+                    }
+                }
+                
+                if !is_one_child_revert {
+                    for child in branch.children.iter() {
+                        stack.push(child);
+                        status_stack.push( status );
+                    }
+                } else {
+                    stack.push(& branch.children[revert_child]);
+                    status_stack.push( status );
+
+                    stack.push(& branch.children[1 - revert_child]);
+                    status_stack.push( false );
+
+                }
+            }
+
+
+            // print used_control_statements, absolute_storage_reads, possible_storage_writes, absolute_external_calls, possible_external_calls
+            println!("used control statements: {:?}", used_control_statements);
+            println!("absolute storage reads: {:?}", absolute_storage_reads);
+            println!("possible storage writes: {:?}", possible_storage_writes);
+            println!("all possible storage reads: {:?}", spec.storage_read);
+            println!("all possible storage writes: {:?}", spec.storage_write);
+            println!("absolute external calls: {:?}", absolute_external_calls);
+            println!("possible external calls: {:?}", possible_external_calls);            
+            println!("all possible external calls: {:?}", spec.external_calls);
 
         }
     }
+
+
+
+
+
+
     Ok(SpecResult {
         specs,
         resolved_errors: all_resolved_errors,
@@ -360,7 +396,6 @@ async fn get_spec(
     contract_bytecode: &str,
     evm: &VM,
     args: &SpecArgs,
-    fetcher: Option<&Fetcher>,
 ) -> Result<
     (Vec<Spec>, HashMap<String, ResolvedError>, HashMap<String, ResolvedLog>),
     Box<dyn std::error::Error>,
@@ -372,9 +407,7 @@ async fn get_spec(
     let assertions_on = true;
 
     for (selector, function_entry_point) in selectors {
-        // if selector != "1c446983" {
-        //     continue;
-        // }
+
         // analyze the function
         // get a map of possible jump destinations
         let mut evm_clone = evm.clone();
@@ -398,6 +431,8 @@ async fn get_spec(
             arguments: HashMap::new(),
             storage_read: HashSet::new(),
             storage_write: HashSet::new(),
+            external_calls: Vec::new(),
+
             memory: HashMap::new(),
             returns: None,
             pure: true,
@@ -414,11 +449,9 @@ async fn get_spec(
         println!("selector {:?}", selector);
 
 
-        (spec, branchSpec) = spec_trace(&map, spec, branchSpec, fetcher).await;
-
+        (spec, branchSpec) = spec_trace(&map, spec, branchSpec).await;
 
         check_cfg_has_no_broken_edges(&map, &spec);
-
 
         if !args.skip_resolving {
             resolve_signatures(
@@ -429,6 +462,15 @@ async fn get_spec(
             .await?;
         }
 
+        // for branch in spec.branch_specs.iter() {
+        //     if branch.is_revert.is_some() && branch.is_revert.unwrap() {
+        //         println!("branch has revert");
+        //     } else if branch.is_return.is_some() && branch.is_return.unwrap() {
+        //         println!("branch has return");
+        //     } else if branch.children.is_empty() {
+        //         println!("branch has no return or revert");
+        //     }
+        // }
 
         // assign revert if necessary:
         while true {

@@ -9,7 +9,7 @@ mod benchmark {
     async fn benchmark_snapshot_complex() {
         async fn bench() {
             let args = SnapshotArgs {
-                target: String::from("0xE90d8Fb7B79C8930B5C8891e61c298b412a6e81a"),
+                target: String::from("0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445"),
                 verbose: Verbosity::new(0, 0),
                 rpc_url: String::from("https://eth.llamarpc.com"),
                 default: true,
@@ -17,11 +17,13 @@ mod benchmark {
                 no_tui: true,
                 name: String::from(""),
                 output: String::from(""),
-                timeout: 10000,
+                timeout: 10000000000,
             };
-            let _ = heimdall_core::snapshot::snapshot(args).await.unwrap();
+            let snap = heimdall_core::snapshot::snapshot(args).await.unwrap();
+            println!("{:?}", snap)
+        
         }
-        async_bench("benchmark_snapshot_complex", 1, bench).await;
+        async_bench("benchmark_snapshot_complex", 2, bench).await;
     }
 
     #[tokio::test]

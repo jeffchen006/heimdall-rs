@@ -36,6 +36,9 @@ pub struct Spec {
     pub storage_read: HashSet<String>,
     pub storage_write: HashSet<String>,
 
+    // store external calls made by the function
+    pub external_calls: Vec<String>,
+
     // memory structure:
     //   - key : slot of the argument. I.E: slot 0 is CALLDATALOAD(4).
     //   - value : tuple of ({value: U256, operation: WrappedOpcode})
@@ -204,6 +207,11 @@ pub struct BranchSpec {
     // this is a snippet of the function
     pub start_instruction: Option<u128>,
     pub end_instruction: Option<u128>,
+
+    // 
+    pub storage_reads: HashSet<String>,
+    pub storage_writes: HashSet<String>,
+
 }
 
 // create a new() method for BranchSpec
@@ -224,6 +232,8 @@ impl BranchSpec {
             is_return: None,
             start_instruction: None,
             end_instruction: None,
+            storage_reads: HashSet::new(),
+            storage_writes: HashSet::new(),
         }
     }
 }
