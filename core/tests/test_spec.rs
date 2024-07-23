@@ -6,7 +6,7 @@ mod benchmark {
     use heimdall_core::spec::SpecArgs;
 
     #[tokio::test]
-    async fn benchmark_spec_arbitrary_external_call() {
+    async fn benchmark_spec_reentracy() {
         // 0x3d5bc3c8d13dcb8bf317092d84783c2697ae9258
         // 0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445
         // 0x1cc6cf8455f7783980b1ee06ecd4ed9acd94e1c7 implementation DVM
