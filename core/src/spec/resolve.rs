@@ -55,7 +55,7 @@ pub fn match_parameters(
                                 &resolved_function.name,
                                 &resolved_function.inputs.join(",")
                             );
-                            continue
+                            continue;
                         }
                     } else if !potential_types.contains(input) {
                         matched = false;
@@ -66,7 +66,7 @@ pub fn match_parameters(
                             &resolved_function.name,
                             &resolved_function.inputs.join(",")
                         );
-                        break
+                        break;
                     }
                 }
                 None => {
@@ -78,7 +78,7 @@ pub fn match_parameters(
                         &resolved_function.name,
                         &resolved_function.inputs.join(",")
                     );
-                    break
+                    break;
                 }
             }
         }
@@ -104,7 +104,6 @@ pub async fn resolve_signatures(
         None => {
             debug_max!("failed to resolve function signature for selector {}", selector);
             Vec::new()
-            
         }
     };
     let mut matched_resolved_functions = match_parameters(resolved_functions, snapshot);
@@ -116,7 +115,7 @@ pub async fn resolve_signatures(
             &mut matched_resolved_functions,
             snapshot,
         )
-        .await?;
+            .await?;
     }
 
     Ok(())
@@ -144,10 +143,10 @@ async fn resolve_function_signatures(
 }
 
 
-pub fn args2string(arguments: &HashMap<usize, (CalldataFrame, Vec<String>)>,) -> String {
+pub fn args2string(arguments: &HashMap<usize, (CalldataFrame, Vec<String>)>) -> String {
     // add resolved function signature
     let mut arg_strings: Vec<String> = Vec::new();
-    
+
     let mut sorted_arguments: Vec<_> = arguments.clone().into_iter().collect();
     sorted_arguments.sort_by(|x, y| x.0.cmp(&y.0));
     for (index, (_, solidity_type)) in sorted_arguments {

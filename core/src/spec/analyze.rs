@@ -24,7 +24,7 @@ use heimdall_common::{
     utils::strings::encode_hex_reduced,
 };
 
-use super::structures::spec::ConcolicExternallCall;
+use super::structures::spec::ConcolicExternalCall;
 use async_recursion::async_recursion;
 use heimdall_common::ether::lexers::cleanup::extract_address_arg;
 
@@ -38,7 +38,6 @@ use heimdall_common::ether::lexers::cleanup::extract_address_arg;
 ///
 /// ## Returns
 /// - `spec` - The updated spec
-
 #[async_recursion]
 pub async fn spec_trace(
     vm_trace: &VMTrace,
@@ -48,7 +47,7 @@ pub async fn spec_trace(
     // make a clone of the recursed analysis function
     let mut spec = spec;
     let mut branchSpec = branch_spec;
-    
+
     branchSpec.start_instruction = Some(vm_trace.operations.first().unwrap().last_instruction.instruction);
     branchSpec.end_instruction = Some(vm_trace.operations.last().unwrap().last_instruction.instruction);
 
@@ -89,7 +88,7 @@ pub async fn spec_trace(
                 "STATICCALL",
                 "CREATE2",
             ]
-            .contains(&opcode_name)
+                .contains(&opcode_name)
         {
             spec.pure = false;
         }
@@ -106,7 +105,7 @@ pub async fn spec_trace(
                 // "STATICCALL",  // can include STATICCALL function in a view function
                 "CREATE2",
             ]
-            .contains(&opcode_name)
+                .contains(&opcode_name)
         {
             spec.view = false;
         }
@@ -129,13 +128,12 @@ pub async fn spec_trace(
                     .events
                     .insert(*logged_event.topics.first().unwrap(), (None, logged_event.clone()));
             }
-            
         } else if opcode_name == "JUMPI" {
             // this is an if conditional for the children branches
             let conditional = instruction.input_operations[1].solidify().cleanup();
             let return_memory_operations =
                 spec.get_memory_range(instruction.inputs[0], instruction.inputs[1]);
-                
+
             let symbolic_conditional = instruction.input_operations[1].clone();
 
             let jump_taken = instruction.inputs.get(1).map(|op| !op.is_zero()).unwrap_or(true);
@@ -150,7 +148,7 @@ pub async fn spec_trace(
                 // this is marking the start of a non-payable function
                 spec.payable = false;
                 branchSpec.control_statement = Some(format!("({})", conditional));
-                continue
+                continue;
             }
 
             // perform a series of checks to determine if the condition
@@ -163,7 +161,7 @@ pub async fn spec_trace(
                     !conditional.contains("storage"))
             {
                 branchSpec.control_statement = Some(format!("({})", conditional));
-                continue
+                continue;
             }
 
             if branchSpec.control_statement != None {
@@ -172,8 +170,6 @@ pub async fn spec_trace(
                 exit(1);
             }
             branchSpec.control_statement = Some(format!("({})", conditional));
-
-
         } else if opcode_name == "REVERT" {
             // Safely convert U256 to usize
             let offset: usize = instruction.inputs[0].try_into().unwrap_or(0);
@@ -190,12 +186,9 @@ pub async fn spec_trace(
                     }
                 }
             }
-
         } else if opcode_name == "INVALID" {
             branchSpec.is_revert = Some(true);
-        }
-        
-        else if opcode_name == "RETURN" {
+        } else if opcode_name == "RETURN" {
             // Safely convert U256 to usize
             let offset: usize = instruction.inputs[0].try_into().unwrap_or(0);
             let size: usize = instruction.inputs[1].try_into().unwrap_or(0);
@@ -266,14 +259,10 @@ pub async fn spec_trace(
 
             spec.storage_write.insert(instruction.input_operations[0].solidify().cleanup());
             branchSpec.storage_writes.insert(instruction.input_operations[0].solidify().cleanup());
-
         } else if opcode_name == "SLOAD" {
             spec.storage_read.insert(instruction.input_operations[0].solidify().cleanup());
             branchSpec.storage_reads.insert(instruction.input_operations[0].solidify().cleanup());
-        } 
-        
-        
-        else if opcode_name == "CALLDATALOAD" {
+        } else if opcode_name == "CALLDATALOAD" {
             let slot_as_usize: usize = instruction.inputs[0].try_into().unwrap_or(usize::MAX);
             let calldata_slot = (slot_as_usize.saturating_sub(4)) / 32;
             match spec.arguments.get(&calldata_slot) {
@@ -328,7 +317,7 @@ pub async fn spec_trace(
                 }
             };
         } else if ["AND", "OR"].contains(&opcode_name) {
-            // convert the bitmask to it's potential solidity types
+            // convert the bitmask to its potential solidity types
             let (mask_size_bytes, mut potential_types) = convert_bitmask(instruction.clone());
 
             for (i, operation) in instruction.input_operations.iter().enumerate() {
@@ -342,7 +331,7 @@ pub async fn spec_trace(
                     if address.replacen("0x", "", 1).chars().all(|c| c == 'f' || c == '0') ||
                         (address.len() > 42 || address.len() < 32)
                     {
-                        continue
+                        continue;
                     }
 
                     branchSpec.addresses.insert(address);
@@ -395,7 +384,7 @@ pub async fn spec_trace(
 
             // get the code from the source offset and size
             // Any portion of the length that goes beyond the end of the bytecode will result in the destination memory being filled with zeros for those bytes.
-            
+
             // println!("source_offset: {:?}", source_offset);
             let mut code = vec![0u8; size_bytes];             // let code = spec.bytecode[source_offset..(source_offset + size_bytes)].to_vec();
             let bytes_to_copy = (spec.bytecode.len() - source_offset).min(size_bytes);
@@ -403,8 +392,6 @@ pub async fn spec_trace(
                 code[..bytes_to_copy].copy_from_slice(&spec.bytecode[source_offset..(source_offset + bytes_to_copy)]);
             }
             // println!("success!");
-
-
 
 
             // add the code to the function's memory map in chunks of 32 bytes
@@ -416,11 +403,10 @@ pub async fn spec_trace(
                     StorageFrame { value, operations: WrappedOpcode::new(0x39, vec![]) },
                 );
             }
-            
         } else if opcode_name == "STATICCALL" {
             // if the gas param WrappedOpcode is not GAS(), add the gas param to the function's
             // logic
-            let modifier = match instruction.input_operations[0] != WrappedOpcode::new(0x5A, vec![]){
+            let modifier = match instruction.input_operations[0] != WrappedOpcode::new(0x5A, vec![]) {
                 true => {
                     format!("{{ gas: {} }}", instruction.input_operations[0].solidify().cleanup())
                 }
@@ -441,11 +427,10 @@ pub async fn spec_trace(
                     .join(", "),
             );
 
-            branchSpec.external_calls.push( toPush.clone() );
-            spec.external_calls.push( toPush );
+            branchSpec.external_calls.push(toPush.clone());
+            spec.external_calls.push(toPush);
 
             // println!()
-
         } else if opcode_name == "DELEGATECALL" {
             // if the gas param WrappedOpcode is not GAS(), add the gas param to the function's
             // logic
@@ -460,7 +445,7 @@ pub async fn spec_trace(
             let address = &instruction.input_operations[1];
             let extcalldata_memory =
                 spec.get_memory_range(instruction.inputs[2], instruction.inputs[3]);
-            
+
             let toPush = format!(
                 "address({}).delegatecall{}({});",
                 address.solidify().cleanup(),
@@ -472,9 +457,8 @@ pub async fn spec_trace(
                     .join(", "),
             );
 
-            branchSpec.external_calls.push( toPush.clone() );
-            spec.external_calls.push( toPush );
-
+            branchSpec.external_calls.push(toPush.clone());
+            spec.external_calls.push(toPush);
         } else if opcode_name == "CALL" || opcode_name == "CALLCODE" {
             // if the gas param WrappedOpcode is not GAS(), add the gas param to the function's
             // logic
@@ -506,9 +490,8 @@ pub async fn spec_trace(
                     .join(", "),
             );
 
-            branchSpec.external_calls.push( toPush.clone() );
-            spec.external_calls.push( toPush );
-
+            branchSpec.external_calls.push(toPush.clone());
+            spec.external_calls.push(toPush);
         }
 
         // handle type heuristics
@@ -527,7 +510,7 @@ pub async fn spec_trace(
             "SGT",
             "SIGNEXTEND",
         ]
-        .contains(&opcode_name)
+            .contains(&opcode_name)
         {
             // get the calldata slot operation
             if let Some((key, (frame, potential_types))) =
@@ -594,7 +577,7 @@ pub async fn spec_trace(
 
     // if branchSpec.is_revert == Some(false) && branchSpec.is_return == Some(false) && branchSpec.children.len() == 0 {
     //     println!("Error: function does not return or revert");
-        
+
     // }
 
     // if branchSpec.is_revert.is_some() && branchSpec.is_revert.unwrap() {
@@ -609,14 +592,12 @@ pub async fn spec_trace(
     // }
 
 
-
-
     // // print last operation of vm_trace.operations
     // let last_operation = vm_trace.operations.last().unwrap();
     // let first_operation = vm_trace.operations.first().unwrap();
     // let key = (first_operation.last_instruction.instruction, last_operation.last_instruction.instruction);
 
-    
+
     // let is_step_in = false;
     // if spec.cfg_map.contains_key(&key) {
     //     println!("key already exists");
@@ -649,12 +630,12 @@ pub async fn spec_trace(
     //             let last_instruction = vm_trace.operations.last().unwrap().last_instruction.clone();
     //             let aa = last_instruction.instruction;
     //             let inputs0 = last_instruction.inputs[0];
-                
+
     //             println!("I care {:?}", aa);
     //             println!("I care {:?}", inputs0);
     //             println!("impossible, reach a branch with no children and a control statement");
     //             exit(1);
-                
+
     //         }
     //     } else {
     //         println!("not two children");
@@ -667,8 +648,6 @@ pub async fn spec_trace(
     // } else {
 
     // }
-
-      
 
 
     spec.branch_specs.push(branchSpec.clone());

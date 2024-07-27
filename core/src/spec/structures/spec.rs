@@ -1,17 +1,22 @@
-use std::{collections::{HashMap, HashSet}, process::exit};
+use std::{
+    collections::{HashMap, HashSet},
+    process::exit,
+};
 
 use ethers::types::U256;
 use heimdall_common::ether::{
-    evm::core::{log::Log, opcodes::{Opcode, WrappedInput, WrappedOpcode}},
+    evm::core::{
+        log::Log,
+        opcodes::{Opcode, WrappedInput, WrappedOpcode},
+    },
     signatures::{ResolvedError, ResolvedFunction, ResolvedLog},
 };
 
 use crate::spec::structures::fetcher::Fetcher;
-use std::{str::FromStr};
-use std::fmt;
-use heimdall_common::ether::lexers::cleanup::Cleanup;
 use async_recursion::async_recursion;
-
+use heimdall_common::ether::lexers::cleanup::Cleanup;
+use std::fmt;
+use std::str::FromStr;
 
 /// A spec of a contract's state at a given point in time. Will be built over the process of
 /// symbolic-execution analysis.
@@ -44,7 +49,6 @@ pub struct Spec {
     //   - value : tuple of ({value: U256, operation: WrappedOpcode})
     pub memory: HashMap<U256, StorageFrame>,
 
-        
     // returns the return type for the function.
     pub returns: Option<String>,
 
@@ -56,8 +60,8 @@ pub struct Spec {
     // stores the number of unique branches found by symbolic execution
     pub branch_count: u32,
 
-    // 
-    pub cfg_map: HashMap< (u128, u128), Vec< (u128, u128) >>,
+    //
+    pub cfg_map: HashMap<(u128, u128), Vec<(u128, u128)>>,
     pub branch_specs: Vec<BranchSpec>,
     pub resolved_function: Vec<ResolvedFunction>,
 }
@@ -69,15 +73,15 @@ pub enum CallAddress {
 }
 
 #[derive(Clone, Debug)]
-pub struct ConcolicExternallCall {
+pub struct ConcolicExternalCall {
     pub call_type: String,
     pub address: CallAddress,
-    pub gas: WrappedOpcode,  
-    pub value: Option<WrappedOpcode>, // for DelegateCall/Staticall , value is ignored
+    pub gas: WrappedOpcode,
+    pub value: Option<WrappedOpcode>, // for DelegateCall/StaticCall , value is ignored
     pub extcalldata_memory: Vec<StorageFrame>,
 }
 
-impl ConcolicExternallCall {
+impl ConcolicExternalCall {
     // to string
     pub fn to_string(&self) -> String {
         let gas = match self.gas != WrappedOpcode::new(0x5A, vec![]) {
@@ -91,7 +95,7 @@ impl ConcolicExternallCall {
 
         let extcalldata_memory = &self.extcalldata_memory.clone();
         if self.call_type == "STATICCALL" {
-            let modifier = match self.gas != WrappedOpcode::new(0x5A, vec![]){
+            let modifier = match self.gas != WrappedOpcode::new(0x5A, vec![]) {
                 true => format!("{{ gas: {} }}", self.gas.solidify().cleanup()),
                 false => String::from(""),
             };
@@ -107,7 +111,7 @@ impl ConcolicExternallCall {
                     .join(", "),
             )
         } else if self.call_type == "DELEGATECALL" {
-            let modifier = match self.gas != WrappedOpcode::new(0x5A, vec![]){
+            let modifier = match self.gas != WrappedOpcode::new(0x5A, vec![]) {
                 true => format!("{{ gas: {} }}", self.gas.solidify().cleanup()),
                 false => String::from(""),
             };
@@ -142,22 +146,19 @@ impl ConcolicExternallCall {
                     .join(", ")
             )
         } else {
-            println!("ConcolicExternallCall::to_string() encounters an unknown call type.");
+            println!("ConcolicExternalCall::to_string() encounters an unknown call type.");
             exit(1);
         }
     }
 }
 
-
 // // Implement the Debug trait for A
-// impl fmt::Debug for ConcolicExternallCall {
+// impl fmt::Debug for ConcolicExternalCall {
 //     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
 //         // Write the formatted string to the given formatter
 //         write!(f, "{}", self.to_string())
 //     }
 // }
-
-
 
 #[derive(Clone, Debug)]
 pub struct BranchSpec {
@@ -174,7 +175,7 @@ pub struct BranchSpec {
     // as well as ABI specifications.
     pub errors: HashMap<U256, Option<ResolvedError>>,
 
-    // stores the matched resolved function for this Functon
+    // stores the matched resolved function for this Function
     pub resolved_function: Option<ResolvedFunction>,
 
     // stores strings found within the function
@@ -184,11 +185,11 @@ pub struct BranchSpec {
     pub external_calls: Vec<String>,
 
     // store concolic external calls made by the function
-    pub concolic_external_calls: Vec<ConcolicExternallCall>,
+    pub concolic_external_calls: Vec<ConcolicExternalCall>,
 
     // stores addresses found in bytecode
     pub addresses: HashSet<String>,
-    
+
     // control statements, such as access control
     pub control_statement: Option<String>,
 
@@ -208,10 +209,9 @@ pub struct BranchSpec {
     pub start_instruction: Option<u128>,
     pub end_instruction: Option<u128>,
 
-    // 
+    //
     pub storage_reads: HashSet<String>,
     pub storage_writes: HashSet<String>,
-
 }
 
 // create a new() method for BranchSpec
@@ -238,7 +238,6 @@ impl BranchSpec {
     }
 }
 
-
 #[derive(Clone, Debug)]
 pub struct StorageFrame {
     pub value: U256,
@@ -252,7 +251,6 @@ pub struct CalldataFrame {
     pub mask_size: usize,
     pub heuristics: Vec<String>,
 }
-
 
 impl Spec {
     // get a specific memory slot
@@ -276,22 +274,26 @@ impl Spec {
     }
 
     // fill in both storage and memory load
-    // new_wrappedOpcode should initially be 
+    // new_wrappedOpcode should initially be
     #[async_recursion]
-    pub async fn fill_in_storage_memory(&self, wrappedOpcode: &mut WrappedOpcode, fetcher: &Fetcher) {
-        match wrappedOpcode.opcode.name {
+    pub async fn fill_in_storage_memory(
+        &self,
+        wrapped_opcode: &mut WrappedOpcode,
+        fetcher: &Fetcher,
+    ) {
+        match wrapped_opcode.opcode.name {
             "SLOAD" | "SSTORE" => {
-                let storage_slot = wrappedOpcode.inputs[0].clone();
+                let storage_slot = wrapped_opcode.inputs[0].clone();
                 match storage_slot {
                     WrappedInput::Raw(slot) => {
                         let value = fetcher.fetch_storage_slot(slot).await;
                         // force convert H256 to U256
                         let bytes: [u8; 32] = value.0;
                         let value_256 = U256::from(bytes);
-                        wrappedOpcode.opcode = Opcode::new(0x60); // PUSH1
-                        wrappedOpcode.inputs = vec![WrappedInput::Raw(value_256)];
+                        wrapped_opcode.opcode = Opcode::new(0x60); // PUSH1
+                        wrapped_opcode.inputs = vec![WrappedInput::Raw(value_256)];
                     }
-                    WrappedInput::Opcode( some ) => {
+                    WrappedInput::Opcode(some) => {
                         if some.opcode.name.starts_with("PUSH") {
                             match some.inputs[0] {
                                 WrappedInput::Raw(slot) => {
@@ -299,8 +301,8 @@ impl Spec {
                                     // force convert H256 to U256
                                     let bytes: [u8; 32] = value.0;
                                     let value_256 = U256::from(bytes);
-                                    wrappedOpcode.opcode = Opcode::new(0x60); // PUSH1
-                                    wrappedOpcode.inputs = vec![WrappedInput::Raw(value_256)];
+                                    wrapped_opcode.opcode = Opcode::new(0x60); // PUSH1
+                                    wrapped_opcode.inputs = vec![WrappedInput::Raw(value_256)];
                                 }
                                 WrappedInput::Opcode(_) => {
                                     println!("SLOAD encounters a symbolic slot, instead of a concrete slot.");
@@ -308,11 +310,13 @@ impl Spec {
                                     exit(1);
                                 }
                             }
-                        } else if some.solidify().contains("keccak256")  {
+                        } else if some.solidify().contains("keccak256") {
                             println!("SLOAD encounters a SHA3 opcode, which is not supported yet.");
                             println!("But it's really a very good sign!")
                         } else {
-                            println!("SLOAD encounters a symbolic slot, instead of a concrete slot.");
+                            println!(
+                                "SLOAD encounters a symbolic slot, instead of a concrete slot."
+                            );
                             println!("The symbolic slot is 2222: {:?}", some.solidify());
                             exit(1);
                         }
@@ -321,7 +325,7 @@ impl Spec {
             }
             // "MLOAD" => {}
             _ => {
-                for input in wrappedOpcode.inputs.iter_mut() {
+                for input in wrapped_opcode.inputs.iter_mut() {
                     match input {
                         WrappedInput::Opcode(wrappedOpcode) => {
                             self.fill_in_storage_memory(wrappedOpcode, fetcher).await;
@@ -332,8 +336,4 @@ impl Spec {
             }
         }
     }
-
-
-
-
 }
