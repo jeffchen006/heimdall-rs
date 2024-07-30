@@ -13,7 +13,9 @@ mod benchmark {
         let contract = "0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445"; // DVM
         // define a vector of selectors
         let selectors_interested: Vec<String> = vec![
-            "d0a494e4".to_string(),
+            "d0a494e4".to_string(), // flashLoan(): contains reentrancy guard -> pass
+            "a9059cbb".to_string(), // transfer(): does not contain reentrancy guard -> fail
+            "095ea7b3".to_string(), // approve(): does not contain reentrancy guard -> pass
         ];
 
         let args = SpecArgs {

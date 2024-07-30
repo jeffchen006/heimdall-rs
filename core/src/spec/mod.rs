@@ -8,6 +8,7 @@ use std::{
 };
 use clap::{AppSettings, Parser};
 use derive_builder::Builder;
+use ethers::types::U256;
 use heimdall_common::{
     ether::{
         bytecode::get_bytecode_from_target,
@@ -271,6 +272,15 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
                 println!("head not found");
                 exit(-1);
             }
+
+            // check for reentrancy guard
+            if has_reentrancy_guard(head) {
+                println!("reentrancy guard found");
+                // todo: set reentrancy guard in spec
+            } else {
+                println!("no reentrancy guard found");
+            }
+
             // Traverse the tree without recursion using a stack
             let mut stack = Vec::new();
             stack.push(head);
@@ -375,6 +385,81 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
 }
 
 
+fn has_reentrancy_guard(branch: &BranchSpec) -> bool {
+    for value_read in branch.storage_reads_values.iter() {
+        let mut failed = false;
+        for child in branch.children.iter() {
+            if child.is_revert.is_some() && child.is_revert.unwrap() {
+                continue;
+            }
+            if !rewrites_value_to_storage(child, &value_read.address, &value_read.value) {
+                failed = true;
+                break;
+            }
+        }
+        if !failed {
+            println!("possible reentrancy guard found at using the value at slot {:?}", value_read.address);
+            return true;
+        }
+    }
+
+    for child in branch.children.iter() {
+        if child.is_revert.is_some() && !child.is_revert.unwrap() && has_reentrancy_guard(child) {
+            return true;
+        }
+    }
+    false
+}
+
+fn rewrites_value_to_storage(branch: &BranchSpec, address: &str, initial_value: &U256) -> bool {
+    for ii in 0..branch.storage_writes_values.len() {
+        let value_write = &branch.storage_writes_values[ii];
+        if value_write.address == address && value_write.value != *initial_value {
+            // the recovery might be in the same branch or in the children
+            if recovers_value(branch, address, initial_value, ii + 1) {
+                return true;
+            }
+        }
+    }
+
+    let mut failed = false;
+    for child in branch.children.iter() {
+        if child.is_revert.is_some() && child.is_revert.unwrap() {
+            continue;
+        }
+        if !rewrites_value_to_storage(child, address, initial_value) {
+            failed = true;
+            break;
+        }
+    }
+    // should it fail if the non-revert branch has no child?
+    !failed
+}
+
+
+fn recovers_value(branch: &BranchSpec, address: &str, initial_value: &U256, start_idx: usize) -> bool {
+    for ii in start_idx..branch.storage_writes_values.len() {
+        let value_write = &branch.storage_writes_values[ii];
+        if value_write.address == address && value_write.value == *initial_value {
+            return true;
+        }
+    }
+
+    let mut failed = false;
+    for child in branch.children.iter() {
+        if child.is_revert.is_some() && child.is_revert.unwrap() {
+            continue;
+        }
+        if !recovers_value(child, address, initial_value, 0) {
+            failed = true;
+            break;
+        }
+    }
+    // should it fail if the non-revert branch has no child?
+    !failed
+}
+
+
 async fn get_spec(
     selectors: HashMap<String, u128>,
     resolved_selectors: HashMap<String, Vec<ResolvedFunction>>,
@@ -427,6 +512,7 @@ async fn get_spec(
             cfg_map: HashMap::new(),
             branch_specs: Vec::new(),
             resolved_function: Vec::new(),
+            contains_reentrancy_guard: false,
         };
 
         let mut branch_spec = BranchSpec::new();

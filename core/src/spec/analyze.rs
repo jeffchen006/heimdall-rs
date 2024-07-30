@@ -4,7 +4,7 @@ use crate::decompile::constants::AND_BITMASK_REGEX;
 
 use crate::snapshot::constants::VARIABLE_SIZE_CHECK_REGEX;
 
-use crate::spec::structures::spec::{BranchSpec, CallAddress, CalldataFrame, Spec, StorageFrame};
+use crate::spec::structures::spec::{BranchSpec, CallAddress, CalldataFrame, Spec, StorageFrame, VariableSpec};
 
 use ethers::{
     abi::{decode, ParamType},
@@ -259,9 +259,17 @@ pub async fn spec_trace(
 
             spec.storage_write.insert(instruction.input_operations[0].solidify().cleanup());
             branchSpec.storage_writes.insert(instruction.input_operations[0].solidify().cleanup());
+            branchSpec.storage_writes_values.push(VariableSpec::new(
+                instruction.input_operations[0].solidify().cleanup(),
+                instruction.inputs[1],
+            ));
         } else if opcode_name == "SLOAD" {
             spec.storage_read.insert(instruction.input_operations[0].solidify().cleanup());
             branchSpec.storage_reads.insert(instruction.input_operations[0].solidify().cleanup());
+            branchSpec.storage_reads_values.push(VariableSpec::new(
+                instruction.input_operations[0].solidify().cleanup(),
+                instruction.outputs[0],
+            ));
         } else if opcode_name == "CALLDATALOAD" {
             let slot_as_usize: usize = instruction.inputs[0].try_into().unwrap_or(usize::MAX);
             let calldata_slot = (slot_as_usize.saturating_sub(4)) / 32;

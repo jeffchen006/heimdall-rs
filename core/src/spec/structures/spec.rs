@@ -64,6 +64,8 @@ pub struct Spec {
     pub cfg_map: HashMap<(u128, u128), Vec<(u128, u128)>>,
     pub branch_specs: Vec<BranchSpec>,
     pub resolved_function: Vec<ResolvedFunction>,
+
+    pub contains_reentrancy_guard: bool,
 }
 
 #[derive(Clone, Debug)]
@@ -161,6 +163,18 @@ impl ConcolicExternalCall {
 // }
 
 #[derive(Clone, Debug)]
+pub struct VariableSpec {
+    pub address: String,
+    pub value: U256,
+}
+
+impl VariableSpec {
+    pub fn new(address: String, value: U256) -> Self {
+        VariableSpec { address, value }
+    }
+}
+
+#[derive(Clone, Debug)]
 pub struct BranchSpec {
     // here we should have a storage similar the memory below:
     // however, here we assume the sstore always happens after the sload
@@ -212,6 +226,10 @@ pub struct BranchSpec {
     //
     pub storage_reads: HashSet<String>,
     pub storage_writes: HashSet<String>,
+
+    // store the storage reads and writes with their corresponding values
+    pub storage_reads_values: Vec<VariableSpec>,
+    pub storage_writes_values: Vec<VariableSpec>,
 }
 
 // create a new() method for BranchSpec
@@ -234,6 +252,8 @@ impl BranchSpec {
             end_instruction: None,
             storage_reads: HashSet::new(),
             storage_writes: HashSet::new(),
+            storage_reads_values: Vec::new(),
+            storage_writes_values: Vec::new(),
         }
     }
 }
