@@ -1,14 +1,27 @@
 pub mod analyze;
-pub mod structures;
 pub mod resolve;
+pub mod structures;
 
-use heimdall_common::{debug_max, ether::{evm::core::opcodes::WrappedOpcode, lexers::cleanup::Cleanup, rpc::get_functions_from_contract}, utils::{env, threading::run_with_timeout}};
-use std::{
-    collections::{BTreeMap, HashMap, HashSet}, env::set_var, process::exit, time::Duration,
+use crate::spec::analyze::spec_trace;
+use crate::{
+    disassemble::{disassemble, DisassemblerArgs},
+    spec::{
+        resolve::{args2string, resolve_signatures},
+        structures::spec::{BranchSpec, Spec},
+    },
 };
 use clap::{AppSettings, Parser};
 use derive_builder::Builder;
 use ethers::types::U256;
+use heimdall_common::ether::evm::ext::exec::VMTrace;
+use heimdall_common::{
+    debug_max,
+    ether::{
+        evm::core::opcodes::WrappedOpcode, lexers::cleanup::Cleanup,
+        rpc::get_functions_from_contract,
+    },
+    utils::{env, threading::run_with_timeout},
+};
 use heimdall_common::{
     ether::{
         bytecode::get_bytecode_from_target,
@@ -22,16 +35,12 @@ use heimdall_common::{
         strings::{decode_hex, get_shortned_target},
     },
 };
-use crate::{
-    disassemble::{disassemble, DisassemblerArgs},
-    spec::{
-        resolve::{args2string, resolve_signatures},
-        structures::spec::{BranchSpec, Spec},
-    },
+use std::{
+    collections::{BTreeMap, HashMap, HashSet},
+    env::set_var,
+    process::exit,
+    time::Duration,
 };
-use crate::spec::analyze::spec_trace;
-use heimdall_common::ether::evm::ext::exec::VMTrace;
-
 
 #[derive(Debug, Clone, Parser, Builder)]
 #[clap(
@@ -76,7 +85,6 @@ pub struct SpecArgs {
     /// The timeout for each function's symbolic execution in milliseconds.
     #[clap(long, short, default_value = "10000", hide_default_value = true)]
     pub timeout: u64,
-
 }
 
 impl Default for SpecArgs {
@@ -95,7 +103,6 @@ impl Default for SpecArgs {
     }
 }
 
-
 impl SpecArgsBuilder {
     pub fn new() -> Self {
         SpecArgsBuilder {
@@ -112,7 +119,6 @@ impl SpecArgsBuilder {
     }
 }
 
-
 #[derive(Debug, Clone)]
 pub struct SpecResult {
     pub specs: Vec<Spec>,
@@ -123,8 +129,10 @@ pub struct SpecResult {
 /// The main spec function, which will be called from the main thread. This module is
 /// responsible for generating a high-level overview of the target contract, including function
 /// signatures, access control, gas consumption, storage accesses, event emissions, and more.
-pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<SpecResult, Box<dyn std::error::Error>> {
-
+pub async fn spec(
+    args: SpecArgs,
+    selectors_interested: Vec<String>,
+) -> Result<SpecResult, Box<dyn std::error::Error>> {
     // step 1: get the bytecode
     let contract_bytecode = get_bytecode_from_target(&args.target, &args.rpc_url).await?;
 
@@ -153,7 +161,7 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
         decimal_counter: false,
         output: String::new(),
     })
-        .await?;
+    .await?;
 
     // step 5: resolve the selectors and signatures (optional)
     let (selectors, resolved_selectors) =
@@ -162,29 +170,18 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
     // step 6: set up onchain fetcher => skipped
 
     // step 7: get the spec
-    let (specs, all_resolved_errors, all_resolved_events) = get_spec(
-        selectors,
-        resolved_selectors,
-        &contract_bytecode,
-        &evm,
-        &args,
-    )
-        .await?;
+    let (specs, all_resolved_errors, all_resolved_events) =
+        get_spec(selectors, resolved_selectors, &contract_bytecode, &evm, &args).await?;
 
     // step 8: get contract from EtherScan if verified on EtherScan
     set_var("ETHERSCAN_API_KEY", "I7R59ER7AQ8HEBYTNR15ETXJSMTD86BHA4");
     let ret = get_functions_from_contract(&args.target).await;
     let selector_map = match ret {
-        Ok(functions) => {
-            functions
-        }
-        Err(_) => {
-            BTreeMap::new()
-        }
+        Ok(functions) => functions,
+        Err(_) => BTreeMap::new(),
     };
 
-
-    // step 9: print function specifications, 
+    // step 9: print function specifications,
     // if open sourced, print the function signature
     // if close sourced, print the function signature resolved
     for spec in &specs {
@@ -199,7 +196,6 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
         if !spec.pure && !spec.view {
             println!("================");
             print!("selector: {:?}", spec.selector);
-
 
             // check if spec.selector is in selector_map
             if selector_map.contains_key(&spec.selector) {
@@ -237,7 +233,7 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
             }
             // if spec.pure && spec.view {
             //     continue;
-            // }            
+            // }
             // println!("arguments {:?}", spec.arguments);
             // println!("storage {:?}", spec.storage);
             println!("pure {:?}", spec.pure);
@@ -250,7 +246,9 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
             let mut head_found = false;
             // find head
             for branch in spec.branch_specs.iter() {
-                if branch.start_instruction.is_some() && branch.start_instruction.unwrap() == spec.entry_point + 1 {
+                if branch.start_instruction.is_some()
+                    && branch.start_instruction.unwrap() == spec.entry_point + 1
+                {
                     head = branch;
                     head_found = true;
                     // break;
@@ -260,8 +258,11 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
                     continue;
                 } else if branch.children.len() == 2 {
                     // check if there is a branch with two children that are both revert
-                    if branch.children[0].is_revert.is_some() && branch.children[0].is_revert.unwrap() &&
-                        branch.children[1].is_revert.is_some() && branch.children[1].is_revert.unwrap() {
+                    if branch.children[0].is_revert.is_some()
+                        && branch.children[0].is_revert.unwrap()
+                        && branch.children[1].is_revert.is_some()
+                        && branch.children[1].is_revert.unwrap()
+                    {
                         println!("branch has two children that are both revert");
                         // this error should be fixed in get_spec()
                         exit(-1);
@@ -294,7 +295,6 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
             //     println!("child selector {:?}", child);
             // }
 
-
             // we should have a smarter way to print it:
             println!("branch count {:?}", spec.branch_count);
 
@@ -303,9 +303,8 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
             // this can be told be checking whether there exists an external call with arguments in the branch
 
             // 2. which branch has which storage accesses and external calls
-            // absolutely will happen: 
+            // absolutely will happen:
             // possibly will happen:  [ (storageAccess, [branch1, branch2]), (storageAccess, [branch1, branch2]) ]
-
 
             let mut stack: Vec<&BranchSpec> = Vec::new();
             stack.push(head);
@@ -314,7 +313,6 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
             // or possibly be executed
             let mut status_stack: Vec<bool> = Vec::new();
             status_stack.push(true);
-
 
             let mut used_control_statements: HashSet<_> = HashSet::new();
             let mut absolute_storage_reads: HashSet<String> = HashSet::new();
@@ -338,12 +336,18 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
                 let mut is_one_child_revert = false;
                 let mut revert_child = 9;
                 if branch.children.len() == 2 {
-                    if branch.children[0].is_revert.is_some() && branch.children[0].is_revert.unwrap() &&
-                        branch.children[1].is_revert.is_some() && !branch.children[1].is_revert.unwrap() {
+                    if branch.children[0].is_revert.is_some()
+                        && branch.children[0].is_revert.unwrap()
+                        && branch.children[1].is_revert.is_some()
+                        && !branch.children[1].is_revert.unwrap()
+                    {
                         is_one_child_revert = true;
                         revert_child = 0;
-                    } else if branch.children[1].is_revert.is_some() && branch.children[1].is_revert.unwrap() &&
-                        branch.children[0].is_revert.is_some() && !branch.children[0].is_revert.unwrap() {
+                    } else if branch.children[1].is_revert.is_some()
+                        && branch.children[1].is_revert.unwrap()
+                        && branch.children[0].is_revert.is_some()
+                        && !branch.children[0].is_revert.unwrap()
+                    {
                         is_one_child_revert = true;
                         revert_child = 1;
                     }
@@ -363,7 +367,6 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
                 }
             }
 
-
             // print used_control_statements, absolute_storage_reads, possible_storage_writes, absolute_external_calls, possible_external_calls
             println!("used control statements: {:?}", used_control_statements);
             println!("absolute storage reads: {:?}", absolute_storage_reads);
@@ -376,7 +379,6 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
         }
     }
 
-
     Ok(SpecResult {
         specs,
         resolved_errors: all_resolved_errors,
@@ -384,12 +386,13 @@ pub async fn spec(args: SpecArgs, selectors_interested: Vec<String>) -> Result<S
     })
 }
 
-
 fn has_reentrancy_guard(branch: &BranchSpec) -> bool {
     for value_read in branch.storage_reads_values.iter() {
         let mut failed = false;
         for child in branch.children.iter() {
-            if child.is_revert.is_some() && child.is_revert.unwrap() {
+            if (child.is_revert.is_some() && child.is_revert.unwrap())
+                || (child.is_loop.is_some() && child.is_loop.unwrap())
+            {
                 continue;
             }
             if !rewrites_value_to_storage(child, &value_read.address, &value_read.value) {
@@ -398,13 +401,23 @@ fn has_reentrancy_guard(branch: &BranchSpec) -> bool {
             }
         }
         if !failed {
-            println!("possible reentrancy guard found at using the value at slot {:?}", value_read.address);
+            println!(
+                "possible reentrancy guard found at using the value at slot {:?}",
+                value_read.address
+            );
             return true;
         }
     }
 
+    if branch.children.is_empty() {
+        return false;
+    }
+
     for child in branch.children.iter() {
-        if child.is_revert.is_some() && !child.is_revert.unwrap() && has_reentrancy_guard(child) {
+        if (child.is_revert.is_some() && !child.is_revert.unwrap())
+            && (child.is_loop.is_some() && !child.is_loop.unwrap())
+            && has_reentrancy_guard(child)
+        {
             return true;
         }
     }
@@ -422,9 +435,15 @@ fn rewrites_value_to_storage(branch: &BranchSpec, address: &str, initial_value: 
         }
     }
 
+    if branch.children.is_empty() {
+        return false;
+    }
+
     let mut failed = false;
     for child in branch.children.iter() {
-        if child.is_revert.is_some() && child.is_revert.unwrap() {
+        if (child.is_revert.is_some() && child.is_revert.unwrap())
+            || (child.is_loop.is_some() && child.is_loop.unwrap())
+        {
             continue;
         }
         if !rewrites_value_to_storage(child, address, initial_value) {
@@ -432,12 +451,15 @@ fn rewrites_value_to_storage(branch: &BranchSpec, address: &str, initial_value: 
             break;
         }
     }
-    // should it fail if the non-revert branch has no child?
     !failed
 }
 
-
-fn recovers_value(branch: &BranchSpec, address: &str, initial_value: &U256, start_idx: usize) -> bool {
+fn recovers_value(
+    branch: &BranchSpec,
+    address: &str,
+    initial_value: &U256,
+    start_idx: usize,
+) -> bool {
     for ii in start_idx..branch.storage_writes_values.len() {
         let value_write = &branch.storage_writes_values[ii];
         if value_write.address == address && value_write.value == *initial_value {
@@ -445,9 +467,15 @@ fn recovers_value(branch: &BranchSpec, address: &str, initial_value: &U256, star
         }
     }
 
+    if branch.children.is_empty() {
+        return false;
+    }
+
     let mut failed = false;
     for child in branch.children.iter() {
-        if child.is_revert.is_some() && child.is_revert.unwrap() {
+        if (child.is_revert.is_some() && child.is_revert.unwrap())
+            || (child.is_loop.is_some() && child.is_loop.unwrap())
+        {
             continue;
         }
         if !recovers_value(child, address, initial_value, 0) {
@@ -455,10 +483,8 @@ fn recovers_value(branch: &BranchSpec, address: &str, initial_value: &U256, star
             break;
         }
     }
-    // should it fail if the non-revert branch has no child?
     !failed
 }
-
 
 async fn get_spec(
     selectors: HashMap<String, u128>,
@@ -477,7 +503,6 @@ async fn get_spec(
     let assertions_on = true;
 
     for (selector, function_entry_point) in selectors {
-
         // analyze the function
         // get a map of possible jump destinations
         let mut evm_clone = evm.clone();
@@ -487,12 +512,9 @@ async fn get_spec(
             Duration::from_millis(args.timeout),
         ) {
             Some(map) => map,
-            None => {
-                continue
-            }
+            None => continue,
         };
         debug_max!("building spec for selector {} from symbolic execution trace", selector);
-
 
         let mut spec = Spec {
             selector: selector.clone(),
@@ -519,18 +541,12 @@ async fn get_spec(
 
         println!("selector {:?}", selector);
 
-
         (spec, branch_spec) = spec_trace(&map, spec, branch_spec).await;
 
         check_cfg_has_no_broken_edges(&map, &spec);
 
         if !args.skip_resolving {
-            resolve_signatures(
-                &mut spec,
-                &selector,
-                &resolved_selectors,
-            )
-                .await?;
+            resolve_signatures(&mut spec, &selector, &resolved_selectors).await?;
         }
 
         // for branch in spec.branch_specs.iter() {
@@ -571,8 +587,12 @@ async fn get_spec(
                 if assertions_on {
                     for branch in spec.branch_specs.iter() {
                         let condition1 = !branch.is_revert.unwrap();
-                        let condition2 = !branch.children.is_empty() && branch.children[0].is_revert.is_some() && branch.children[0].is_revert.unwrap();
-                        let condition3 = !branch.children.is_empty() && branch.children[1].is_revert.is_some() && branch.children[1].is_revert.unwrap();
+                        let condition2 = !branch.children.is_empty()
+                            && branch.children[0].is_revert.is_some()
+                            && branch.children[0].is_revert.unwrap();
+                        let condition3 = !branch.children.is_empty()
+                            && branch.children[1].is_revert.is_some()
+                            && branch.children[1].is_revert.unwrap();
                         if condition1 && condition2 && condition3 {
                             println!("branch has all children revert hahahaha");
                             exit(-1);
@@ -583,23 +603,19 @@ async fn get_spec(
             }
         }
 
-
         specs.push(spec);
     }
-
 
     Ok((specs, all_resolved_errors, all_resolved_events))
 }
 
-
 // also to help understand the cfg
 fn check_cfg_has_no_broken_edges(vm_trace: &VMTrace, spec: &Spec) {
-
     // print last operation of vm_trace.operations
     let last_operation = vm_trace.operations.last().unwrap();
     let first_operation = vm_trace.operations.first().unwrap();
-    let key = (first_operation.last_instruction.instruction, last_operation.last_instruction.instruction);
-
+    let key =
+        (first_operation.last_instruction.instruction, last_operation.last_instruction.instruction);
 
     let mut count: i32 = 0;
     let mut indexes = Vec::new();
@@ -624,16 +640,14 @@ fn check_cfg_has_no_broken_edges(vm_trace: &VMTrace, spec: &Spec) {
         check_cfg_has_no_broken_edges(child, &spec);
     }
 
-
     // let is_step_in = false;
     // if spec.cfg_map.contains_key(&key) {
     //     println!("key already exists");
     //     exit(1);
     // }
 
-
     // if !spec.cfg_map.contains_key(&key) {
-    //     // check 
+    //     // check
     //     if vm_trace.children.len() == 2 {
     //         if branchSpec.control_statement == None {
     //             println!("impossible, reach a branch with two children and no control statement");
@@ -663,7 +677,6 @@ fn check_cfg_has_no_broken_edges(vm_trace: &VMTrace, spec: &Spec) {
 
     //             println!("I care {:?}", aa);
     //             println!("I care {:?}", inputs0);
-
 
     //             println!("impossible, reach a branch with no children and a control statement");
     //             exit(1);

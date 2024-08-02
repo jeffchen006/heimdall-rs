@@ -34,6 +34,7 @@ pub struct VMTrace {
     pub operations: Vec<State>,
     pub children: Vec<VMTrace>,
     pub message: String,
+    pub loop_detected: bool,
 }
 
 impl VMTrace {
@@ -100,6 +101,7 @@ impl VM {
             operations: Vec::new(),
             children: Vec::new(),
             message: String::new(),
+            loop_detected: false,
         };
 
         // step through the bytecode until we find a JUMPI instruction
@@ -138,12 +140,14 @@ impl VM {
                 // if the stack contains too many items, it's probably a loop
                 if stack_contains_too_many_items(&vm.stack) {
                     vm_trace.message = "stack contains too many items".to_string();
+                    vm_trace.loop_detected = true;
                     return vm_trace
                 }
 
                 // if the stack has over 16 items of the same source, it's probably a loop
                 if stack_contains_too_many_of_the_same_item(&vm.stack) {
                     vm_trace.message = "stack contains too many of the same item".to_string();
+                    vm_trace.loop_detected = true;
                     return vm_trace
                 }
 
@@ -151,6 +155,7 @@ impl VM {
                 // too deep)
                 if stack_item_source_depth_too_deep(&vm.stack) {
                     vm_trace.message = "stack item source depth too deep".to_string();
+                    vm_trace.loop_detected = true;
                     return vm_trace
                 }
 
@@ -158,6 +163,7 @@ impl VM {
                 // jumps, it's probably a loop
                 if jump_stack_depth_less_than_max_stack_depth(&jump_frame, handled_jumps) {
                     vm_trace.message = "jump stack depth less than max stack depth".to_string();
+                    vm_trace.loop_detected = true;
                     return vm_trace
                 }
 
@@ -224,6 +230,7 @@ impl VM {
                             // this key exists, but the stack is different, so the jump is new
                             historical_stacks.push(vm.stack.clone());
                             vm_trace.message = "for every stack that we have encountered for this jump".to_string();
+                            vm_trace.loop_detected = true;
                             return vm_trace
                         }
 
@@ -238,6 +245,7 @@ impl VM {
                             // this key exists, but the stack is different, so the jump is new
                             historical_stacks.push(vm.stack.clone());
                             vm_trace.message = "historical diffs approximately equal".to_string();
+                            vm_trace.loop_detected = true;
                             return vm_trace
                         } else {
                             debug_max!(

@@ -219,6 +219,9 @@ pub struct BranchSpec {
     // this is a return branch
     pub is_return: Option<bool>,
 
+    // this branch is in a loop and is stopped
+    pub is_loop: Option<bool>,
+
     // this is a snippet of the function
     pub start_instruction: Option<u128>,
     pub end_instruction: Option<u128>,
@@ -248,6 +251,7 @@ impl BranchSpec {
             children: Vec::new(),
             is_revert: None,
             is_return: None,
+            is_loop: None,
             start_instruction: None,
             end_instruction: None,
             storage_reads: HashSet::new(),

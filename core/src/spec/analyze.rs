@@ -50,6 +50,7 @@ pub async fn spec_trace(
 
     branchSpec.start_instruction = Some(vm_trace.operations.first().unwrap().last_instruction.instruction);
     branchSpec.end_instruction = Some(vm_trace.operations.last().unwrap().last_instruction.instruction);
+    branchSpec.is_loop = Some(vm_trace.loop_detected);
 
     // perform analysis on the operations of the current VMTrace branch
     for operation in &vm_trace.operations {
