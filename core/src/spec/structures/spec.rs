@@ -162,15 +162,22 @@ impl ConcolicExternalCall {
 //     }
 // }
 
+#[derive(Clone, Debug, PartialEq)]
+pub enum StorageOperation {
+    Read,
+    Write,
+}
+
 #[derive(Clone, Debug)]
 pub struct VariableSpec {
     pub address: String,
     pub value: U256,
+    pub operation: StorageOperation,
 }
 
 impl VariableSpec {
-    pub fn new(address: String, value: U256) -> Self {
-        VariableSpec { address, value }
+    pub fn new(address: String, value: U256, operation: StorageOperation) -> Self {
+        VariableSpec { address, value, operation }
     }
 }
 
@@ -231,8 +238,7 @@ pub struct BranchSpec {
     pub storage_writes: HashSet<String>,
 
     // store the storage reads and writes with their corresponding values
-    pub storage_reads_values: Vec<VariableSpec>,
-    pub storage_writes_values: Vec<VariableSpec>,
+    pub storage_operation_values: Vec<VariableSpec>,
 }
 
 // create a new() method for BranchSpec
@@ -256,8 +262,7 @@ impl BranchSpec {
             end_instruction: None,
             storage_reads: HashSet::new(),
             storage_writes: HashSet::new(),
-            storage_reads_values: Vec::new(),
-            storage_writes_values: Vec::new(),
+            storage_operation_values: Vec::new(),
         }
     }
 }

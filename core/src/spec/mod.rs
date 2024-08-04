@@ -41,6 +41,8 @@ use std::{
     process::exit,
     time::Duration,
 };
+use heimdall_common::ether::evm::core::opcodes::Opcode;
+use crate::spec::structures::spec::StorageOperation;
 
 #[derive(Debug, Clone, Parser, Builder)]
 #[clap(
@@ -274,13 +276,8 @@ pub async fn spec(
                 exit(-1);
             }
 
-            // check for reentrancy guard
-            if has_reentrancy_guard(head) {
-                println!("reentrancy guard found");
-                // todo: set reentrancy guard in spec
-            } else {
-                println!("no reentrancy guard found");
-            }
+            let self_reverting_slots = get_self_reverting_slots(head, spec);
+            println!("self_reverting_slots: {:?}", self_reverting_slots);
 
             // Traverse the tree without recursion using a stack
             let mut stack = Vec::new();
@@ -386,105 +383,67 @@ pub async fn spec(
     })
 }
 
-fn has_reentrancy_guard(branch: &BranchSpec) -> bool {
-    for value_read in branch.storage_reads_values.iter() {
-        let mut failed = false;
-        for child in branch.children.iter() {
-            if (child.is_revert.is_some() && child.is_revert.unwrap())
-                || (child.is_loop.is_some() && child.is_loop.unwrap())
-            {
-                continue;
-            }
-            if !rewrites_value_to_storage(child, &value_read.address, &value_read.value) {
-                failed = true;
-                break;
-            }
-        }
-        if !failed {
-            println!(
-                "possible reentrancy guard found at using the value at slot {:?}",
-                value_read.address
-            );
-            return true;
+fn get_self_reverting_slots(head: &BranchSpec, spec: &Spec) -> HashSet<String> {
+    let constant_storage_slots = get_constant_storage_slots(head, HashMap::new(), HashMap::new());
+    let mut self_reverting_slots = HashSet::new();
+    for (key, value) in constant_storage_slots.iter() {
+        if value.is_some() && spec.storage_write.contains(key) {
+            self_reverting_slots.insert(key.clone());
         }
     }
-
-    if branch.children.is_empty() {
-        return false;
-    }
-
-    for child in branch.children.iter() {
-        if (child.is_revert.is_some() && !child.is_revert.unwrap())
-            && (child.is_loop.is_some() && !child.is_loop.unwrap())
-            && has_reentrancy_guard(child)
-        {
-            return true;
-        }
-    }
-    false
+    self_reverting_slots
 }
 
-fn rewrites_value_to_storage(branch: &BranchSpec, address: &str, initial_value: &U256) -> bool {
-    for ii in 0..branch.storage_writes_values.len() {
-        let value_write = &branch.storage_writes_values[ii];
-        if value_write.address == address && value_write.value != *initial_value {
-            // the recovery might be in the same branch or in the children
-            if recovers_value(branch, address, initial_value, ii + 1) {
-                return true;
+fn get_constant_storage_slots(branch: &BranchSpec, mut values: HashMap<String, Option<U256>>, mut initial_values: HashMap<String, U256>) -> HashMap<String, Option<U256>> {
+    if (branch.is_revert.is_some() && branch.is_revert.unwrap())
+        || (branch.is_return.is_some() && branch.is_return.unwrap()) {
+        for (key, initial_value) in initial_values.iter() {
+            values.insert(key.clone(), Some(initial_value.clone()));
+        }
+        return values;
+    }
+
+    let mut curr_values = HashMap::new();
+    for value in branch.storage_operation_values.iter() {
+        if value.operation == StorageOperation::Read && !values.contains_key(&value.address) && !curr_values.contains_key(&value.address) {
+            curr_values.insert(value.address.clone(), Some(value.value));
+            values.insert(value.address.clone(), Some(value.value));
+            initial_values.insert(value.address.clone(), value.value);
+        } else if value.operation == StorageOperation::Write && values.contains_key(&value.address) {
+            values.insert(value.address.clone(), Some(value.value));
+        } else if value.operation == StorageOperation::Write && !values.contains_key(&value.address) {
+            curr_values.insert(value.address.clone(), None);
+        }
+    }
+
+    let mut outputs = Vec::new();
+    for child in branch.children.iter() {
+        let child_values = values.clone();
+        let child_slots = get_constant_storage_slots(child, child_values, initial_values.clone());
+        outputs.push(child_slots);
+    }
+
+    for output in outputs.iter() {
+        for (key, value) in output.iter() {
+            if value.is_none() {
+                curr_values.insert(key.clone(), None);
+            } else if !curr_values.contains_key(key) {
+                curr_values.insert(key.clone(), Some(value.unwrap()));
+            } else {
+                if curr_values[key].is_some() && curr_values[key] != *value {
+                    curr_values.insert(key.clone(), None);
+                }
             }
         }
     }
 
-    if branch.children.is_empty() {
-        return false;
+    for (key, value) in curr_values.iter() {
+        values.insert(key.clone(), value.clone());
     }
 
-    let mut failed = false;
-    for child in branch.children.iter() {
-        if (child.is_revert.is_some() && child.is_revert.unwrap())
-            || (child.is_loop.is_some() && child.is_loop.unwrap())
-        {
-            continue;
-        }
-        if !rewrites_value_to_storage(child, address, initial_value) {
-            failed = true;
-            break;
-        }
-    }
-    !failed
+    values
 }
 
-fn recovers_value(
-    branch: &BranchSpec,
-    address: &str,
-    initial_value: &U256,
-    start_idx: usize,
-) -> bool {
-    for ii in start_idx..branch.storage_writes_values.len() {
-        let value_write = &branch.storage_writes_values[ii];
-        if value_write.address == address && value_write.value == *initial_value {
-            return true;
-        }
-    }
-
-    if branch.children.is_empty() {
-        return false;
-    }
-
-    let mut failed = false;
-    for child in branch.children.iter() {
-        if (child.is_revert.is_some() && child.is_revert.unwrap())
-            || (child.is_loop.is_some() && child.is_loop.unwrap())
-        {
-            continue;
-        }
-        if !recovers_value(child, address, initial_value, 0) {
-            failed = true;
-            break;
-        }
-    }
-    !failed
-}
 
 async fn get_spec(
     selectors: HashMap<String, u128>,

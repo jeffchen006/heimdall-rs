@@ -4,7 +4,7 @@ use crate::decompile::constants::AND_BITMASK_REGEX;
 
 use crate::snapshot::constants::VARIABLE_SIZE_CHECK_REGEX;
 
-use crate::spec::structures::spec::{BranchSpec, CallAddress, CalldataFrame, Spec, StorageFrame, VariableSpec};
+use crate::spec::structures::spec::{BranchSpec, CallAddress, CalldataFrame, Spec, StorageFrame, StorageOperation, VariableSpec};
 
 use ethers::{
     abi::{decode, ParamType},
@@ -260,16 +260,18 @@ pub async fn spec_trace(
 
             spec.storage_write.insert(instruction.input_operations[0].solidify().cleanup());
             branchSpec.storage_writes.insert(instruction.input_operations[0].solidify().cleanup());
-            branchSpec.storage_writes_values.push(VariableSpec::new(
+            branchSpec.storage_operation_values.push(VariableSpec::new(
                 instruction.input_operations[0].solidify().cleanup(),
                 instruction.inputs[1],
+                StorageOperation::Write,
             ));
         } else if opcode_name == "SLOAD" {
             spec.storage_read.insert(instruction.input_operations[0].solidify().cleanup());
             branchSpec.storage_reads.insert(instruction.input_operations[0].solidify().cleanup());
-            branchSpec.storage_reads_values.push(VariableSpec::new(
+            branchSpec.storage_operation_values.push(VariableSpec::new(
                 instruction.input_operations[0].solidify().cleanup(),
                 instruction.outputs[0],
+                StorageOperation::Read,
             ));
         } else if opcode_name == "CALLDATALOAD" {
             let slot_as_usize: usize = instruction.inputs[0].try_into().unwrap_or(usize::MAX);
