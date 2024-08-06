@@ -396,7 +396,7 @@ fn get_self_reverting_slots(head: &BranchSpec, spec: &Spec) -> HashSet<String> {
 
 fn get_constant_storage_slots(branch: &BranchSpec, mut values: HashMap<String, Option<U256>>, mut initial_values: HashMap<String, U256>) -> HashMap<String, Option<U256>> {
     if (branch.is_revert.is_some() && branch.is_revert.unwrap())
-        || (branch.is_return.is_some() && branch.is_return.unwrap()) {
+        || (branch.is_loop.is_some() && branch.is_loop.unwrap()) {
         for (key, initial_value) in initial_values.iter() {
             values.insert(key.clone(), Some(initial_value.clone()));
         }
