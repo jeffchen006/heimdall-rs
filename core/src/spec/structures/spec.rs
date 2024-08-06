@@ -63,9 +63,8 @@ pub struct Spec {
     //
     pub cfg_map: HashMap<(u128, u128), Vec<(u128, u128)>>,
     pub branch_specs: Vec<BranchSpec>,
+    pub head_branch_idx: Option<usize>,
     pub resolved_function: Vec<ResolvedFunction>,
-
-    pub contains_reentrancy_guard: bool,
 }
 
 #[derive(Clone, Debug)]

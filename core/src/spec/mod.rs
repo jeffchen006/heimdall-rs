@@ -244,37 +244,12 @@ pub async fn spec(
             // println!("external calls {:?}", spec.external_calls);
             // println!("control_statements {:?}", spec.control_statements);
             println!("entry_point {:?}", spec.entry_point);
-            let mut head = spec.branch_specs.first().unwrap();
-            let mut head_found = false;
-            // find head
-            for branch in spec.branch_specs.iter() {
-                if branch.start_instruction.is_some()
-                    && branch.start_instruction.unwrap() == spec.entry_point + 1
-                {
-                    head = branch;
-                    head_found = true;
-                    // break;
-                }
-
-                if branch.is_revert.is_some() && branch.is_revert.unwrap() {
-                    continue;
-                } else if branch.children.len() == 2 {
-                    // check if there is a branch with two children that are both revert
-                    if branch.children[0].is_revert.is_some()
-                        && branch.children[0].is_revert.unwrap()
-                        && branch.children[1].is_revert.is_some()
-                        && branch.children[1].is_revert.unwrap()
-                    {
-                        println!("branch has two children that are both revert");
-                        // this error should be fixed in get_spec()
-                        exit(-1);
-                    }
-                }
-            }
+            let head_found = spec.head_branch_idx.is_some();
             if !head_found {
                 println!("head not found");
                 exit(-1);
             }
+            let head = &spec.branch_specs[spec.head_branch_idx.unwrap()];
 
             let self_reverting_slots = get_self_reverting_slots(head, spec);
             println!("self_reverting_slots: {:?}", self_reverting_slots);
@@ -492,8 +467,8 @@ async fn get_spec(
             branch_count: jumpdest_count,
             cfg_map: HashMap::new(),
             branch_specs: Vec::new(),
+            head_branch_idx: None,
             resolved_function: Vec::new(),
-            contains_reentrancy_guard: false,
         };
 
         let mut branch_spec = BranchSpec::new();
@@ -562,6 +537,37 @@ async fn get_spec(
             }
         }
 
+        let mut head: usize = 0;
+        let mut head_found = false;
+        // find head
+        for (ii, branch) in spec.branch_specs.iter().enumerate() {
+            if branch.start_instruction.is_some()
+                && branch.start_instruction.unwrap() == spec.entry_point + 1
+            {
+                head = ii;
+                head_found = true;
+                // break;
+            }
+
+            if branch.is_revert.is_some() && branch.is_revert.unwrap() {
+                continue;
+            } else if branch.children.len() == 2 {
+                // check if there is a branch with two children that are both revert
+                if branch.children[0].is_revert.is_some()
+                    && branch.children[0].is_revert.unwrap()
+                    && branch.children[1].is_revert.is_some()
+                    && branch.children[1].is_revert.unwrap()
+                {
+                    println!("branch has two children that are both revert");
+                    // this error should be fixed in get_spec()
+                    exit(-1);
+                }
+            }
+        }
+
+        if head_found {
+            spec.head_branch_idx = Some(head);
+        }
         specs.push(spec);
     }
 
