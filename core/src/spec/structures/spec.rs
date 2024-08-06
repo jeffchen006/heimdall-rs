@@ -65,6 +65,8 @@ pub struct Spec {
     pub branch_specs: Vec<BranchSpec>,
     pub head_branch_idx: Option<usize>,
     pub resolved_function: Vec<ResolvedFunction>,
+
+    pub self_reverting_slots: HashSet<String>,
 }
 
 #[derive(Clone, Debug)]

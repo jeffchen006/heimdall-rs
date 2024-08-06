@@ -251,9 +251,6 @@ pub async fn spec(
             }
             let head = &spec.branch_specs[spec.head_branch_idx.unwrap()];
 
-            let self_reverting_slots = get_self_reverting_slots(head, spec);
-            println!("self_reverting_slots: {:?}", self_reverting_slots);
-
             // Traverse the tree without recursion using a stack
             let mut stack = Vec::new();
             stack.push(head);
@@ -345,6 +342,7 @@ pub async fn spec(
             println!("possible storage writes: {:?}", possible_storage_writes);
             println!("all possible storage reads: {:?}", spec.storage_read);
             println!("all possible storage writes: {:?}", spec.storage_write);
+            println!("self_reverting_slots: {:?}", spec.self_reverting_slots);
             println!("absolute external calls: {:?}", absolute_external_calls);
             println!("possible external calls: {:?}", possible_external_calls);
             println!("all possible external calls: {:?}", spec.external_calls);
@@ -356,67 +354,6 @@ pub async fn spec(
         resolved_errors: all_resolved_errors,
         resolved_events: all_resolved_events,
     })
-}
-
-fn get_self_reverting_slots(head: &BranchSpec, spec: &Spec) -> HashSet<String> {
-    let constant_storage_slots = get_constant_storage_slots(head, HashMap::new(), HashMap::new());
-    let mut self_reverting_slots = HashSet::new();
-    for (key, value) in constant_storage_slots.iter() {
-        if value.is_some() && spec.storage_write.contains(key) {
-            self_reverting_slots.insert(key.clone());
-        }
-    }
-    self_reverting_slots
-}
-
-fn get_constant_storage_slots(branch: &BranchSpec, mut values: HashMap<String, Option<U256>>, mut initial_values: HashMap<String, U256>) -> HashMap<String, Option<U256>> {
-    if (branch.is_revert.is_some() && branch.is_revert.unwrap())
-        || (branch.is_loop.is_some() && branch.is_loop.unwrap()) {
-        for (key, initial_value) in initial_values.iter() {
-            values.insert(key.clone(), Some(initial_value.clone()));
-        }
-        return values;
-    }
-
-    let mut curr_values = HashMap::new();
-    for value in branch.storage_operation_values.iter() {
-        if value.operation == StorageOperation::Read && !values.contains_key(&value.address) && !curr_values.contains_key(&value.address) {
-            curr_values.insert(value.address.clone(), Some(value.value));
-            values.insert(value.address.clone(), Some(value.value));
-            initial_values.insert(value.address.clone(), value.value);
-        } else if value.operation == StorageOperation::Write && values.contains_key(&value.address) {
-            values.insert(value.address.clone(), Some(value.value));
-        } else if value.operation == StorageOperation::Write && !values.contains_key(&value.address) {
-            curr_values.insert(value.address.clone(), None);
-        }
-    }
-
-    let mut outputs = Vec::new();
-    for child in branch.children.iter() {
-        let child_values = values.clone();
-        let child_slots = get_constant_storage_slots(child, child_values, initial_values.clone());
-        outputs.push(child_slots);
-    }
-
-    for output in outputs.iter() {
-        for (key, value) in output.iter() {
-            if value.is_none() {
-                curr_values.insert(key.clone(), None);
-            } else if !curr_values.contains_key(key) {
-                curr_values.insert(key.clone(), Some(value.unwrap()));
-            } else {
-                if curr_values[key].is_some() && curr_values[key] != *value {
-                    curr_values.insert(key.clone(), None);
-                }
-            }
-        }
-    }
-
-    for (key, value) in curr_values.iter() {
-        values.insert(key.clone(), value.clone());
-    }
-
-    values
 }
 
 
@@ -458,7 +395,6 @@ async fn get_spec(
             storage_read: HashSet::new(),
             storage_write: HashSet::new(),
             external_calls: Vec::new(),
-
             memory: HashMap::new(),
             returns: None,
             pure: true,
@@ -469,6 +405,7 @@ async fn get_spec(
             branch_specs: Vec::new(),
             head_branch_idx: None,
             resolved_function: Vec::new(),
+            self_reverting_slots: HashSet::new(),
         };
 
         let mut branch_spec = BranchSpec::new();
@@ -567,6 +504,7 @@ async fn get_spec(
 
         if head_found {
             spec.head_branch_idx = Some(head);
+            spec.self_reverting_slots = get_self_reverting_slots(&spec.branch_specs[head], &spec);
         }
         specs.push(spec);
     }
@@ -658,4 +596,67 @@ fn check_cfg_has_no_broken_edges(vm_trace: &VMTrace, spec: &Spec) {
     // } else {
 
     // }
+}
+
+
+fn get_self_reverting_slots(head: &BranchSpec, spec: &Spec) -> HashSet<String> {
+    let constant_storage_slots = get_constant_storage_slots(head, HashMap::new(), HashMap::new());
+    let mut self_reverting_slots = HashSet::new();
+    for (key, value) in constant_storage_slots.iter() {
+        if value.is_some() && spec.storage_write.contains(key) {
+            self_reverting_slots.insert(key.clone());
+        }
+    }
+    self_reverting_slots
+}
+
+
+fn get_constant_storage_slots(branch: &BranchSpec, mut values: HashMap<String, Option<U256>>, mut initial_values: HashMap<String, U256>) -> HashMap<String, Option<U256>> {
+    if (branch.is_revert.is_some() && branch.is_revert.unwrap())
+        || (branch.is_loop.is_some() && branch.is_loop.unwrap()) {
+        for (key, initial_value) in initial_values.iter() {
+            values.insert(key.clone(), Some(initial_value.clone()));
+        }
+        return values;
+    }
+
+    let mut curr_values = HashMap::new();
+    for value in branch.storage_operation_values.iter() {
+        if value.operation == StorageOperation::Read && !values.contains_key(&value.address) && !curr_values.contains_key(&value.address) {
+            curr_values.insert(value.address.clone(), Some(value.value));
+            values.insert(value.address.clone(), Some(value.value));
+            initial_values.insert(value.address.clone(), value.value);
+        } else if value.operation == StorageOperation::Write && values.contains_key(&value.address) {
+            values.insert(value.address.clone(), Some(value.value));
+        } else if value.operation == StorageOperation::Write && !values.contains_key(&value.address) {
+            curr_values.insert(value.address.clone(), None);
+        }
+    }
+
+    let mut outputs = Vec::new();
+    for child in branch.children.iter() {
+        let child_values = values.clone();
+        let child_slots = get_constant_storage_slots(child, child_values, initial_values.clone());
+        outputs.push(child_slots);
+    }
+
+    for output in outputs.iter() {
+        for (key, value) in output.iter() {
+            if value.is_none() {
+                curr_values.insert(key.clone(), None);
+            } else if !curr_values.contains_key(key) {
+                curr_values.insert(key.clone(), Some(value.unwrap()));
+            } else {
+                if curr_values[key].is_some() && curr_values[key] != *value {
+                    curr_values.insert(key.clone(), None);
+                }
+            }
+        }
+    }
+
+    for (key, value) in curr_values.iter() {
+        values.insert(key.clone(), value.clone());
+    }
+
+    values
 }
