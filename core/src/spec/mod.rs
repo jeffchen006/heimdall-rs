@@ -3,6 +3,7 @@ pub mod resolve;
 pub mod structures;
 
 use crate::spec::analyze::spec_trace;
+use crate::spec::structures::spec::StorageOperation;
 use crate::{
     disassemble::{disassemble, DisassemblerArgs},
     spec::{
@@ -13,6 +14,7 @@ use crate::{
 use clap::{AppSettings, Parser};
 use derive_builder::Builder;
 use ethers::types::U256;
+use heimdall_common::ether::evm::core::opcodes::Opcode;
 use heimdall_common::ether::evm::ext::exec::VMTrace;
 use heimdall_common::{
     debug_max,
@@ -41,8 +43,6 @@ use std::{
     process::exit,
     time::Duration,
 };
-use heimdall_common::ether::evm::core::opcodes::Opcode;
-use crate::spec::structures::spec::StorageOperation;
 
 #[derive(Debug, Clone, Parser, Builder)]
 #[clap(
@@ -356,7 +356,6 @@ pub async fn spec(
     })
 }
 
-
 async fn get_spec(
     selectors: HashMap<String, u128>,
     resolved_selectors: HashMap<String, Vec<ResolvedFunction>>,
@@ -598,7 +597,6 @@ fn check_cfg_has_no_broken_edges(vm_trace: &VMTrace, spec: &Spec) {
     // }
 }
 
-
 fn get_self_reverting_slots(head: &BranchSpec, spec: &Spec) -> HashSet<String> {
     let constant_storage_slots = get_constant_storage_slots(head, HashMap::new(), HashMap::new());
     let mut self_reverting_slots = HashSet::new();
@@ -610,10 +608,14 @@ fn get_self_reverting_slots(head: &BranchSpec, spec: &Spec) -> HashSet<String> {
     self_reverting_slots
 }
 
-
-fn get_constant_storage_slots(branch: &BranchSpec, mut values: HashMap<String, Option<U256>>, mut initial_values: HashMap<String, U256>) -> HashMap<String, Option<U256>> {
+fn get_constant_storage_slots(
+    branch: &BranchSpec,
+    mut values: HashMap<String, Option<U256>>,
+    mut initial_values: HashMap<String, U256>,
+) -> HashMap<String, Option<U256>> {
     if (branch.is_revert.is_some() && branch.is_revert.unwrap())
-        || (branch.is_loop.is_some() && branch.is_loop.unwrap()) {
+        || (branch.is_loop.is_some() && branch.is_loop.unwrap())
+    {
         for (key, initial_value) in initial_values.iter() {
             values.insert(key.clone(), Some(initial_value.clone()));
         }
@@ -622,13 +624,18 @@ fn get_constant_storage_slots(branch: &BranchSpec, mut values: HashMap<String, O
 
     let mut curr_values = HashMap::new();
     for value in branch.storage_operation_values.iter() {
-        if value.operation == StorageOperation::Read && !values.contains_key(&value.address) && !curr_values.contains_key(&value.address) {
+        if value.operation == StorageOperation::Read
+            && !values.contains_key(&value.address)
+            && !curr_values.contains_key(&value.address)
+        {
             curr_values.insert(value.address.clone(), Some(value.value));
             values.insert(value.address.clone(), Some(value.value));
             initial_values.insert(value.address.clone(), value.value);
-        } else if value.operation == StorageOperation::Write && values.contains_key(&value.address) {
+        } else if value.operation == StorageOperation::Write && values.contains_key(&value.address)
+        {
             values.insert(value.address.clone(), Some(value.value));
-        } else if value.operation == StorageOperation::Write && !values.contains_key(&value.address) {
+        } else if value.operation == StorageOperation::Write && !values.contains_key(&value.address)
+        {
             curr_values.insert(value.address.clone(), None);
         }
     }
