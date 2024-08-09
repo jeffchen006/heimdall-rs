@@ -366,4 +366,9 @@ impl Spec {
             }
         }
     }
+
+
+    pub fn is_read_only(&self) -> bool {
+        self.storage_write.is_empty()
+    }
 }
