@@ -158,6 +158,7 @@ pub async fn snapshot(args: SnapshotArgs) -> Result<SnapshotResult, Box<dyn std:
         String::from("0x6865696d64616c6c00000000000063616c6c6572"),
         0,
         u128::max_value(),
+        HashMap::new(),
     );
     let shortened_target = get_shortned_target(&contract_bytecode);
     let vm_trace = trace.add_creation(

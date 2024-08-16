@@ -4,7 +4,7 @@ use std::{
     str::FromStr,
     time::{Instant, SystemTime, UNIX_EPOCH},
 };
-
+use std::collections::HashMap;
 use ethers::{abi::AbiEncode, prelude::U256, types::I256, utils::keccak256};
 
 use crate::{
@@ -82,6 +82,7 @@ impl VM {
     /// value, and gas limit.
     ///
     /// ```
+    /// use std::collections::HashMap;
     /// use heimdall_common::ether::evm::core::vm::VM;
     ///
     /// let bytecode = "0x00";
@@ -93,6 +94,7 @@ impl VM {
     ///     "0x0000000000000000000000000000000000000002".to_string(),
     ///     0,
     ///     1000000000000000000,
+    ///     HashMap::new(),
     /// );
     /// ```
     pub fn new(
@@ -103,11 +105,12 @@ impl VM {
         caller: String,
         value: u128,
         gas_limit: u128,
+        initial_storage_values: HashMap<[u8; 32], [u8; 32]>,
     ) -> VM {
         VM {
             stack: Stack::new(),
             memory: Memory::new(),
-            storage: Storage::new(),
+            storage: Storage::new(initial_storage_values),
             instruction: 1,
             bytecode: decode_hex(&bytecode.replacen("0x", "", 1)).unwrap(),
             calldata: decode_hex(&calldata.replacen("0x", "", 1)).unwrap(),
@@ -128,6 +131,7 @@ impl VM {
     /// Exits current execution with the given code and returndata.
     ///
     /// ```
+    /// use std::collections::HashMap;
     /// use heimdall_common::ether::evm::core::vm::VM;
     ///
     /// let bytecode = "0x00";
@@ -139,6 +143,7 @@ impl VM {
     ///     "0x0000000000000000000000000000000000000002".to_string(),
     ///     0,
     ///     1000000000000000000,
+    ///     HashMap::new(),
     /// );
     ///
     /// vm.exit(0xff, Vec::new());
@@ -152,6 +157,7 @@ impl VM {
     /// Consume gas units, halting execution if out of gas
     ///
     /// ```
+    /// use std::collections::HashMap;
     /// use heimdall_common::ether::evm::core::vm::VM;
     ///
     /// let bytecode = "0x00";
@@ -163,6 +169,7 @@ impl VM {
     ///     "0x0000000000000000000000000000000000000002".to_string(),
     ///     0,
     ///     1000000000000000000,
+    ///     HashMap::new(),
     /// );
     ///
     /// vm.consume_gas(100);
@@ -190,6 +197,7 @@ impl VM {
     /// executed.
     ///
     /// ```no_run
+    /// use std::collections::HashMap;
     /// use heimdall_common::ether::evm::core::vm::VM;
     ///
     /// let bytecode = "0x00";
@@ -201,6 +209,7 @@ impl VM {
     ///     "0x0000000000000000000000000000000000000002".to_string(),
     ///     0,
     ///     1000000000000000000,
+    ///     HashMap::new(),
     /// );
     ///
     /// // vm._step(); // 0x00 EXIT
@@ -1643,6 +1652,7 @@ impl VM {
     /// executing the instruction
     ///
     /// ```
+    /// use std::collections::HashMap;
     /// use heimdall_common::ether::evm::core::vm::VM;
     ///
     /// let bytecode = "0x00";
@@ -1654,6 +1664,7 @@ impl VM {
     ///     "0x0000000000000000000000000000000000000002".to_string(),
     ///     0,
     ///     1000000000000000000,
+    ///     HashMap::new(),
     /// );
     ///
     /// vm.step(); // 0x00 EXIT
@@ -1676,6 +1687,7 @@ impl VM {
     /// View the next n instructions without executing them
     ///
     /// ```
+    /// use std::collections::HashMap;
     /// use heimdall_common::ether::evm::core::vm::VM;
     ///
     /// let bytecode = "0x00";
@@ -1687,6 +1699,7 @@ impl VM {
     ///     "0x0000000000000000000000000000000000000002".to_string(),
     ///     0,
     ///     1000000000000000000,
+    ///     HashMap::new(),
     /// );
     ///
     /// vm.peek(1); // 0x00 EXIT (not executed)
@@ -1712,6 +1725,7 @@ impl VM {
     /// Resets the VM state for a new execution
     ///
     /// ```
+    /// use std::collections::HashMap;
     /// use heimdall_common::ether::evm::core::vm::VM;
     ///
     /// let bytecode = "0x00";
@@ -1723,6 +1737,7 @@ impl VM {
     ///     "0x0000000000000000000000000000000000000002".to_string(),
     ///     0,
     ///     1000000000000000000,
+    ///     HashMap::new(),
     /// );
     ///
     /// vm.step(); // 0x00 EXIT (not executed)
@@ -1746,6 +1761,7 @@ impl VM {
     /// Executes the code until finished
     ///
     /// ```
+    /// use std::collections::HashMap;
     /// use heimdall_common::ether::evm::core::vm::VM;
     ///
     /// let bytecode = "0x00";
@@ -1757,6 +1773,7 @@ impl VM {
     ///     "0x0000000000000000000000000000000000000002".to_string(),
     ///     0,
     ///     1000000000000000000,
+    ///     HashMap::new(),
     /// );
     ///
     /// vm.execute(); // 0x00 EXIT (not executed)
@@ -1785,6 +1802,7 @@ impl VM {
     /// Executes provided calldata until finished
     ///
     /// ```
+    /// use std::collections::HashMap;
     /// use heimdall_common::ether::evm::core::vm::VM;
     ///
     /// let bytecode = "0x00";
@@ -1796,6 +1814,7 @@ impl VM {
     ///     "0x0000000000000000000000000000000000000002".to_string(),
     ///     0,
     ///     1000000000000000000,
+    ///     HashMap::new(),
     /// );
     ///
     /// vm.call("0x", 0);
@@ -1813,7 +1832,7 @@ impl VM {
 
 #[cfg(test)]
 mod tests {
-
+    use std::collections::HashMap;
     use std::str::FromStr;
 
     use ethers::prelude::U256;
@@ -1830,6 +1849,7 @@ mod tests {
             String::from("0x6865696d64616c6c00000000000063616c6c6572"),
             0,
             9999999999,
+            HashMap::new(),
         )
     }
 
@@ -2337,6 +2357,7 @@ mod tests {
             String::from("0x6865696d64616c6c00000000000063616c6c6572"),
             0,
             999999999,
+            HashMap::new(),
         );
 
         vm.execute();

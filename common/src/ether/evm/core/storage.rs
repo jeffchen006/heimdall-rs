@@ -8,11 +8,12 @@ use std::collections::{HashMap, HashSet};
 pub struct Storage {
     pub storage: HashMap<[u8; 32], [u8; 32]>,
     access_set: HashSet<[u8; 32]>,
+    initial_values: HashMap<[u8; 32], [u8; 32]>,
 }
 
 impl Default for Storage {
     fn default() -> Self {
-        Self::new()
+        Self::new(HashMap::new())
     }
 }
 
@@ -20,20 +21,22 @@ impl Storage {
     /// Creates a new [`Storage`] struct.
     ///
     /// ```
+    /// use std::collections::HashMap;
     /// use heimdall_common::ether::evm::core::storage::Storage;
     ///
-    /// let storage = Storage::new();
+    /// let storage = Storage::new(HashMap::new());
     /// ```
-    pub fn new() -> Storage {
-        Storage { storage: HashMap::new(), access_set: HashSet::new() }
+    pub fn new(initial_values: HashMap<[u8; 32], [u8; 32]>) -> Storage {
+        Storage { storage: HashMap::new(), access_set: HashSet::new(), initial_values }
     }
 
     /// Store a key-value pair in the storage map.
     ///
     /// ```
+    /// use std::collections::HashMap;
     /// use heimdall_common::ether::evm::core::storage::Storage;
     ///
-    /// let mut storage = Storage::new();
+    /// let mut storage = Storage::new(HashMap::new());
     /// storage.store([1u8; 32], [2u8; 32]);
     ///
     /// assert_eq!(storage.storage.get(&[1u8; 32]), Some(&[2u8; 32]));
@@ -47,9 +50,10 @@ impl Storage {
     /// Load a value from the storage map.
     ///
     /// ```
+    /// use std::collections::HashMap;
     /// use heimdall_common::ether::evm::core::storage::Storage;
     ///
-    /// let mut storage = Storage::new();
+    /// let mut storage = Storage::new(HashMap::new());
     /// storage.store([1u8; 32], [2u8; 32]);
     ///
     /// assert_eq!(storage.load([1u8; 32]), [2u8; 32]);
@@ -60,16 +64,20 @@ impl Storage {
         // return the value associated with the key, with a null word if it doesn't exist
         match self.storage.get(&key) {
             Some(value) => *value,
-            None => [0u8; 32],
+            None => match self.initial_values.get(&key) {
+                Some(value) => *value,
+                None => [0u8; 32],
+            }
         }
     }
 
     /// calculate the cost of accessing a key in storage
     ///
     /// ```
+    /// use std::collections::HashMap;
     /// use heimdall_common::ether::evm::core::storage::Storage;
     ///
-    /// let mut storage = Storage::new();
+    /// let mut storage = Storage::new(HashMap::new());
     ///
     /// // key `[1u8; 32]` is not warm, so the cost should be 2100
     /// assert_eq!(storage.access_cost([1u8; 32]), 2100);
@@ -90,9 +98,10 @@ impl Storage {
     /// calculate the cost of storing a key-value pair in storage
     ///
     /// ```
+    /// use std::collections::HashMap;
     /// use heimdall_common::ether::evm::core::storage::Storage;
     ///
-    /// let mut storage = Storage::new();
+    /// let mut storage = Storage::new(HashMap::new());
     ///
     /// // value `[0u8; 32]` is zero, i.e. clearing a key, so the cost should be 2900 + self.access_cost(key)
     /// assert_eq!(storage.storage_cost([1u8; 32], [0u8; 32]), 5000);
@@ -112,11 +121,12 @@ impl Storage {
 
 #[cfg(test)]
 mod tests {
+    use std::collections::HashMap;
     use crate::ether::evm::core::storage::Storage;
 
     #[test]
     fn test_sstore_sload() {
-        let mut storage = Storage::new();
+        let mut storage = Storage::new(HashMap::new());
 
         storage.store(
             [
@@ -174,7 +184,7 @@ mod tests {
 
     #[test]
     fn test_storage_access_cost_cold() {
-        let mut storage = Storage::new();
+        let mut storage = Storage::new(HashMap::new());
         assert_eq!(
             storage.access_cost([
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -186,7 +196,7 @@ mod tests {
 
     #[test]
     fn test_storage_access_cost_warm() {
-        let mut storage = Storage::new();
+        let mut storage = Storage::new(HashMap::new());
         storage.load([
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 1,
@@ -202,7 +212,7 @@ mod tests {
 
     #[test]
     fn test_storage_storage_cost_cold() {
-        let mut storage = Storage::new();
+        let mut storage = Storage::new(HashMap::new());
         assert_eq!(
             storage.storage_cost(
                 [
@@ -220,7 +230,7 @@ mod tests {
 
     #[test]
     fn test_storage_storage_cost_cold_zero() {
-        let mut storage = Storage::new();
+        let mut storage = Storage::new(HashMap::new());
         assert_eq!(
             storage.storage_cost(
                 [
@@ -238,7 +248,7 @@ mod tests {
 
     #[test]
     fn test_storage_storage_cost_warm() {
-        let mut storage = Storage::new();
+        let mut storage = Storage::new(HashMap::new());
         storage.store(
             [
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -266,7 +276,7 @@ mod tests {
 
     #[test]
     fn test_storage_storage_cost_warm_zero() {
-        let mut storage = Storage::new();
+        let mut storage = Storage::new(HashMap::new());
         storage.store(
             [
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

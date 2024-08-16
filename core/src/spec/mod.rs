@@ -134,6 +134,7 @@ pub struct SpecResult {
 pub async fn spec(
     args: SpecArgs,
     selectors_interested: Vec<String>,
+    initial_storage_values: HashMap<[u8; 32], [u8; 32]>,
 ) -> Result<SpecResult, Box<dyn std::error::Error>> {
     // step 1: get the bytecode
     let contract_bytecode = get_bytecode_from_target(&args.target, &args.rpc_url).await?;
@@ -152,6 +153,7 @@ pub async fn spec(
         String::from("0x6865696d64616c6c00000000000063616c6c6572"),
         0,
         u128::MAX,
+        initial_storage_values,
     );
 
     // step 4: disassemble the bytecode
@@ -607,6 +609,7 @@ fn get_self_reverting_slots(head: &BranchSpec, spec: &Spec) -> HashSet<String> {
     }
     self_reverting_slots
 }
+
 
 fn get_constant_storage_slots(
     branch: &BranchSpec,

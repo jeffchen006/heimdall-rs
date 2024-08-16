@@ -31,8 +31,8 @@ async fn analyze_one_contract( contract_address: String ) {
         name: String::from(""),
         output: String::from(""),
         timeout: 10000000,
-    };        
-    let specs = heimdall_core::spec::spec(args, vec![]).await.unwrap();
+    };
+    let specs = heimdall_core::spec::spec(args, vec![], HashMap::new()).await.unwrap();
 
 } 
 

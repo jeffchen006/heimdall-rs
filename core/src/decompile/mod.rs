@@ -192,6 +192,7 @@ pub async fn decompile(
         String::from("0x6865696d64616c6c00000000000063616c6c6572"),
         0,
         u128::max_value(),
+        HashMap::new(),
     );
     let mut shortened_target = contract_bytecode.clone();
     if shortened_target.len() > 66 {
