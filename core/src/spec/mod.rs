@@ -87,6 +87,14 @@ pub struct SpecArgs {
     /// The timeout for each function's symbolic execution in milliseconds.
     #[clap(long, short, default_value = "10000", hide_default_value = true)]
     pub timeout: u64,
+
+    /// The selectors we are interested in, joined by comma
+    #[clap(long, short, default_value = "", hide_default_value = true)]
+    pub selectors_interested: String,
+
+    /// The initial storage values, key-values separated by comma, key and value separated by =, both in hex
+    #[clap(long, short, default_value = "", hide_default_value = true)]
+    pub initial_storage_values: String,
 }
 
 impl Default for SpecArgs {
@@ -101,6 +109,8 @@ impl Default for SpecArgs {
             name: String::new(),
             output: String::new(),
             timeout: 10000,
+            selectors_interested: String::new(),
+            initial_storage_values: String::new(),
         }
     }
 }
@@ -117,6 +127,8 @@ impl SpecArgsBuilder {
             name: Some(String::new()),
             output: Some(String::new()),
             timeout: Some(10000),
+            selectors_interested: Some(String::new()),
+            initial_storage_values: Some(String::new()),
         }
     }
 }

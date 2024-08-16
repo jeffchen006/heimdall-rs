@@ -5,7 +5,7 @@ use backtrace::Backtrace;
 use error::Error;
 use output::{build_output_path, print_with_less};
 use std::{io, panic};
-
+use std::collections::HashMap;
 use clap::{Parser, Subcommand};
 use colored::Colorize;
 use crossterm::{
@@ -15,13 +15,10 @@ use crossterm::{
 };
 
 use heimdall_cache::{cache, CacheArgs};
-use heimdall_common::utils::{
-    io::{
-        file::{write_file, write_lines_to_file},
-        logging::Logger,
-    },
-    version::{current_version, remote_version},
-};
+use heimdall_common::utils::{strings, io::{
+    file::{write_file, write_lines_to_file},
+    logging::Logger,
+}, version::{current_version, remote_version}};
 use heimdall_config::{config, get_config, ConfigArgs};
 use heimdall_core::{
     cfg::{cfg, output::build_cfg, CFGArgs},
@@ -34,6 +31,8 @@ use heimdall_core::{
     spec::{spec, SpecArgs},
 };
 use tui::{backend::CrosstermBackend, Terminal};
+use heimdall_common::utils::strings::{split_string_by_regex, tokenize};
+use regex::Regex;
 
 #[derive(Debug, Parser)]
 #[clap(name = "heimdall", author = "Jonathan Becker <jonathan@jbecker.dev>", version)]
@@ -88,7 +87,6 @@ pub enum Subcommands {
     consumption, storage accesses, event emissions, and more"
     )]
     Spec(SpecArgs),
-
 }
 
 #[tokio::main]
@@ -397,17 +395,47 @@ async fn main() -> Result<(), Error> {
                 cmd.rpc_url = configuration.rpc_url;
             }
             // if the user has passed an output filename, override the default filename
-            let mut filename = "snapshot.csv".to_string();
+            let mut filename = "spec.csv".to_string();
             let given_name = cmd.name.as_str();
 
             if !given_name.is_empty() {
                 filename = format!("{}-{}", given_name, filename);
             }
-            let snapshot_result = spec(cmd.clone())
+            let selectors_interested = tokenize(&cmd.selectors_interested);
+            let initial_key_values = tokenize(&cmd.initial_storage_values);
+            if initial_key_values.len() % 2 != 0 {
+                return Err(Error::Generic(
+                    "initial storage values must be a list of key-value pairs".to_string(),
+                ));
+            }
+            let mut initial_values = HashMap::new();
+            let mut i = 0;
+            while i < initial_key_values.len() {
+                let key = initial_key_values[i].clone();
+                let value = initial_key_values[i + 1].clone();
+                let key_bytes = strings::decode_hex(&key).expect("failed to decode key hex");
+                let value_bytes = strings::decode_hex(&value).expect("failed to decode value hex");
+                if key_bytes.len() > 32 {
+                    return Err(Error::Generic(
+                        "storage key must be 32 bytes or less".to_string(),
+                    ));
+                }
+                if value_bytes.len() > 32 {
+                    return Err(Error::Generic(
+                        "storage value must be 32 bytes or less".to_string(),
+                    ));
+                }
+                let mut key_bytes_32 = [0u8; 32];
+                let mut value_bytes_32 = [0u8; 32];
+                key_bytes_32[32 - key_bytes.len()..].copy_from_slice(&key_bytes);
+                value_bytes_32[32 - value_bytes.len()..].copy_from_slice(&value_bytes);
+                initial_values.insert(key_bytes_32, value_bytes_32);
+            }
+            let spec_result = spec(cmd.clone(), selectors_interested, initial_values)
                 .await
                 .map_err(|e| Error::Generic(format!("failed to spec contract: {}", e)))?;
             let csv_lines = generate_csv_spec(
-                &snapshot_result.specs,
+                &spec_result.specs,
             );
 
             if cmd.output == "print" {
