@@ -1,0 +1,25 @@
+[
+    {
+        "contract": "0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445",
+        "selectors_interested": [
+            "d0a494e4",
+            "a9059cbb",
+            "095ea7b3"
+        ],
+        "initial_storage_values": {}
+    },
+    {
+        "contract": "0x697b4acaa24430f254224eb794d2a85ba1fa1fb8",
+        "selectors_interested": [],
+        "initial_storage_values": {
+            "00": "01"
+        }
+    },
+    {
+        "contract": "0xd06527d5e56a3495252a528c4987003b712860ee",
+        "selectors_interested": [],
+        "initial_storage_values": {
+            "00": "01"
+        }
+    }
+]

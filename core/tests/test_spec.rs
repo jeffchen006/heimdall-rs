@@ -1,56 +1,91 @@
 #[cfg(test)]
 mod benchmark {
+    use std::collections::HashMap;
     use clap_verbosity_flag::Verbosity;
+    use ethers::utils::hex;
+    use serde::{Deserialize, Serialize};
     use heimdall_common::utils::testing::benchmarks::async_bench;
 
     use heimdall_core::spec::SpecArgs;
 
-    #[tokio::test]
-    async fn benchmark_spec_reentrancy() {
-        // 0x3d5bc3c8d13dcb8bf317092d84783c2697ae9258
-        // 0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445
-        // 0x1cc6cf8455f7783980b1ee06ecd4ed9acd94e1c7 implementation DVM
-        let contract = "0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445"; // DVM
-        // define a vector of selectors
-        let selectors_interested: Vec<String> = vec![
-            "d0a494e4".to_string(), // flashLoan(): contains reentrancy guard -> pass
-            "a9059cbb".to_string(), // transfer(): does not contain reentrancy guard -> fail
-            "095ea7b3".to_string(), // approve(): does not contain reentrancy guard -> pass
-        ];
-
-        let args = SpecArgs {
-            target: contract.to_string(), 
-            verbose: Verbosity::new(0, 0),
-            rpc_url: String::from("https://eth.llamarpc.com"),
-            default: true,
-            skip_resolving: false,
-            no_tui: true,
-            name: String::from(""),
-            output: String::from(""),
-            timeout: 10000000,
-        };
-        let specs = heimdall_core::spec::spec(args, selectors_interested).await.unwrap();
-        for spec in specs.specs {
-            // println!("function {:?}", spec.selector);
-            // if spec.selector == "d0a494e4" {
-            //     for branch_spec in spec.branch_specs {
-            //         if branch_spec.external_calls.len() > 0 {
-            //             println!("branch {:?}", branch_spec);
-            //         }
-            //     }
-            // }
-            // if spec.selector == "bdcdc258" {
-            //     println!("function {:?}", spec.selector);
-            // }
-        }
+    #[derive(Serialize, Deserialize, Debug)]
+    struct Args {
+        contract: String,
+        selectors_interested: Vec<String>,
+        initial_storage_values: HashMap<String, String>,
     }
 
+    #[derive(Serialize, Deserialize, Debug)]
+    struct Result {
+        contract: String,
+        results: Vec<SpecResult>,
+    }
+
+    #[derive(Serialize, Deserialize, Debug)]
+    struct SpecResult {
+        selector: String,
+        self_reverting_slots: Vec<String>,
+    }
+
+    fn hex_str_to_bytes(hex_str: &str) -> [u8; 32] {
+        let mut res = hex::hex::decode(hex_str).unwrap();
+        while res.len() < 32 {
+            res.insert(0, 0);
+        }
+        res = res[res.len() - 32..].to_vec();
+        let mut bytes = [0u8; 32];
+        bytes.copy_from_slice(&res);
+        bytes
+    }
+
+    #[tokio::test]
+    async fn benchmark_spec_reentrancy() {
+        let file = std::fs::read_to_string("tests/testdata/self_reverting_slot_detection.json").unwrap();
+        let input: Vec<Args> = serde_json::from_str(&file).unwrap();
+        let mut results = vec![];
+        for args in input {
+            let selectors_interested = args.selectors_interested;
+            let initial_values = args
+                .initial_storage_values
+                .iter()
+                .map(|(k, v)| (hex_str_to_bytes(k), hex_str_to_bytes(v)))
+                .collect();
+            let spec_args = SpecArgs {
+                target: args.contract.clone(),
+                verbose: Verbosity::new(0, 0),
+                rpc_url: String::from("https://eth.llamarpc.com"),
+                default: true,
+                skip_resolving: false,
+                no_tui: true,
+                name: String::from(""),
+                output: String::from(""),
+                timeout: 10000000,
+                ..Default::default()
+            };
+            let specs = heimdall_core::spec::spec(spec_args, selectors_interested.clone(), initial_values).await.unwrap();
+            let mut spec_results = vec![];
+            for spec in specs.specs {
+                if selectors_interested.is_empty() || selectors_interested.contains(&spec.selector) {
+                    spec_results.push(SpecResult {
+                        selector: spec.selector,
+                        self_reverting_slots: spec.self_reverting_slots.iter().map(|x| x.to_string()).collect(),
+                    });
+                }
+            }
+            results.push(Result {
+                contract: args.contract,
+                results: spec_results,
+            });
+        }
+
+        std::fs::write("tests/results.json", serde_json::to_string_pretty(&results).unwrap()).unwrap();
+    }
 
     #[tokio::test]
     async fn benchmark_spec_complex() {
         let args = SpecArgs {
             // target: String::from("0xE90d8Fb7B79C8930B5C8891e61c298b412a6e81a"),
-            
+
             // XCarnival:
             // proxy: 0xb38707e31c813f832ef71c70731ed80b45b85b2d
             // implementation: 0x5417da20aC8157Dd5c07230Cfc2b226fDCFc5663
@@ -75,8 +110,9 @@ mod benchmark {
             name: String::from(""),
             output: String::from(""),
             timeout: 10000000,
+            ..Default::default()
         };
-        let specs = heimdall_core::spec::spec(args, vec![]).await.unwrap();
+        let specs = heimdall_core::spec::spec(args, vec![], HashMap::new()).await.unwrap();
         for spec in specs.specs {
             if spec.selector == "bd6d894d" {
                 for branch_spec in spec.branch_specs {
@@ -105,15 +141,16 @@ mod benchmark {
             timeout: 10000,
             ..Default::default()
         };
-        let spec = heimdall_core::spec::spec(args, vec![]).await.unwrap();
+        let spec = heimdall_core::spec::spec(args, vec![], HashMap::new()).await.unwrap();
         println!("{:?}", spec)
     }
 }
 
-
 #[cfg(test)]
 mod integration_tests {
+    use std::collections::HashMap;
     use clap_verbosity_flag::Verbosity;
+    use ethers::types::BlockId::Hash;
     use heimdall_common::utils::io::file::delete_path;
     use heimdall_core::spec::SpecArgs;
 
@@ -126,7 +163,7 @@ mod integration_tests {
             ..Default::default()
         };
 
-        let _ = heimdall_core::spec::spec(args, vec![]).await.unwrap();
+        let _ = heimdall_core::spec::spec(args, vec![], HashMap::new()).await.unwrap();
     }
 
     #[tokio::test]
@@ -144,7 +181,7 @@ mod integration_tests {
             ..Default::default()
         };
 
-        let _ = heimdall_core::spec::spec(args, vec![]).await.unwrap();
+        let _ = heimdall_core::spec::spec(args, vec![], HashMap::new()).await.unwrap();
     }
 
     /// Thorough testing for snapshot across a large number of contracts
@@ -235,7 +272,7 @@ mod integration_tests {
                 timeout: 10000,
                 ..Default::default()
             };
-            let _ = heimdall_core::spec::spec(args, vec![] ).await.unwrap();
+            let _ = heimdall_core::spec::spec(args, vec![], HashMap::new()).await.unwrap();
         }
 
         delete_path(&String::from("./output/tests/snapshot/integration"));
