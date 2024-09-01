@@ -117,6 +117,22 @@ impl Storage {
             20000 + self.access_cost(key)
         }
     }
+
+    /// check if a slot is previously initialized
+    ///
+    /// ```
+    /// use std::collections::HashMap;
+    /// use heimdall_common::ether::evm::core::storage::Storage;
+    ///
+    /// let mut storage = Storage::new(HashMap::new());
+    /// storage.store([1u8; 32], [2u8; 32]);
+    ///
+    /// assert_eq!(storage.is_initialized([1u8; 32]), true);
+    /// assert_eq!(storage.is_initialized([2u8; 32]), false);
+    /// ```
+    pub fn is_initialized(&self, key: [u8; 32]) -> bool {
+        self.storage.contains_key(&key) || self.initial_values.contains_key(&key)
+    }
 }
 
 #[cfg(test)]

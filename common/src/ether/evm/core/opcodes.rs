@@ -185,6 +185,8 @@ pub enum WrappedInput {
 pub struct WrappedOpcode {
     pub opcode: Opcode,
     pub inputs: Vec<WrappedInput>,
+    // only used for SLOADs
+    pub sload_previously_initialized: Option<bool>,
 }
 
 impl WrappedOpcode {

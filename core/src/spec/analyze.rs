@@ -262,7 +262,7 @@ pub async fn spec_trace(
             branchSpec.storage_writes.insert(instruction.input_operations[0].solidify().cleanup());
             branchSpec.storage_operation_values.push(VariableSpec::new(
                 instruction.input_operations[0].solidify().cleanup(),
-                instruction.inputs[1],
+                Some(instruction.inputs[1]),
                 StorageOperation::Write,
             ));
         } else if opcode_name == "SLOAD" {
@@ -270,7 +270,11 @@ pub async fn spec_trace(
             branchSpec.storage_reads.insert(instruction.input_operations[0].solidify().cleanup());
             branchSpec.storage_operation_values.push(VariableSpec::new(
                 instruction.input_operations[0].solidify().cleanup(),
-                instruction.outputs[0],
+                if instruction.output_operations[0].sload_previously_initialized.unwrap() {
+                    Some(instruction.outputs[0])
+                } else {
+                    None
+                },
                 StorageOperation::Read,
             ));
         } else if opcode_name == "CALLDATALOAD" {

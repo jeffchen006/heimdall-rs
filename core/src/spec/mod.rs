@@ -642,13 +642,14 @@ fn get_constant_storage_slots(
         if value.operation == StorageOperation::Read
             && !values.contains_key(&value.address)
             && !curr_values.contains_key(&value.address)
+            && !value.value.is_none()
         {
-            curr_values.insert(value.address.clone(), Some(value.value));
-            values.insert(value.address.clone(), Some(value.value));
-            initial_values.insert(value.address.clone(), value.value);
+            curr_values.insert(value.address.clone(), value.value);
+            values.insert(value.address.clone(), value.value);
+            initial_values.insert(value.address.clone(), value.value.unwrap());
         } else if value.operation == StorageOperation::Write && values.contains_key(&value.address)
         {
-            values.insert(value.address.clone(), Some(value.value));
+            values.insert(value.address.clone(), value.value);
         } else if value.operation == StorageOperation::Write && !values.contains_key(&value.address)
         {
             curr_values.insert(value.address.clone(), None);

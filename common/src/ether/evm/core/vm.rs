@@ -1276,6 +1276,7 @@ impl VM {
                 // consume dynamic gas
                 let gas_cost = self.storage.access_cost(key.into());
                 self.consume_gas(gas_cost);
+                operation.sload_previously_initialized = Some(self.storage.is_initialized(key.into()));
 
                 self.stack.push(U256::from(self.storage.load(key.into())), operation)
             }

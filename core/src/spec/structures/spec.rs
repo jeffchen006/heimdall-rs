@@ -172,12 +172,12 @@ pub enum StorageOperation {
 #[derive(Clone, Debug)]
 pub struct VariableSpec {
     pub address: String,
-    pub value: U256,
+    pub value: Option<U256>,
     pub operation: StorageOperation,
 }
 
 impl VariableSpec {
-    pub fn new(address: String, value: U256, operation: StorageOperation) -> Self {
+    pub fn new(address: String, value: Option<U256>, operation: StorageOperation) -> Self {
         VariableSpec { address, value, operation }
     }
 }

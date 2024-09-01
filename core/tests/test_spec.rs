@@ -150,7 +150,6 @@ mod benchmark {
 mod integration_tests {
     use std::collections::HashMap;
     use clap_verbosity_flag::Verbosity;
-    use ethers::types::BlockId::Hash;
     use heimdall_common::utils::io::file::delete_path;
     use heimdall_core::spec::SpecArgs;
 

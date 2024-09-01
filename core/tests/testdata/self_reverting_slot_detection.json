@@ -6,7 +6,9 @@
             "a9059cbb",
             "095ea7b3"
         ],
-        "initial_storage_values": {}
+        "initial_storage_values": {
+            "00": "00"
+        }
     },
     {
         "contract": "0x697b4acaa24430f254224eb794d2a85ba1fa1fb8",
@@ -21,5 +23,57 @@
         "initial_storage_values": {
             "00": "01"
         }
+    },
+    {
+        "contract": "0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6",
+        "selectors_interested": [],
+        "initial_storage_values": {}
+    },
+    {
+        "contract": "0x7fcb7dac61ee35b3d4a51117a7c58d53f0a8a670",
+        "selectors_interested": [],
+        "initial_storage_values": {
+            "00": "01"
+        }
+    },
+    {
+        "contract": "0xfd609a03b393f1a1cfcacedabf068cad09a924e2",
+        "selectors_interested": [],
+        "initial_storage_values": {}
+    },
+    {
+        "contract": "0x44fbebd2f576670a6c33f6fc0b00aa8c5753b322",
+        "selectors_interested": [],
+        "initial_storage_values": {}
+    },
+    {
+        "contract": "0x797aab1ce7c01eb727ab980762ba88e7133d2157",
+        "selectors_interested": [],
+        "initial_storage_values": {}
+    },
+    {
+        "contract": "0xe89a6d0509faf730bd707bf868d9a2a744a363c7",
+        "selectors_interested": [],
+        "initial_storage_values": {}
+    },
+    {
+        "contract": "0x10fdbd1e48ee2fd9336a482d746138ae19e649db",
+        "selectors_interested": [],
+        "initial_storage_values": {}
+    },
+    {
+        "contract": "0x2a537fa9ffaea8c1a41d3c2b68a9cb791529366d",
+        "selectors_interested": [],
+        "initial_storage_values": {}
+    },
+    {
+        "contract": "0x8379baa817c5c5ab929b03ee8e3c48e45018ae41",
+        "selectors_interested": [],
+        "initial_storage_values": {}
+    },
+    {
+        "contract": "0xeff039c3c1d668f408d09dd7b63008622a77532c",
+        "selectors_interested": [],
+        "initial_storage_values": {}
     }
 ]

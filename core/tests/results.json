@@ -1,0 +1,2531 @@
+[
+  {
+    "contract": "0x2bbd66fc4898242bdbd2583bbe1d76e8b8f71445",
+    "results": [
+      {
+        "selector": "d0a494e4",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "095ea7b3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a9059cbb",
+        "self_reverting_slots": []
+      }
+    ]
+  },
+  {
+    "contract": "0x697b4acaa24430f254224eb794d2a85ba1fa1fb8",
+    "results": [
+      {
+        "selector": "313ce567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "bd6d894d",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "06fdde03",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f8f9da28",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "aae40a2a",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "f3fdb15a",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a9059cbb",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "fe9c44ae",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c5ebeaec",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "db006a75",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "b2a02ff1",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "5fe3b567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "99d8c1b4",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a6afed95",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "dd62ed3e",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "18160ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4e4d9fea",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "8f840ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c37f68e2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "ae9d70b0",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "73acee98",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "26782247",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "182df0f5",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95d89b41",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fca7820b",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "3b1d21a2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f851a440",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "e9c714f2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f2b3abbd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "601a0bf1",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "4576b5db",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95dd9193",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "852a12e3",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "47bd3718",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3af9e669",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "e5974619",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "b71d1a0c",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "70a08231",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "095ea7b3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6c540baf",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "1249c58b",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "173b9904",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "17bfdfbc",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "aa5af0fd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "23b872dd",
+        "self_reverting_slots": [
+          "0"
+        ]
+      }
+    ]
+  },
+  {
+    "contract": "0xd06527d5e56a3495252a528c4987003b712860ee",
+    "results": [
+      {
+        "selector": "73acee98",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "fca7820b",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "852a12e3",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "3af9e669",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "5fe3b567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "e5974619",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "aae40a2a",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "f2b3abbd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "e9c714f2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b2a02ff1",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "a6afed95",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "aa5af0fd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "dd62ed3e",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95dd9193",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3b1d21a2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c5ebeaec",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "17bfdfbc",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "4576b5db",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b71d1a0c",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95d89b41",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "18160ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "8f840ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "173b9904",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a9059cbb",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "313ce567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "47bd3718",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "ae9d70b0",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "99d8c1b4",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f3fdb15a",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f8f9da28",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "26782247",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f851a440",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "182df0f5",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "db006a75",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "6c540baf",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fe9c44ae",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "06fdde03",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "601a0bf1",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "095ea7b3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "1249c58b",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "23b872dd",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "c37f68e2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "bd6d894d",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "4e4d9fea",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "70a08231",
+        "self_reverting_slots": []
+      }
+    ]
+  },
+  {
+    "contract": "0x2db6c82ce72c8d7d770ba1b5f5ed0b6e075066d6",
+    "results": [
+      {
+        "selector": "b71d1a0c",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5fe3b567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0933c1ed",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "182df0f5",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "23b872dd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "06fdde03",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fca7820b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3b1d21a2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0e752702",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "bd6d894d",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "73acee98",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f8f9da28",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6f307dc3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "26782247",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5c60da1b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f851a440",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "aa5af0fd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "095ea7b3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fe9c44ae",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "313ce567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "173b9904",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "17bfdfbc",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4576b5db",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c37f68e2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "8f840ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "dd62ed3e",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6c540baf",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a6afed95",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "47bd3718",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "601a0bf1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "e9c714f2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f2b3abbd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95dd9193",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "555bcc40",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "2608f818",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a9059cbb",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c5ebeaec",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "ae9d70b0",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f3fdb15a",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a0712d68",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f5e3c462",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4487152f",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "852a12e3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "70a08231",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b2a02ff1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3af9e669",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "db006a75",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95d89b41",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3e941010",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "18160ddd",
+        "self_reverting_slots": []
+      }
+    ]
+  },
+  {
+    "contract": "0x7fcb7dac61ee35b3d4a51117a7c58d53f0a8a670",
+    "results": [
+      {
+        "selector": "f851a440",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f3fdb15a",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "1a31d465",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b71d1a0c",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5fe3b567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "173b9904",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f2b3abbd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a6afed95",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "aa5af0fd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "18160ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3e941010",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "313ce567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6c540baf",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "73acee98",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "26782247",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c5ebeaec",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "ae9d70b0",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95d89b41",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "8f840ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "99d8c1b4",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6f307dc3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f5e3c462",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "4576b5db",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "182df0f5",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3b1d21a2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "23b872dd",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "c37f68e2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "06fdde03",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "095ea7b3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0e752702",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "bd6d894d",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "17bfdfbc",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "e9c714f2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a0712d68",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "db006a75",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "b2a02ff1",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "fe9c44ae",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "601a0bf1",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "dd62ed3e",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "70a08231",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "852a12e3",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "47bd3718",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a9059cbb",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "f8f9da28",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95dd9193",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fca7820b",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "3af9e669",
+        "self_reverting_slots": [
+          "0"
+        ]
+      },
+      {
+        "selector": "2608f818",
+        "self_reverting_slots": [
+          "0"
+        ]
+      }
+    ]
+  },
+  {
+    "contract": "0xfd609a03b393f1a1cfcacedabf068cad09a924e2",
+    "results": [
+      {
+        "selector": "fca7820b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f5e3c462",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "73acee98",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "17bfdfbc",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "095ea7b3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a6afed95",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "555bcc40",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5fe3b567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b71d1a0c",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "313ce567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "173b9904",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f2b3abbd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4487152f",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a9059cbb",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "aa5af0fd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c37f68e2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6f307dc3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3e941010",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "bd6d894d",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "601a0bf1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f851a440",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6c540baf",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f3fdb15a",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fe9c44ae",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "dd62ed3e",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "70a08231",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3b1d21a2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0e752702",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b2a02ff1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "23b872dd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3af9e669",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "db006a75",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "18160ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "8f840ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "06fdde03",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c5ebeaec",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "182df0f5",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "852a12e3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "ae9d70b0",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95d89b41",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95dd9193",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4576b5db",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a0712d68",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "47bd3718",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "2608f818",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0933c1ed",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "e9c714f2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "26782247",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f8f9da28",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5c60da1b",
+        "self_reverting_slots": []
+      }
+    ]
+  },
+  {
+    "contract": "0x44fbebd2f576670a6c33f6fc0b00aa8c5753b322",
+    "results": [
+      {
+        "selector": "601a0bf1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "173b9904",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95d89b41",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "26782247",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "182df0f5",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b71d1a0c",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "852a12e3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "70a08231",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95dd9193",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4576b5db",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "aa5af0fd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "47bd3718",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "23b872dd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c5ebeaec",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fca7820b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5c60da1b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "18160ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f2b3abbd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "555bcc40",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4487152f",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "e9c714f2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fe9c44ae",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3af9e669",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "2608f818",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "06fdde03",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0933c1ed",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "db006a75",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "bd6d894d",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f851a440",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c37f68e2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a0712d68",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6c540baf",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6f307dc3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5fe3b567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a6afed95",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "dd62ed3e",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3b1d21a2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f5e3c462",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "313ce567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f8f9da28",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "8f840ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3e941010",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "17bfdfbc",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a9059cbb",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "73acee98",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b2a02ff1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f3fdb15a",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "095ea7b3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "ae9d70b0",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0e752702",
+        "self_reverting_slots": []
+      }
+    ]
+  },
+  {
+    "contract": "0x797aab1ce7c01eb727ab980762ba88e7133d2157",
+    "results": [
+      {
+        "selector": "555bcc40",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "dd62ed3e",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "095ea7b3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "173b9904",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3af9e669",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b71d1a0c",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4487152f",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0e752702",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "852a12e3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a9059cbb",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5fe3b567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "db006a75",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "ae9d70b0",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6c540baf",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3b1d21a2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "2608f818",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f2b3abbd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0933c1ed",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "bd6d894d",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3e941010",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f8f9da28",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "aa5af0fd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95d89b41",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6f307dc3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fe9c44ae",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "70a08231",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4576b5db",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f3fdb15a",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a6afed95",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "47bd3718",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "23b872dd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f851a440",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fca7820b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5c60da1b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "18160ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "06fdde03",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "17bfdfbc",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b2a02ff1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c5ebeaec",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "182df0f5",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "73acee98",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f5e3c462",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a0712d68",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "e9c714f2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "601a0bf1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "8f840ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95dd9193",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "26782247",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c37f68e2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "313ce567",
+        "self_reverting_slots": []
+      }
+    ]
+  },
+  {
+    "contract": "0xe89a6d0509faf730bd707bf868d9a2a744a363c7",
+    "results": [
+      {
+        "selector": "3b1d21a2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f5e3c462",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4576b5db",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "06fdde03",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0e752702",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0933c1ed",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "17bfdfbc",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6f307dc3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "173b9904",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "e9c714f2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95d89b41",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5c60da1b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f8f9da28",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "db006a75",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "8f840ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95dd9193",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f2b3abbd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "23b872dd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "dd62ed3e",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "aa5af0fd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c37f68e2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a6afed95",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3e941010",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4487152f",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "18160ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fca7820b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "555bcc40",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "182df0f5",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b2a02ff1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a9059cbb",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "ae9d70b0",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3af9e669",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "70a08231",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "73acee98",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5fe3b567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f851a440",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b71d1a0c",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6c540baf",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "47bd3718",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "bd6d894d",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a0712d68",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "2608f818",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "601a0bf1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "313ce567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "852a12e3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "095ea7b3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "26782247",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c5ebeaec",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fe9c44ae",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f3fdb15a",
+        "self_reverting_slots": []
+      }
+    ]
+  },
+  {
+    "contract": "0x10fdbd1e48ee2fd9336a482d746138ae19e649db",
+    "results": [
+      {
+        "selector": "f5e3c462",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fe9c44ae",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c5ebeaec",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "ae9d70b0",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "852a12e3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4487152f",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "2608f818",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "313ce567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0933c1ed",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a0712d68",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "173b9904",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0e752702",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "aa5af0fd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b2a02ff1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4576b5db",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "bd6d894d",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "73acee98",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f8f9da28",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "db006a75",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6c540baf",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "26782247",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "06fdde03",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "17bfdfbc",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95dd9193",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c37f68e2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "dd62ed3e",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "555bcc40",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6f307dc3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "70a08231",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f3fdb15a",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "e9c714f2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a9059cbb",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5fe3b567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3e941010",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "182df0f5",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "23b872dd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3b1d21a2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "095ea7b3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f851a440",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "8f840ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f2b3abbd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a6afed95",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fca7820b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3af9e669",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95d89b41",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5c60da1b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "18160ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "601a0bf1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b71d1a0c",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "47bd3718",
+        "self_reverting_slots": []
+      }
+    ]
+  },
+  {
+    "contract": "0x2a537fa9ffaea8c1a41d3c2b68a9cb791529366d",
+    "results": [
+      {
+        "selector": "555bcc40",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5c60da1b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "601a0bf1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "173b9904",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a9059cbb",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f3fdb15a",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "313ce567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "bd6d894d",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95d89b41",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b71d1a0c",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c5ebeaec",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f851a440",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "26782247",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "095ea7b3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95dd9193",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "17bfdfbc",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "73acee98",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "8f840ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4487152f",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f5e3c462",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "ae9d70b0",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "70a08231",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6c540baf",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "aa5af0fd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5fe3b567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3b1d21a2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3e941010",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fe9c44ae",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a6afed95",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0933c1ed",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "852a12e3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "06fdde03",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "182df0f5",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b2a02ff1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "2608f818",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f8f9da28",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0e752702",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f2b3abbd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "e9c714f2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fca7820b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "db006a75",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c37f68e2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3af9e669",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "18160ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "23b872dd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "dd62ed3e",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "47bd3718",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6f307dc3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a0712d68",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4576b5db",
+        "self_reverting_slots": []
+      }
+    ]
+  },
+  {
+    "contract": "0x8379baa817c5c5ab929b03ee8e3c48e45018ae41",
+    "results": [
+      {
+        "selector": "6c540baf",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "47bd3718",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a0712d68",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "23b872dd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "313ce567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b71d1a0c",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "601a0bf1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a9059cbb",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "70a08231",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0933c1ed",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "18160ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "ae9d70b0",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "e9c714f2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5fe3b567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3b1d21a2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f851a440",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fca7820b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f5e3c462",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "8f840ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f8f9da28",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "db006a75",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4576b5db",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "182df0f5",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "bd6d894d",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "095ea7b3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0e752702",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "173b9904",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "17bfdfbc",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "2608f818",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c37f68e2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "dd62ed3e",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c5ebeaec",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "aa5af0fd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fe9c44ae",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b2a02ff1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3e941010",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95d89b41",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "06fdde03",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4487152f",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "26782247",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "555bcc40",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95dd9193",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "73acee98",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5c60da1b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3af9e669",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a6afed95",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f3fdb15a",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6f307dc3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f2b3abbd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "852a12e3",
+        "self_reverting_slots": []
+      }
+    ]
+  },
+  {
+    "contract": "0xeff039c3c1d668f408d09dd7b63008622a77532c",
+    "results": [
+      {
+        "selector": "db006a75",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a9059cbb",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4576b5db",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6f307dc3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a6afed95",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b2a02ff1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "852a12e3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95dd9193",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "a0712d68",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f8f9da28",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "e9c714f2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "555bcc40",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5c60da1b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "aa5af0fd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f3fdb15a",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c37f68e2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "dd62ed3e",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "ae9d70b0",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "8f840ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f5e3c462",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3af9e669",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f851a440",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fca7820b",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "bd6d894d",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "95d89b41",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "601a0bf1",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "70a08231",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3b1d21a2",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "182df0f5",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "23b872dd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "fe9c44ae",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "5fe3b567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "47bd3718",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "f2b3abbd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "73acee98",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "26782247",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "313ce567",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "06fdde03",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0933c1ed",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "6c540baf",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "4487152f",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "2608f818",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "3e941010",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "095ea7b3",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "17bfdfbc",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "173b9904",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "c5ebeaec",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "18160ddd",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "0e752702",
+        "self_reverting_slots": []
+      },
+      {
+        "selector": "b71d1a0c",
+        "self_reverting_slots": []
+      }
+    ]
+  }
+]
